@@ -6,6 +6,72 @@ maps-app event layer (`src/util/event.js`, `src/components/dataItem/CoordinateFi
 in [dhis2/maps-app](https://github.com/dhis2/maps-app)), so the behaviour
 can be manually verified in the app instead of guessed at.
 
+## Quickstart: running maps-app's Cypress spec end-to-end
+
+`eventCoordinateFallbackScenarios.cy.js` in
+[dhis2/maps-app](https://github.com/dhis2/maps-app)
+(`cypress/integration/layers/`) drives the actual UI through every
+combination, reading the fixtures this tool writes rather than recomputing
+anything itself. Full sequence, from nothing running to green tests:
+
+1. Have a DHIS2 instance reachable — a local instance works, but any
+   shared dev/play instance does too (e.g. `https://dev.im.dhis2.org/<some-instance>`).
+   This tool and maps-app's Cypress config both need to point at the
+   *same* instance directly (step 3) — no local proxy needed.
+2. Set up `.env.local` here so you don't retype flags in every command
+   below (gitignored, never committed):
+   ```bash
+   # test-data-event-layer-coordinates/.env.local
+   export DHIS2_BASE_URL=https://dev.im.dhis2.org/my-dev-instance
+   export DHIS2_USERNAME=admin
+   export DHIS2_PASSWORD=<your password>
+   ```
+   Then `source` it in your shell — **it is not auto-loaded**, this tool
+   has no `dotenv` dependency by design, so the values only take effect
+   once they're in your shell's environment:
+   ```bash
+   source .env.local
+   ```
+3. Point maps-app's Cypress config at the same instance (also gitignored,
+   also local-only):
+   ```json
+   // maps-app/cypress.env.json
+   {
+       "dhis2BaseUrl": "https://dev.im.dhis2.org/my-dev-instance",
+       "dhis2InstanceVersion": "2.44-SNAPSHOT",
+       "dhis2Username": "admin",
+       "dhis2Password": "<your password>"
+   }
+   ```
+   (`dhis2InstanceVersion` is required — match it to the instance's actual
+   version.)
+4. Generate the metadata/data and write the fixtures straight into the
+   maps-app checkout:
+   ```bash
+   node index.js --fixturesRepo=/path/to/maps-app
+   ```
+5. Build analytics tables for the new programs (first time only against a
+   given instance — see "Analytics tables don't exist yet" below). No
+   `--baseUrl` needed — `config.js` already falls back to the
+   `DHIS2_BASE_URL` you sourced in step 2:
+   ```bash
+   node runAnalytics.js
+   ```
+6. Optional but recommended — confirm the instance resolves coordinates
+   correctly before trusting the UI test:
+   ```bash
+   node verify.js
+   ```
+7. From maps-app, run just this spec — `start-server-and-test` starts the
+   dev server and waits for it before running Cypress:
+   ```bash
+   npx start-server-and-test 'yarn start' http://localhost:3000 \
+     'yarn cypress run --e2e --spec "cypress/integration/layers/eventCoordinateFallbackScenarios.cy.js"'
+   ```
+   For a headed run, swap the last part for
+   `yarn cy:open` and pick the spec from the list once it
+   opens.
+
 ## What it creates
 
 **Metadata** (re-running is safe — every object gets a deterministic id, so
