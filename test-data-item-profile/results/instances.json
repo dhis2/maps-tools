@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-10-05T08:23:00.919Z",
+  "instances": [
+    {
+      "name": "stable-2-43-1",
+      "category": "Stable",
+      "baseUrl": "https://play.im.dhis2.org/stable-2-43-1",
+      "version": "2.43.1",
+      "reachable": true
+    },
+    {
+      "name": "stable-2-42-6",
+      "category": "Stable",
+      "baseUrl": "https://play.im.dhis2.org/stable-2-42-6",
+      "version": "2.42.6",
+      "reachable": true
+    },
+    {
+      "name": "stable-2-41-10",
+      "category": "Stable",
+      "baseUrl": "https://play.im.dhis2.org/stable-2-41-10",
+      "version": "2.41.10",
+      "reachable": true
+    },
+    {
+      "name": "stable-2-40-12",
+      "category": "Stable",
+      "baseUrl": "https://play.im.dhis2.org/stable-2-40-12",
+      "version": "2.40.12",
+      "reachable": true
+    },
+    {
+      "name": "dev-2-43",
+      "category": "Under Development",
+      "baseUrl": "https://play.im.dhis2.org/dev-2-43",
+      "version": "2.43.3-SNAPSHOT",
+      "reachable": true
+    },
+    {
+      "name": "dev-2-42",
+      "category": "Under Development",
+      "baseUrl": "https://play.im.dhis2.org/dev-2-42",
+      "version": "2.42.7-SNAPSHOT",
+      "reachable": true
+    },
+    {
+      "name": "dev-2-41",
+      "category": "Under Development",
+      "baseUrl": "https://play.im.dhis2.org/dev-2-41",
+      "version": "2.41.11-SNAPSHOT",
+      "reachable": true
+    },
+    {
+      "name": "dev-2-40",
+      "category": "Under Development",
+      "baseUrl": "https://play.im.dhis2.org/dev-2-40",
+      "version": "2.40.13-SNAPSHOT",
+      "reachable": true
+    },
+    {
+      "name": "dev",
+      "category": "Under Development",
+      "baseUrl": "https://play.im.dhis2.org/dev",
+      "version": "2.44-SNAPSHOT",
+      "reachable": true
+    }
+  ]
+}
