@@ -1,0 +1,69 @@
+{
+    "schemaVersion": 1,
+    "instance": "dev-2-41",
+    "version": "2.41.11-SNAPSHOT",
+    "revision": "c4163ff",
+    "date": "2026-10-02",
+    "serverInfo": {
+        "aggregationTypes": [
+            "SUM",
+            "AVERAGE",
+            "AVERAGE_SUM_ORG_UNIT",
+            "LAST",
+            "LAST_AVERAGE_ORG_UNIT",
+            "LAST_LAST_ORG_UNIT",
+            "LAST_IN_PERIOD",
+            "LAST_IN_PERIOD_AVERAGE_ORG_UNIT",
+            "FIRST",
+            "FIRST_AVERAGE_ORG_UNIT",
+            "FIRST_FIRST_ORG_UNIT",
+            "COUNT",
+            "STDDEV",
+            "VARIANCE",
+            "MIN",
+            "MAX",
+            "MIN_SUM_ORG_UNIT",
+            "MAX_SUM_ORG_UNIT",
+            "NONE"
+        ],
+        "serverPeriodTypes": [
+            "Daily",
+            "Weekly",
+            "WeeklyWednesday",
+            "WeeklyThursday",
+            "WeeklySaturday",
+            "WeeklySunday",
+            "BiWeekly",
+            "Monthly",
+            "BiMonthly",
+            "Quarterly",
+            "QuarterlyNov",
+            "SixMonthly",
+            "SixMonthlyApril",
+            "SixMonthlyNov",
+            "Yearly",
+            "FinancialApril",
+            "FinancialJuly",
+            "FinancialOct",
+            "FinancialNov"
+        ],
+        "defaultCocId": "HllvX50cXC0",
+        "periodTypeDifferences": [
+            "WeeklyFriday: missing on the server",
+            "FinancialFeb: missing on the server",
+            "FinancialAug: missing on the server",
+            "FinancialSep: missing on the server",
+            "TwoYearly: missing on the server"
+        ]
+    },
+    "periodCheck": {
+        "checked": 554,
+        "mismatches": [],
+        "refusedTypes": {}
+    },
+    "rows": [
+        ["ou-user__user-orgunit","VALUE",333333,null,{"rows":{"region":333333}}],
+        ["ou-user__children","VALUE",333333,null,{"rows":{"D3":300000,"D1":3033,"D2":30300}}],
+        ["ou-user__grandchildren","VALUE",333,null,{"rows":{"F1":3,"F2":30,"F3":300}}]
+    ]
+}

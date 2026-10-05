@@ -1,0 +1,695 @@
+{
+    "schemaVersion": 1,
+    "instance": "dev-2-41",
+    "version": "2.41.11-SNAPSHOT",
+    "revision": "c4163ff",
+    "date": "2026-10-02",
+    "serverInfo": {
+        "aggregationTypes": [
+            "SUM",
+            "AVERAGE",
+            "AVERAGE_SUM_ORG_UNIT",
+            "LAST",
+            "LAST_AVERAGE_ORG_UNIT",
+            "LAST_LAST_ORG_UNIT",
+            "LAST_IN_PERIOD",
+            "LAST_IN_PERIOD_AVERAGE_ORG_UNIT",
+            "FIRST",
+            "FIRST_AVERAGE_ORG_UNIT",
+            "FIRST_FIRST_ORG_UNIT",
+            "COUNT",
+            "STDDEV",
+            "VARIANCE",
+            "MIN",
+            "MAX",
+            "MIN_SUM_ORG_UNIT",
+            "MAX_SUM_ORG_UNIT",
+            "NONE"
+        ],
+        "serverPeriodTypes": [
+            "Daily",
+            "Weekly",
+            "WeeklyWednesday",
+            "WeeklyThursday",
+            "WeeklySaturday",
+            "WeeklySunday",
+            "BiWeekly",
+            "Monthly",
+            "BiMonthly",
+            "Quarterly",
+            "QuarterlyNov",
+            "SixMonthly",
+            "SixMonthlyApril",
+            "SixMonthlyNov",
+            "Yearly",
+            "FinancialApril",
+            "FinancialJuly",
+            "FinancialOct",
+            "FinancialNov"
+        ],
+        "defaultCocId": "HllvX50cXC0",
+        "periodTypeDifferences": [
+            "WeeklyFriday: missing on the server",
+            "FinancialFeb: missing on the server",
+            "FinancialAug: missing on the server",
+            "FinancialSep: missing on the server",
+            "TwoYearly: missing on the server"
+        ]
+    },
+    "periodCheck": {
+        "checked": 554,
+        "mismatches": [],
+        "refusedTypes": {}
+    },
+    "responses": [
+        {
+            "name": "dataElements",
+            "path": "/api/dataElements.json?filter=code:$like:PTT_G3&fields=id,code,name,aggregationType,valueType,domainType,dataSetElements[dataSet[id,periodType]]&paging=false&order=code:asc",
+            "httpStatus": 200,
+            "response": {
+                "dataElements": [
+                    {
+                        "code": "PTT_G3_HISTORY",
+                        "name": "PTT G3 history",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Weekly",
+                                    "id": "V0tylPzEYrt"
+                                }
+                            }
+                        ],
+                        "id": "hR0FkmDKXvh"
+                    },
+                    {
+                        "code": "PTT_G3_MW",
+                        "name": "PTT G3 mw",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Weekly",
+                                    "id": "YlravvdHwIj"
+                                }
+                            },
+                            {
+                                "dataSet": {
+                                    "periodType": "WeeklyWednesday",
+                                    "id": "wRXyMvEnlyA"
+                                }
+                            }
+                        ],
+                        "id": "hbv3rzk8Fne"
+                    },
+                    {
+                        "code": "PTT_G3_ORPHAN",
+                        "name": "PTT G3 orphan",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [],
+                        "id": "idqEIJ4ahkB"
+                    },
+                    {
+                        "code": "PTT_G3_PLACE",
+                        "name": "PTT G3 place",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Monthly",
+                                    "id": "Zp46A37uZSE"
+                                }
+                            },
+                            {
+                                "dataSet": {
+                                    "periodType": "Weekly",
+                                    "id": "EBLMCfwOuUT"
+                                }
+                            }
+                        ],
+                        "id": "Z6EUgky36Mv"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "dataElements-dataSets",
+            "path": "/api/dataElements.json?filter=code:$like:PTT_G3&fields=id,code,dataSets[id,periodType]&paging=false&order=code:asc",
+            "httpStatus": 200,
+            "response": {
+                "dataElements": [
+                    {
+                        "code": "PTT_G3_HISTORY",
+                        "id": "hR0FkmDKXvh"
+                    },
+                    {
+                        "code": "PTT_G3_MW",
+                        "id": "hbv3rzk8Fne"
+                    },
+                    {
+                        "code": "PTT_G3_ORPHAN",
+                        "id": "idqEIJ4ahkB"
+                    },
+                    {
+                        "code": "PTT_G3_PLACE",
+                        "id": "Z6EUgky36Mv"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "indicators",
+            "path": "/api/indicators.json?filter=code:$like:PTT_G4&fields=id,code,name,numerator,denominator,annualized,indicatorType[id,factor]&paging=false&order=code:asc",
+            "httpStatus": 200,
+            "response": {
+                "indicators": [
+                    {
+                        "code": "PTT_G4_IND_CONSTANT",
+                        "name": "PTT G4 indicator constant",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "C{Wi6GdGCugf3}",
+                        "denominator": "1",
+                        "id": "CF8eNia3IC2"
+                    },
+                    {
+                        "code": "PTT_G4_IND_COVERAGE_AVERAGED",
+                        "name": "PTT G4 indicator coverage-averaged",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}",
+                        "denominator": "#{UB785RAqE9h}",
+                        "id": "BZznfLUT5h4"
+                    },
+                    {
+                        "code": "PTT_G4_IND_COVERAGE_AVERAGED_ANNUALIZED",
+                        "name": "PTT G4 indicator coverage-averaged-annualized",
+                        "annualized": true,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}",
+                        "denominator": "#{UB785RAqE9h}",
+                        "id": "LQIWkVZzf5R"
+                    },
+                    {
+                        "code": "PTT_G4_IND_COVERAGE_SUMMED",
+                        "name": "PTT G4 indicator coverage-summed",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}",
+                        "denominator": "#{nxyiifFYsbc}",
+                        "id": "xA7tYxOjjM3"
+                    },
+                    {
+                        "code": "PTT_G4_IND_DAYS",
+                        "name": "PTT G4 indicator days",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "[days]",
+                        "denominator": "1",
+                        "id": "zHxW07yJIs0"
+                    },
+                    {
+                        "code": "PTT_G4_IND_DE",
+                        "name": "PTT G4 indicator de",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}",
+                        "denominator": "1",
+                        "id": "qxTEoP6Na0L"
+                    },
+                    {
+                        "code": "PTT_G4_IND_DE_COC",
+                        "name": "PTT G4 indicator de-coc",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF.HllvX50cXC0}",
+                        "denominator": "1",
+                        "id": "k07lhipSeoo"
+                    },
+                    {
+                        "code": "PTT_G4_IND_INDICATOR",
+                        "name": "PTT G4 indicator indicator",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "N{qxTEoP6Na0L}",
+                        "denominator": "1",
+                        "id": "FfpeaHF0PKt"
+                    },
+                    {
+                        "code": "PTT_G4_IND_ORG_UNIT_GROUP",
+                        "name": "PTT G4 indicator org-unit-group",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "OUG{PSXFPFGOyIb}",
+                        "denominator": "1",
+                        "id": "HGqUe2BtPKh"
+                    },
+                    {
+                        "code": "PTT_G4_IND_PERIOD_OFFSET",
+                        "name": "PTT G4 indicator period-offset",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}.periodOffset(-1)",
+                        "denominator": "1",
+                        "id": "i5UX7eoQGMy"
+                    },
+                    {
+                        "code": "PTT_G4_IND_REPORTING_RATE",
+                        "name": "PTT G4 indicator reporting-rate",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
+                        "denominator": "1",
+                        "id": "FquF1GsTVuA"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "dataSets",
+            "path": "/api/dataSets.json?filter=code:$like:PTT_G5&fields=id,code,periodType,dataSetElements[dataElement[id]]&paging=false&order=code:asc",
+            "httpStatus": 200,
+            "response": {
+                "dataSets": [
+                    {
+                        "code": "PTT_G5_DS_Daily",
+                        "periodType": "Daily",
+                        "dataSetElements": [
+                            {
+                                "dataElement": {
+                                    "id": "fUFgSP0AtUj"
+                                }
+                            }
+                        ],
+                        "id": "WE8srTzzhBZ"
+                    },
+                    {
+                        "code": "PTT_G5_DS_Monthly",
+                        "periodType": "Monthly",
+                        "dataSetElements": [
+                            {
+                                "dataElement": {
+                                    "id": "Nhe8HFuemuw"
+                                }
+                            }
+                        ],
+                        "id": "hFQny4kjg5C"
+                    },
+                    {
+                        "code": "PTT_G5_DS_Quarterly",
+                        "periodType": "Quarterly",
+                        "dataSetElements": [
+                            {
+                                "dataElement": {
+                                    "id": "Kd94qfjkpYx"
+                                }
+                            }
+                        ],
+                        "id": "SYkQTXY6EcA"
+                    },
+                    {
+                        "code": "PTT_G5_DS_Weekly",
+                        "periodType": "Weekly",
+                        "dataSetElements": [
+                            {
+                                "dataElement": {
+                                    "id": "AFJ5IID9t6Z"
+                                }
+                            }
+                        ],
+                        "id": "S1yLlm7Hk2W"
+                    },
+                    {
+                        "code": "PTT_G5_DS_Yearly",
+                        "periodType": "Yearly",
+                        "dataSetElements": [
+                            {
+                                "dataElement": {
+                                    "id": "sm882iAdnvm"
+                                }
+                            }
+                        ],
+                        "id": "MBmRT5wNSCa"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "expressionDimensionItems",
+            "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+            "httpStatus": 200,
+            "response": {
+                "expressionDimensionItems": [
+                    {
+                        "code": "PTT_G4_EXPRESSION",
+                        "expression": "#{BeN8IzxwwJF}*2",
+                        "id": "gdmRgPhI76J"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "dataItems",
+            "path": "/api/dataItems.json?filter=name:ilike:PTT G4&fields=id,name,dimensionItemType,expression,aggregationType,valueType&paging=false&order=name:asc",
+            "httpStatus": 200,
+            "response": {
+                "dataItems": [
+                    {
+                        "valueType": "INTEGER",
+                        "name": "PTT G4 count",
+                        "id": "BeN8IzxwwJF",
+                        "dimensionItemType": "DATA_ELEMENT"
+                    },
+                    {
+                        "name": "PTT G4 data set Monthly",
+                        "id": "FUvJSlEH9B3",
+                        "dimensionItemType": "REPORTING_RATE"
+                    },
+                    {
+                        "name": "PTT G4 data set Yearly",
+                        "id": "dX9PPHYzXRx",
+                        "dimensionItemType": "REPORTING_RATE"
+                    },
+                    {
+                        "expression": "#{BeN8IzxwwJF}*2",
+                        "name": "PTT G4 expression count times 2",
+                        "id": "gdmRgPhI76J",
+                        "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                    },
+                    {
+                        "name": "PTT G4 indicator constant",
+                        "id": "CF8eNia3IC2",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator coverage-averaged",
+                        "id": "BZznfLUT5h4",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator coverage-averaged-annualized",
+                        "id": "LQIWkVZzf5R",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator coverage-summed",
+                        "id": "xA7tYxOjjM3",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator days",
+                        "id": "zHxW07yJIs0",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator de",
+                        "id": "qxTEoP6Na0L",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator de-coc",
+                        "id": "k07lhipSeoo",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator indicator",
+                        "id": "FfpeaHF0PKt",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator org-unit-group",
+                        "id": "HGqUe2BtPKh",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator period-offset",
+                        "id": "i5UX7eoQGMy",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator reporting-rate",
+                        "id": "FquF1GsTVuA",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "valueType": "INTEGER",
+                        "name": "PTT G4 population averaged",
+                        "id": "UB785RAqE9h",
+                        "dimensionItemType": "DATA_ELEMENT"
+                    },
+                    {
+                        "valueType": "INTEGER",
+                        "name": "PTT G4 population summed",
+                        "id": "nxyiifFYsbc",
+                        "dimensionItemType": "DATA_ELEMENT"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "periodTypes",
+            "path": "/api/periodTypes.json?fields=name,isoFormat,isoDuration,frequencyOrder",
+            "httpStatus": 200,
+            "response": {
+                "periodTypes": [
+                    {
+                        "name": "Daily",
+                        "isoDuration": "P1D",
+                        "isoFormat": "yyyyMMdd",
+                        "frequencyOrder": 1
+                    },
+                    {
+                        "name": "Weekly",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyyWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklyWednesday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyyWedWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklyThursday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyyThuWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklySaturday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyySatWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklySunday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyySunWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "BiWeekly",
+                        "isoDuration": "P14D",
+                        "isoFormat": "yyyyBiWn",
+                        "frequencyOrder": 14
+                    },
+                    {
+                        "name": "Monthly",
+                        "isoDuration": "P1M",
+                        "isoFormat": "yyyyMM",
+                        "frequencyOrder": 30
+                    },
+                    {
+                        "name": "BiMonthly",
+                        "isoDuration": "P2M",
+                        "isoFormat": "yyyyMMB",
+                        "frequencyOrder": 61
+                    },
+                    {
+                        "name": "Quarterly",
+                        "isoDuration": "P3M",
+                        "isoFormat": "yyyyQn",
+                        "frequencyOrder": 91
+                    },
+                    {
+                        "name": "QuarterlyNov",
+                        "isoDuration": "P3M",
+                        "isoFormat": "yyyyNovQn",
+                        "frequencyOrder": 91
+                    },
+                    {
+                        "name": "SixMonthly",
+                        "isoDuration": "P6M",
+                        "isoFormat": "yyyySn",
+                        "frequencyOrder": 182
+                    },
+                    {
+                        "name": "SixMonthlyApril",
+                        "isoDuration": "P6M",
+                        "isoFormat": "yyyyAprilSn",
+                        "frequencyOrder": 182
+                    },
+                    {
+                        "name": "SixMonthlyNov",
+                        "isoDuration": "P6M",
+                        "isoFormat": "yyyyNovSn",
+                        "frequencyOrder": 182
+                    },
+                    {
+                        "name": "Yearly",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyy",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialApril",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyApril",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialJuly",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyJuly",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialOct",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyOct",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialNov",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyNov",
+                        "frequencyOrder": 365
+                    }
+                ]
+            }
+        },
+        {
+            "name": "aggregationTypes",
+            "path": "/api/schemas/dataElement.json?fields=properties[fieldName,constants]",
+            "httpStatus": 200,
+            "response": [
+                {
+                    "fieldName": "aggregationType",
+                    "constants": [
+                        "SUM",
+                        "AVERAGE",
+                        "AVERAGE_SUM_ORG_UNIT",
+                        "LAST",
+                        "LAST_AVERAGE_ORG_UNIT",
+                        "LAST_LAST_ORG_UNIT",
+                        "LAST_IN_PERIOD",
+                        "LAST_IN_PERIOD_AVERAGE_ORG_UNIT",
+                        "FIRST",
+                        "FIRST_AVERAGE_ORG_UNIT",
+                        "FIRST_FIRST_ORG_UNIT",
+                        "COUNT",
+                        "STDDEV",
+                        "VARIANCE",
+                        "MIN",
+                        "MAX",
+                        "MIN_SUM_ORG_UNIT",
+                        "MAX_SUM_ORG_UNIT",
+                        "NONE",
+                        "CUSTOM",
+                        "DEFAULT"
+                    ]
+                }
+            ]
+        }
+    ],
+    "rows": [
+        ["meta-dataElements","VALUE",4],
+        ["meta-dataElements-dataSets","VALUE",4],
+        ["meta-indicators","VALUE",11],
+        ["meta-dataSets","VALUE",5],
+        ["meta-expressionDimensionItems","VALUE",1],
+        ["meta-dataItems","VALUE",17],
+        ["meta-periodTypes","VALUE",19],
+        ["meta-aggregationTypes","VALUE",1],
+        ["raw-mw__r-all__A","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
+        ["raw-mw__r-all__B","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
+        ["raw-mw__r-all__region","VALUE",48,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
+        ["raw-mw__r-2024__A","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-mw__r-2024__B","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-mw__r-2024__region","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-mw__r-2025__A","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
+        ["raw-mw__r-2025__B","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
+        ["raw-mw__r-2025__region","VALUE",48,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
+        ["raw-place__r-all__A","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-place__r-all__B","VALUE",12,null,{"periodTypes":["Weekly"]}],
+        ["raw-place__r-all__region","VALUE",15,null,{"periodTypes":["Monthly","Weekly"]}],
+        ["raw-place__r-2024__A","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-place__r-2024__B","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-place__r-2024__region","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-place__r-2025__A","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-place__r-2025__B","VALUE",12,null,{"periodTypes":["Weekly"]}],
+        ["raw-place__r-2025__region","VALUE",15,null,{"periodTypes":["Monthly","Weekly"]}],
+        ["raw-history__r-all__A","VALUE",15,null,{"periodTypes":["Monthly","Weekly"]}],
+        ["raw-history__r-all__B","VALUE",15,null,{"periodTypes":["Monthly","Weekly"]}],
+        ["raw-history__r-all__region","VALUE",30,null,{"periodTypes":["Monthly","Weekly"]}],
+        ["raw-history__r-2024__A","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-history__r-2024__B","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-history__r-2024__region","VALUE",6,null,{"periodTypes":["Monthly"]}],
+        ["raw-history__r-2025__A","VALUE",12,null,{"periodTypes":["Weekly"]}],
+        ["raw-history__r-2025__B","VALUE",12,null,{"periodTypes":["Weekly"]}],
+        ["raw-history__r-2025__region","VALUE",24,null,{"periodTypes":["Weekly"]}],
+        ["raw-orphan__r-all__A","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-orphan__r-all__B","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-orphan__r-all__region","VALUE",6,null,{"periodTypes":["Monthly"]}],
+        ["raw-orphan__r-2024__A","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-orphan__r-2024__B","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-orphan__r-2024__region","EMPTY",0,null,{"periodTypes":[]}],
+        ["raw-orphan__r-2025__A","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-orphan__r-2025__B","VALUE",3,null,{"periodTypes":["Monthly"]}],
+        ["raw-orphan__r-2025__region","VALUE",6,null,{"periodTypes":["Monthly"]}],
+        ["raw-range-inside-only","VALUE",3,null,{"periodTypes":["Weekly"],"periods":["2025W17","2025W18","2025W19"]}],
+        ["raw-row-limit","VALUE",47700,null,{"periodTypes":["BiWeekly","Daily","Monthly","Weekly","WeeklySaturday","WeeklySunday","WeeklyThursday","WeeklyWednesday"]}]
+    ]
+}
