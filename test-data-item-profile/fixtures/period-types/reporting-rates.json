@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "group": "reporting-rates",
     "provisional": false,
-    "source": "maps-tools/test-data-item-profile (bf780ce, with local changes)",
+    "source": "maps-tools/test-data-item-profile (f47b258, with local changes)",
     "runs": [
         {
             "instance": "dev",
