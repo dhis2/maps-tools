@@ -3,7 +3,7 @@
     "instance": "stable-2-42-6",
     "version": "2.42.6",
     "revision": "dd8bdbb",
-    "date": "2026-10-05",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -57,7 +57,7 @@
         ]
     },
     "periodCheck": {
-        "checked": 556,
+        "checked": 510,
         "mismatches": [],
         "refusedTypes": {}
     },
@@ -139,7 +139,7 @@
         },
         {
             "name": "programIndicators",
-            "path": "/api/programIndicators.json?filter=code:$like:PTT_PROG&fields=id,code,program[id],orgUnitField,analyticsType&paging=false&order=code:asc",
+            "path": "/api/programIndicators.json?filter=code:$like:PTT_PROG&fields=id,code,program[id],orgUnitField,analyticsType,analyticsPeriodBoundaries[id]&paging=false&order=code:asc",
             "httpStatus": 200,
             "response": {
                 "programIndicators": [
@@ -149,6 +149,14 @@
                             "id": "KfzRtyEQHht"
                         },
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "ankY1J1i2Kv"
+                            },
+                            {
+                                "id": "mOgEPfIDrBz"
+                            }
+                        ],
                         "id": "TafgHfMvqW7"
                     },
                     {
@@ -158,6 +166,14 @@
                         },
                         "orgUnitField": "WJ1j79Dlubx",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "FqRPXHBIjSy"
+                            },
+                            {
+                                "id": "Q1vkdlPpkpD"
+                            }
+                        ],
                         "id": "eSWGLPCy2ZK"
                     },
                     {
@@ -166,6 +182,14 @@
                             "id": "lAcD9QrX1xQ"
                         },
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "rWxVptSvyHO"
+                            },
+                            {
+                                "id": "eef5NP4wLn3"
+                            }
+                        ],
                         "id": "NTvweRnHeLC"
                     },
                     {
@@ -175,6 +199,14 @@
                         },
                         "orgUnitField": "ENROLLMENT",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "ihzqXRw1V3b"
+                            },
+                            {
+                                "id": "RSBdFt0OWqQ"
+                            }
+                        ],
                         "id": "nYG1z4dFVnX"
                     },
                     {
@@ -184,6 +216,14 @@
                         },
                         "orgUnitField": "OWNER_AT_END",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "E5gcFCVrEIL"
+                            },
+                            {
+                                "id": "vDDFbRJvEdx"
+                            }
+                        ],
                         "id": "U0mtkhBIEWK"
                     },
                     {
@@ -193,6 +233,14 @@
                         },
                         "orgUnitField": "OWNER_AT_START",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "z3VpT51YZ4z"
+                            },
+                            {
+                                "id": "Q2P8uTxcLBy"
+                            }
+                        ],
                         "id": "dXtvaBLgiA4"
                     },
                     {
@@ -202,6 +250,14 @@
                         },
                         "orgUnitField": "REGISTRATION",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "Y5JkuiL4G1t"
+                            },
+                            {
+                                "id": "yooFnZKY8X8"
+                            }
+                        ],
                         "id": "VwK2ljj07rP"
                     }
                 ]

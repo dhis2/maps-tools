@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-42",
     "version": "2.42.7-SNAPSHOT",
-    "revision": "94703a4",
-    "date": "2026-10-05",
+    "revision": "4791e6f",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -57,7 +57,7 @@
         ]
     },
     "periodCheck": {
-        "checked": 556,
+        "checked": 510,
         "mismatches": [],
         "refusedTypes": {}
     },

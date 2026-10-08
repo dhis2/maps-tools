@@ -30,6 +30,9 @@ const buildDataValueSets = (groups, orgUnits) => {
                 dataSet,
                 dataValues: part.map((value) => ({
                     dataElement: value.dataElement,
+                    ...(value.categoryOptionCombo
+                        ? { categoryOptionCombo: value.categoryOptionCombo }
+                        : {}),
                     period: value.period,
                     orgUnit: orgUnits[value.orgUnit].id,
                     value: String(value.value),

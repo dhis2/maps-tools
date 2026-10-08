@@ -4,8 +4,8 @@
  * is unique per element, so the value that comes back names its source
  * period. Two layouts: every period of 2024 and 2025 (dense), and one
  * value in March 2023 and one in August 2024 (sparse). Queries sweep the
- * periods holding the 1st and the 15th of each month, 2023 to mid-2026, at
- * A. Nothing is expected: `summarize` scores candidate rules instead. The
+ * periods holding the 1st and the 15th of each month, 2023 to 2025, that
+ * end by the end of 2025, at A. Nothing is expected: `summarize` scores candidate rules instead. The
  * fixture gives each case's source period as `observed[version].source`.
  */
 const { statusOfValue } = require('../expected.js')
@@ -37,7 +37,12 @@ const PERIOD_TYPES = [
     'FinancialApril',
 ]
 const SPARSE_DATES = ['2023-03-15', '2024-08-15']
-const SWEEP = { startYear: 2023, endYear: 2026, endMonth: 6 }
+/*
+ * To the end of 2025, where the dense data ends: a period ending later
+ * would mix the rule with missing data (the library can't tell them apart).
+ */
+const SWEEP = { startYear: 2023, endYear: 2025, endMonth: 12 }
+const SWEEP_END = '2025-12-31'
 
 const LAYOUTS = {
     dense: (periodType) =>
@@ -53,7 +58,8 @@ const LAYOUTS = {
         })),
 }
 
-// The periods of a type holding the 1st or the 15th of each month.
+// The periods of a type holding the 1st or the 15th of a month, and ended
+// by the end of the sweep.
 const sweepPeriods = (periodType) => {
     const byId = new Map()
     for (let year = SWEEP.startYear; year <= SWEEP.endYear; year++) {
@@ -66,7 +72,7 @@ const sweepPeriods = (periodType) => {
             })
         }
     }
-    return [...byId.values()]
+    return [...byId.values()].filter((period) => period.endDate <= SWEEP_END)
 }
 
 const yearOf = (isoDate) => Number(isoDate.slice(0, 4))

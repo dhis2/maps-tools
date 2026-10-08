@@ -4,7 +4,8 @@ Runs of `run-all.js` on every live play instance, on 2026-09-30, again on
 2026-10-01 (after the nightly reset) with group 7 and one period per
 request (finding 3), and on 2026-10-02 with the org unit groups 8 to 15
 (findings 11 to 17), and on 2026-10-05 with sums and missing value
-strategies (finding 8; 2.41.10 on 2026-10-08). Same generated data (see
+strategies (finding 8), and on 2026-10-08 on the 9 live instances with
+the disaggregation group 16 (finding 18). Same generated data (see
 `README.md`). The tables
 behind each point are in [results/REPORT.md](results/REPORT.md); the
 per-case data is in `fixtures/period-types/` and `fixtures/org-units/`.
@@ -13,27 +14,28 @@ per-case data is in `fixtures/period-types/` and `fixtures/org-units/`.
 
 pass / fail / recorded per group, against the rules below (`expected.js`
 holds them since 2026-10-05; before, a first hypothesis, which these
-findings corrected). Observations from 2026-10-05, and 2026-10-08 for
-2.41.10, whose plain list endpoints returned nothing on 2026-10-05.
-Counts differ between versions because older versions have fewer period
-types, so fewer cases. Group 7 expects nothing: it scores candidate rules
-(finding 3).
+findings corrected). Observations from 2026-10-08, on the 9 live play
+instances. Counts differ between versions because older versions have
+fewer period types, so fewer cases. Group 7 expects nothing: it scores
+candidate rules (finding 3). The org unit groups (8 to 15) are below.
 
-| Version          | Instance         | Date       | G1 aggregation       | G2 nesting   | G3 mixed    | G4 indicators    | G5 rates        | G6 requests | G7 carry      |
-| ---------------- | ---------------- | ---------- | -------------------- | ------------ | ----------- | ---------------- | --------------- | ----------- | ------------- |
-| 2.40.12          | `stable-2-40-12` | 2026-10-05 | 25836 / 2052 / 13266 | 16 / 0 / 210 | 105 / 0 / 0 | 1548 / 108 / 396 | 1386 / 90 / 234 | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.41.10          | `stable-2-41-10` | 2026-10-08 | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1629 / 0 / 423   | 1458 / 0 / 252  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.41.11-SNAPSHOT | `dev-2-41`       | 2026-10-05 | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1629 / 0 / 423   | 1458 / 0 / 252  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.42.6           | `stable-2-42-6`  | 2026-10-05 | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1707 / 0 / 453   | 1512 / 0 / 288  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.42.7-SNAPSHOT  | `dev-2-42`       | 2026-10-05 | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1707 / 0 / 453   | 1512 / 0 / 288  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.43.1           | `stable-2-43-1`  | 2026-10-05 | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.43.3-SNAPSHOT  | `dev-2-43`       | 2026-10-05 | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.44-SNAPSHOT    | `dev`            | 2026-10-05 | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| Version          | Instance         | G1 aggregation       | G2 nesting   | G3 mixed    | G4 indicators    | G5 rates        | G6 requests | G7 carry      | G16 disaggregation |
+| ---------------- | ---------------- | -------------------- | ------------ | ----------- | ---------------- | --------------- | ----------- | ------------- | ------------------ |
+| 2.40.12          | `stable-2-40-12` | 25836 / 2052 / 13266 | 16 / 0 / 210 | 105 / 0 / 0 | 1548 / 108 / 396 | 1386 / 90 / 234 | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.40.13-SNAPSHOT | `dev-2-40`       | 25836 / 2052 / 13266 | 16 / 0 / 210 | 105 / 0 / 0 | 1548 / 108 / 396 | 1386 / 90 / 234 | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.41.10          | `stable-2-41-10` | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1629 / 0 / 423   | 1458 / 0 / 252  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.41.11-SNAPSHOT | `dev-2-41`       | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1629 / 0 / 423   | 1458 / 0 / 252  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.42.6           | `stable-2-42-6`  | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1707 / 0 / 453   | 1512 / 0 / 288  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.42.7-SNAPSHOT  | `dev-2-42`       | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1707 / 0 / 453   | 1512 / 0 / 288  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.43.2           | `stable-2-43-2`  | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.43.3-SNAPSHOT  | `dev-2-43`       | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
+| 2.44-SNAPSHOT    | `dev`            | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 46 / 0 / 1  | 0 / 0 / 18956 | 36 / 0 / 0         |
 
-`play.im.dhis2.org/dev-2-40` didn't answer: 2.40 is covered by stable only.
+Instances: 2.43.2 replaced 2.43.1 on play (2.43.1's observations, up to
+2026-10-05, are in no fixture since), and `dev-2-40` answers again.
 
-The only fails are on 2.40.12: every query with a QuarterlyNov period
-fails there (finding 5), while the expected answers are the same for every
+The only fails are on 2.40: every query with a QuarterlyNov period fails
+there (finding 5), while the expected answers are the same for every
 version. One item is open: a 2.42 dev snapshot that misses week 1 of 2026
 in completeness (finding 9); those cases have no exact expected value, so
 it shows as a difference between versions, not a fail.
@@ -225,7 +227,9 @@ an expression item.
   when all its items are missing. `#{monthly}+#{yearly}` asked for January
   2025 gives the monthly 13; for 2025, 222 + 132 = 354. Two weekly items
   (Monday and Wednesday weeks) asked by day: empty. The same sum over the
-  yearly item, by month: empty (the denominator is missing).
+  yearly item, by month: empty (the denominator is missing). With a value
+  but an item missing, the sum is too low: the tool records PARTIAL, from
+  the items asked in the same request.
 - **Expression items ignore their `missingValueStrategy`.** The strategy is
   saved and read back on every version, but analytics treats all three
   like `SKIP_IF_ALL_VALUES_MISSING`: with `SKIP_IF_ANY_VALUE_MISSING`,
@@ -275,7 +279,7 @@ per place there (12 cases). It's on the 2.42 dev branch only (revision
 
 ## Org units (groups 8 to 15)
 
-pass / fail / recorded on 2026-10-02. **The same on every version, 2.40.12
+pass / fail / recorded on 2026-10-08. **The same on every version, 2.40.12
 to 2.44-SNAPSHOT, with no difference between versions.**
 
 | Group                   | Cases | Every version |
@@ -378,6 +382,22 @@ the nested filters checked only on 2.44 before:
 `level:eq:4`, the levels and `me` are recorded (they depend on the
 server's own data); their responses are in `metadata-shapes.json`.
 
+### 18. Disaggregation by data set (group 16)
+
+One element in a monthly data set with category combo A (sex) and a
+quarterly one that gives it combo B (age group), on every version:
+
+| Asked by month, Q2 2025        | Answer                                                   |
+| ------------------------------ | -------------------------------------------------------- |
+| The element as a whole         | PARTIAL: the months' total, without the quarterly values |
+| An option combo of A (female)  | VALUE, nothing left out                                  |
+| An option combo of B (under 5) | EMPTY: only the quarterly set collects it                |
+
+By quarter, all three have a value. With the monthly set at A and the
+quarterly set at B: by month, A has its values, B nothing, and the region
+is PARTIAL; by quarter, all have a value. So a disaggregation counts only
+the data sets whose category combo holds its option combo.
+
 ## Import differences
 
 - 2.40 to 2.42 refuse values for a period that hasn't ended when
@@ -400,3 +420,7 @@ server's own data); their responses are in `metadata-shapes.json`.
   later `trackedEntity` and `orgUnit`; 2.41 and 2.42 refuse both pairs at
   once ("Only one parameter … must be specified"), and 2.41 answers the
   new names with an HTML error page.
+- Category option combos imported with their own ids keep them, on every
+  version (2.40.12, 2.43.2 and 2.44 checked), so group 16's ids are the
+  same everywhere. A data set element's own category combo is set with
+  `categoryCombo` on `dataSetElements`.

@@ -106,8 +106,26 @@ const sidesStatus = ({ sides }, queryType) => {
     if (sides.some((side) => side.every(missing))) {
         return 'EMPTY'
     }
+    // A value, but with an operand left out: too low.
+    if (sides.flat().some(missing)) {
+        return 'PARTIAL'
+    }
     const types = sides.flat().map((name) => OPERAND_TYPES[name].periodType)
     return statusOfValue(1, queryType, types)
+}
+
+/*
+ * A sum is asked with its operands in the same request (all SUM data
+ * elements, so the request doesn't change their answers): PARTIAL when it
+ * has a value but an operand has none.
+ */
+const observeSum = (queryType, types) => (results) => {
+    const [sum, ...operands] = results
+    const observed = observeSingle(queryType, types)([sum])
+    const leftOut = operands.some((result) => result.value === null)
+    return observed.status === 'VALUE' || observed.status === 'REPEATED'
+        ? { ...observed, status: leftOut ? 'PARTIAL' : observed.status }
+        : observed
 }
 
 // Missing operands count as 0; null where an operand's value isn't computed.
@@ -467,6 +485,13 @@ const buildGroup = (context) => {
                         },
                         cells: [
                             { dx: object.id, pe: queryPeriod.id, ou: orgUnit },
+                            ...(spec.sides
+                                ? operandsOfSpec(spec).map((name) => ({
+                                      dx: ids[name],
+                                      pe: queryPeriod.id,
+                                      ou: orgUnit,
+                                  }))
+                                : []),
                         ],
                         // One period per request (see carry-windows.js).
                         /*
@@ -478,7 +503,7 @@ const buildGroup = (context) => {
                                 ? 'offset'
                                 : 'rest'
                         }`,
-                        observe: observeSingle(
+                        observe: (spec.sides ? observeSum : observeSingle)(
                             queryType,
                             operandsOfSpec(spec).map(
                                 (name) => OPERAND_TYPES[name].periodType

@@ -2,6 +2,7 @@
 // data and cases. Pure: the same server answers give the same model.
 const aggregationByPeriodType = require('./groups/aggregation-by-period-type.js')
 const carryWindows = require('./groups/carry-windows.js')
+const disaggregation = require('./groups/disaggregation.js')
 const detectionRequests = require('./groups/detection-requests.js')
 const indicatorsAndExpressions = require('./groups/indicators-and-expressions.js')
 const mixedCollection = require('./groups/mixed-collection.js')
@@ -17,7 +18,8 @@ const programs = require('./groups/org-units/programs.js')
 const userOrgUnits = require('./groups/org-units/user-org-units.js')
 const { uid } = require('./uid.js')
 
-// In group number order: 1 to 7 period types, 8 to 15 org units.
+// In group number order: 1 to 7 period types, 8 to 15 org units, 16
+// disaggregation.
 const GROUP_MODULES = [
     aggregationByPeriodType,
     periodsThatDontNest,
@@ -34,6 +36,7 @@ const GROUP_MODULES = [
     userOrgUnits,
     programs,
     orgUnitRequests,
+    disaggregation,
 ]
 
 /*

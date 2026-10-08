@@ -3,7 +3,7 @@
     "instance": "stable-2-42-6",
     "version": "2.42.6",
     "revision": "dd8bdbb",
-    "date": "2026-10-05",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -57,7 +57,7 @@
         ]
     },
     "periodCheck": {
-        "checked": 556,
+        "checked": 510,
         "mismatches": [],
         "refusedTypes": {}
     },

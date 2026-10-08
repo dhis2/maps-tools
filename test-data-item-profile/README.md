@@ -129,23 +129,24 @@ Import notes:
 
 ## Case groups
 
-| #   | Group                        | Cases (2.43) | What                                                                                                                                                                  |
-| --- | ---------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | `aggregation-by-period-type` | 60,306       | 19 aggregation types × 23 collection types × 23 query types × 2 periods × A, B and the region.                                                                        |
-| 2   | `periods-that-dont-nest`     | 266          | Weeks of every start day, bi-weeks, November and April types, financial years, value 1 per period, by month, quarter and year: which assignment rule holds.           |
-| 3   | `mixed-collection`           | 105          | Monday and Wednesday weeks, monthly at A and weekly at B, monthly history then weekly, an element in no data set. Checked with the coarser probe.                     |
-| 4   | `indicators-and-expressions` | 2,484        | One indicator per operand kind, averaged and summed denominators, annualized or not, sums with a missing item, and expression items with each missing value strategy. |
-| 5   | `reporting-rates`            | 2,070        | Rate, actual and expected reports of daily to yearly data sets; A registers every period, B every other one.                                                          |
-| 6   | `detection-requests`         | 46           | The metadata requests a library would make, and `analytics/rawData` over date ranges.                                                                                 |
-| 7   | `carry-windows`              | 22,246       | FIRST and LAST (and their `_AVERAGE_ORG_UNIT` variants), dense and sparse data, asked at every period of 2023 to mid-2026: where each value comes from.               |
-| 8   | `entered-above`              | 5            | A data set at D1 only, asked at F1, D1, the region, and levels 4 and 3 under the region.                                                                              |
-| 9   | `partly-assigned`            | 5            | A data set at F1 and F2, not F3, asked at F3, D2, D1, the region and level 4.                                                                                         |
-| 10  | `mixed-levels`               | 6            | One element at the facilities and at D1, and an indicator over it, asked at F1, D1 and the region.                                                                    |
-| 11  | `aggregation-levels`         | 12           | Elements with aggregation levels [3], [2] and [2, 3] entered at facilities, and [3] at D1, asked at F1, D1 and the region.                                            |
-| 12  | `org-unit-groups`            | 4            | `OU_GROUP-g` alone, inside D1, inside the region, and an empty group.                                                                                                 |
-| 13  | `user-org-units`             | 3            | `USER_ORGUNIT` and its children and grandchildren, asked as the PTT user.                                                                                             |
-| 14  | `programs`                   | 28           | Program indicators (event counts) of an event and a tracker program, with each `orgUnitField`, asked at F1, F2, F3 and the region.                                    |
-| 15  | `org-unit-requests`          | 16           | The org unit metadata requests the library sends, with known counts for the nested filters.                                                                           |
+| #   | Group                        | Cases (2.43) | What                                                                                                                                                                                            |
+| --- | ---------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `aggregation-by-period-type` | 60,306       | 19 aggregation types × 23 collection types × 23 query types × 2 periods × A, B and the region.                                                                                                  |
+| 2   | `periods-that-dont-nest`     | 266          | Weeks of every start day, bi-weeks, November and April types, financial years, value 1 per period, by month, quarter and year: which assignment rule holds.                                     |
+| 3   | `mixed-collection`           | 105          | Monday and Wednesday weeks, monthly at A and weekly at B, monthly history then weekly, an element in no data set. Checked with the coarser probe.                                               |
+| 4   | `indicators-and-expressions` | 2,484        | One indicator per operand kind, averaged and summed denominators, annualized or not, sums with a missing item, and expression items with each missing value strategy.                           |
+| 5   | `reporting-rates`            | 2,070        | Rate, actual and expected reports of daily to yearly data sets; A registers every period, B every other one.                                                                                    |
+| 6   | `detection-requests`         | 46           | The metadata requests a library would make, and `analytics/rawData` over date ranges.                                                                                                           |
+| 7   | `carry-windows`              | 18,956       | FIRST and LAST (and their `_AVERAGE_ORG_UNIT` variants), dense and sparse data, asked at every period of 2023 to 2025 that ends by the end of 2025: where each value comes from.                |
+| 8   | `entered-above`              | 5            | A data set at D1 only, asked at F1, D1, the region, and levels 4 and 3 under the region.                                                                                                        |
+| 9   | `partly-assigned`            | 5            | A data set at F1 and F2, not F3, asked at F3, D2, D1, the region and level 4.                                                                                                                   |
+| 10  | `mixed-levels`               | 6            | One element at the facilities and at D1, and an indicator over it, asked at F1, D1 and the region.                                                                                              |
+| 11  | `aggregation-levels`         | 12           | Elements with aggregation levels [3], [2] and [2, 3] entered at facilities, and [3] at D1, asked at F1, D1 and the region.                                                                      |
+| 12  | `org-unit-groups`            | 4            | `OU_GROUP-g` alone, inside D1, inside the region, and an empty group.                                                                                                                           |
+| 13  | `user-org-units`             | 3            | `USER_ORGUNIT` and its children and grandchildren, asked as the PTT user.                                                                                                                       |
+| 14  | `programs`                   | 28           | Program indicators (event counts) of an event and a tracker program, with each `orgUnitField`, asked at F1, F2, F3 and the region.                                                              |
+| 15  | `org-unit-requests`          | 16           | The org unit metadata requests the library sends, with known counts for the nested filters.                                                                                                     |
+| 16  | `disaggregation`             | 36           | One element in a monthly data set with one category combo and a quarterly one with another, at the same places or different ones, asked as a whole and by option combo, with the coarser probe. |
 
 **The org unit groups (8 to 15).** Each unit enters its own factor in
 each month of Q1 2025 (F1 1, F2 10, F3 100, D1 1,000, D2 10,000, D3
@@ -186,10 +187,15 @@ expects, for each case:
   (finding 3, `carriedSource`).
 - For reporting rates, actual and expected reports, a row in any period:
   0 where the type doesn't fit (finding 9).
+- For a disaggregation (`de.coc`), only the data sets whose category
+  combo holds that option combo count; the element as a whole, all of them
+  (group 16).
 - For sums in indicators and expression items, `SKIP_IF_ALL_VALUES_MISSING`:
   a missing item counts as 0, and a side has no value when all its items
-  are missing. An indicator needs both sides. Expression items behave the
-  same whatever their `missingValueStrategy` (finding 8).
+  are missing. An indicator needs both sides. A sum with a value but an
+  operand left out is `PARTIAL`: its operands are asked in the same request
+  (SUM elements, so it doesn't change their answers). Expression items
+  behave the same whatever their `missingValueStrategy` (finding 8).
 - `ERROR` for `NONE`, and for an org unit group without members
   (finding 15). `EMPTY` otherwise.
 
@@ -233,25 +239,27 @@ locally by the library. The library keeps the **smoke subset** in its repo:
   and orphan cases, and the `.periodOffset` cases whose period starts on or
   before 1 January 2024.
 - `metadata-shapes.json`: only `dataElements`, `indicators`, `dataSets`,
-  `expressionDimensionItems` (with `missingValueStrategy`), `periodTypes`
-  and the org unit requests, with the first 4 objects of each list, and
-  `PTT_G3_MW` and `PTT_G3_ORPHAN` always. Count responses keep their
+  `expressionDimensionItems` (with `missingValueStrategy`), `periodTypes`,
+  `categoryOptionCombos` and the org unit requests, with the first 4
+  objects of each list, and `PTT_G3_MW`, `PTT_G3_ORPHAN`, `PTT_DIS_BOTH`
+  and `PTT_DIS_PLACE` always. Count responses keep their
   `pager`: the library reads `pager.total`.
 
 Optional fields beyond the base format:
 
-| Where      | Field                                                                                                                                | Groups |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------ |
-| `item`     | `code`, `notes`                                                                                                                      | all    |
-| `item`     | `collectionSources`: one `{ dataSet, periodType, orgUnits }` per data set                                                            | 3      |
-| `item`     | `numerator`, `denominator`, `annualized`, `expression`, `operands` (each with `id`, `ref`; an `N{}` operand is the nested indicator) | 4      |
-| `item`     | `metric`                                                                                                                             | 5      |
-| `query`    | `coarser`: `period` is then the range, and the case reads every `periodType` period in it                                            | 3      |
-| `query`    | `request`, `startDate`, `endDate`                                                                                                    | 6      |
-| `expected` | `periodTypes`                                                                                                                        | 6      |
-| `observed` | `error` (for `ERROR`); `coarse`, `rows` (3); `periodTypes`, `periods` (6); `source` (7)                                              |        |
-| `query`    | `withPeriod`: the other period in the same request (pair cases)                                                                      | 7      |
-| top level  | `findings`: the assignment rules (2) or the rule scores (7), per version                                                             | 2, 7   |
+| Where      | Field                                                                                                                                           | Groups |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| `item`     | `code`, `notes`                                                                                                                                 | all    |
+| `item`     | `collectionSources`: one `{ dataSet, periodType, orgUnits }` per data set                                                                       | 3      |
+| `item`     | `numerator`, `denominator`, `annualized`, `expression`, `operands` (each with `id`, `ref`; an `N{}` operand is the nested indicator)            | 4      |
+| `item`     | `metric`                                                                                                                                        | 5      |
+| `query`    | `coarser`: `period` is then the range, and the case reads every `periodType` period in it                                                       | 3      |
+| `query`    | `request`, `startDate`, `endDate`                                                                                                               | 6      |
+| `expected` | `periodTypes`                                                                                                                                   | 6      |
+| `observed` | `error` (for `ERROR`); `coarse`, `rows` (3); `periodTypes`, `periods` (6); `source` (7)                                                         |        |
+| `query`    | `withPeriod`: the other period in the same request (pair cases)                                                                                 | 7      |
+| `item`     | `id`, `categoryCombo` (`{ key, id }`), `categoryOptionCombo` (`{ key, id, categoryCombo }`), and `categoryCombo` in each of `collectionSources` | 16     |
+| top level  | `findings`: the assignment rules (2) or the rule scores (7), per version                                                                        | 2, 7   |
 
 **Org unit fixtures** (groups 8 to 15): `fixtures/org-units/<group>.json`
 and `fixtures/org-units-smoke/`, same base format, with:

@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "instance": "stable-2-43-1",
-    "version": "2.43.1",
-    "revision": "9cbfbf3",
-    "date": "2026-10-05",
+    "instance": "stable-2-43-2",
+    "version": "2.43.2",
+    "revision": "13927ae",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -56,17 +56,16 @@
         "periodTypeDifferences": []
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 516,
         "mismatches": [],
         "refusedTypes": {}
     },
-    "group": "mixed-levels",
+    "group": "partly-assigned",
     "rows": [
-        ["ou-mixed-element__F1","VALUE",3,null,{"rows":{"F1":3}}],
-        ["ou-mixed-element__D1","VALUE",3033,null,{"rows":{"D1":3033}}],
-        ["ou-mixed-element__region","VALUE",3333,null,{"rows":{"region":3333}}],
-        ["ou-mixed-indicator__F1","VALUE",3,null,{"rows":{"F1":3}}],
-        ["ou-mixed-indicator__D1","VALUE",3033,null,{"rows":{"D1":3033}}],
-        ["ou-mixed-indicator__region","VALUE",3333,null,{"rows":{"region":3333}}]
+        ["ou-partly__F3","EMPTY",null,null,{"rows":{}}],
+        ["ou-partly__D2","EMPTY",null,null,{"rows":{}}],
+        ["ou-partly__D1","VALUE",33,null,{"rows":{"D1":33}}],
+        ["ou-partly__region","VALUE",33,null,{"rows":{"region":33}}],
+        ["ou-partly__level-4-region","VALUE",33,null,{"rows":{"F1":3,"F2":30}}]
     ]
 }

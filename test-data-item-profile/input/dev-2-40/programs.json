@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "instance": "stable-2-43-1",
-    "version": "2.43.1",
-    "revision": "9cbfbf3",
-    "date": "2026-10-05",
+    "instance": "dev-2-40",
+    "version": "2.40.13-SNAPSHOT",
+    "revision": "0d20d50",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -27,38 +27,41 @@
             "NONE"
         ],
         "serverPeriodTypes": [
-            "BiMonthly",
-            "BiWeekly",
             "Daily",
-            "FinancialApril",
-            "FinancialAug",
-            "FinancialFeb",
-            "FinancialJuly",
-            "FinancialNov",
-            "FinancialOct",
-            "FinancialSep",
+            "Weekly",
+            "WeeklyWednesday",
+            "WeeklyThursday",
+            "WeeklySaturday",
+            "WeeklySunday",
+            "BiWeekly",
             "Monthly",
+            "BiMonthly",
             "Quarterly",
             "QuarterlyNov",
             "SixMonthly",
             "SixMonthlyApril",
             "SixMonthlyNov",
-            "TwoYearly",
-            "Weekly",
-            "WeeklyFriday",
-            "WeeklySaturday",
-            "WeeklySunday",
-            "WeeklyThursday",
-            "WeeklyWednesday",
-            "Yearly"
+            "Yearly",
+            "FinancialApril",
+            "FinancialJuly",
+            "FinancialOct",
+            "FinancialNov"
         ],
         "defaultCocId": "HllvX50cXC0",
-        "periodTypeDifferences": []
+        "periodTypeDifferences": [
+            "WeeklyFriday: missing on the server",
+            "FinancialFeb: missing on the server",
+            "FinancialAug: missing on the server",
+            "FinancialSep: missing on the server",
+            "TwoYearly: missing on the server"
+        ]
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 508,
         "mismatches": [],
-        "refusedTypes": {}
+        "refusedTypes": {
+            "QuarterlyNov": "500: Can't find resource for bundle java.util.PropertyResourceBundle, key format.QuarterlyNov.startDate"
+        }
     },
     "group": "programs",
     "rows": [

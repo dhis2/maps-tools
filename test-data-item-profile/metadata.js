@@ -55,6 +55,10 @@ const buildMetadata = (model, { rootOrgUnitId, phase }) => {
             .map((element) => ({
                 dataSet: { id: set.id },
                 dataElement: { id: element.id },
+                // A data set can give the element another category combo.
+                ...(element.categoryCombo
+                    ? { categoryCombo: { id: element.categoryCombo } }
+                    : {}),
             })),
         organisationUnits: set.orgUnits.map((key) => ({ id: orgUnitId(key) })),
     }))

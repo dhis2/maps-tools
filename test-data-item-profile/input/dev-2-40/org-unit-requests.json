@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "instance": "stable-2-43-1",
-    "version": "2.43.1",
-    "revision": "9cbfbf3",
-    "date": "2026-10-05",
+    "instance": "dev-2-40",
+    "version": "2.40.13-SNAPSHOT",
+    "revision": "0d20d50",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -27,38 +27,41 @@
             "NONE"
         ],
         "serverPeriodTypes": [
-            "BiMonthly",
-            "BiWeekly",
             "Daily",
-            "FinancialApril",
-            "FinancialAug",
-            "FinancialFeb",
-            "FinancialJuly",
-            "FinancialNov",
-            "FinancialOct",
-            "FinancialSep",
+            "Weekly",
+            "WeeklyWednesday",
+            "WeeklyThursday",
+            "WeeklySaturday",
+            "WeeklySunday",
+            "BiWeekly",
             "Monthly",
+            "BiMonthly",
             "Quarterly",
             "QuarterlyNov",
             "SixMonthly",
             "SixMonthlyApril",
             "SixMonthlyNov",
-            "TwoYearly",
-            "Weekly",
-            "WeeklyFriday",
-            "WeeklySaturday",
-            "WeeklySunday",
-            "WeeklyThursday",
-            "WeeklyWednesday",
-            "Yearly"
+            "Yearly",
+            "FinancialApril",
+            "FinancialJuly",
+            "FinancialOct",
+            "FinancialNov"
         ],
         "defaultCocId": "HllvX50cXC0",
-        "periodTypeDifferences": []
+        "periodTypeDifferences": [
+            "WeeklyFriday: missing on the server",
+            "FinancialFeb: missing on the server",
+            "FinancialAug: missing on the server",
+            "FinancialSep: missing on the server",
+            "TwoYearly: missing on the server"
+        ]
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 508,
         "mismatches": [],
-        "refusedTypes": {}
+        "refusedTypes": {
+            "QuarterlyNov": "500: Can't find resource for bundle java.util.PropertyResourceBundle, key format.QuarterlyNov.startDate"
+        }
     },
     "group": "org-unit-requests",
     "responses": [
@@ -138,7 +141,7 @@
         },
         {
             "name": "programIndicators",
-            "path": "/api/programIndicators.json?filter=code:$like:PTT_PROG&fields=id,code,program[id],orgUnitField,analyticsType&paging=false&order=code:asc",
+            "path": "/api/programIndicators.json?filter=code:$like:PTT_PROG&fields=id,code,program[id],orgUnitField,analyticsType,analyticsPeriodBoundaries[id]&paging=false&order=code:asc",
             "httpStatus": 200,
             "response": {
                 "programIndicators": [
@@ -148,6 +151,14 @@
                             "id": "KfzRtyEQHht"
                         },
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "bWpbLkGvMKg"
+                            },
+                            {
+                                "id": "mZ1I42oazPW"
+                            }
+                        ],
                         "id": "TafgHfMvqW7"
                     },
                     {
@@ -157,6 +168,14 @@
                         },
                         "orgUnitField": "WJ1j79Dlubx",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "e4IqFCIyS16"
+                            },
+                            {
+                                "id": "G6VzwEZNJQw"
+                            }
+                        ],
                         "id": "eSWGLPCy2ZK"
                     },
                     {
@@ -165,6 +184,14 @@
                             "id": "lAcD9QrX1xQ"
                         },
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "akf2L8cHjCy"
+                            },
+                            {
+                                "id": "ji7ahoeSEkz"
+                            }
+                        ],
                         "id": "NTvweRnHeLC"
                     },
                     {
@@ -174,6 +201,14 @@
                         },
                         "orgUnitField": "ENROLLMENT",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "D9wSbYZ4ZIE"
+                            },
+                            {
+                                "id": "TXaApL4lGhD"
+                            }
+                        ],
                         "id": "nYG1z4dFVnX"
                     },
                     {
@@ -183,6 +218,14 @@
                         },
                         "orgUnitField": "OWNER_AT_END",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "UEBLnko0Aev"
+                            },
+                            {
+                                "id": "BDkkERK7CCf"
+                            }
+                        ],
                         "id": "U0mtkhBIEWK"
                     },
                     {
@@ -192,6 +235,14 @@
                         },
                         "orgUnitField": "OWNER_AT_START",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "RNlV5nL7w69"
+                            },
+                            {
+                                "id": "DDYt45So7yW"
+                            }
+                        ],
                         "id": "dXtvaBLgiA4"
                     },
                     {
@@ -201,6 +252,14 @@
                         },
                         "orgUnitField": "REGISTRATION",
                         "analyticsType": "EVENT",
+                        "analyticsPeriodBoundaries": [
+                            {
+                                "id": "Jx8TMHjRj5n"
+                            },
+                            {
+                                "id": "S0hZ0JL8T5C"
+                            }
+                        ],
                         "id": "VwK2ljj07rP"
                     }
                 ]
@@ -263,7 +322,7 @@
                     "page": 1,
                     "total": 1169,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
                     "pageCount": 1169
                 },
                 "organisationUnits": [
@@ -282,7 +341,7 @@
                     "page": 1,
                     "total": 9,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
                     "pageCount": 9
                 },
                 "organisationUnits": [
@@ -301,7 +360,7 @@
                     "page": 1,
                     "total": 2,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
                     "pageCount": 2
                 },
                 "organisationUnits": [
@@ -320,7 +379,7 @@
                     "page": 1,
                     "total": 2,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
                     "pageCount": 2
                 },
                 "organisationUnits": [
@@ -339,7 +398,7 @@
                     "page": 1,
                     "total": 3,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
                     "pageCount": 3
                 },
                 "organisationUnits": [
@@ -358,7 +417,7 @@
                     "page": 1,
                     "total": 2,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
                     "pageCount": 2
                 },
                 "organisationUnits": [
@@ -377,7 +436,7 @@
                     "page": 1,
                     "total": 3,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
                     "pageCount": 3
                 },
                 "organisationUnits": [
@@ -410,7 +469,7 @@
                     "page": 1,
                     "total": 2,
                     "pageSize": 1,
-                    "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                    "nextPage": "https://play.im.dhis2.org/dev-2-40/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
                     "pageCount": 2
                 },
                 "organisationUnits": [

@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "instance": "stable-2-43-1",
-    "version": "2.43.1",
-    "revision": "9cbfbf3",
-    "date": "2026-10-05",
+    "instance": "stable-2-43-2",
+    "version": "2.43.2",
+    "revision": "13927ae",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -56,15 +56,16 @@
         "periodTypeDifferences": []
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 516,
         "mismatches": [],
         "refusedTypes": {}
     },
-    "group": "org-unit-groups",
+    "group": "entered-above",
     "rows": [
-        ["ou-groups__g","VALUE",30303,null,{"rows":{"D2":30300,"F1":3}}],
-        ["ou-groups__g-in-D1","VALUE",3,null,{"rows":{"F1":3}}],
-        ["ou-groups__g-in-region","VALUE",30303,null,{"rows":{"D2":30300,"F1":3}}],
-        ["ou-groups__empty","ERROR",null,"E7143: Organisation unit or organisation unit level is not valid"]
+        ["ou-above__F1","EMPTY",null,null,{"rows":{}}],
+        ["ou-above__D1","VALUE",3000,null,{"rows":{"D1":3000}}],
+        ["ou-above__region","VALUE",3000,null,{"rows":{"region":3000}}],
+        ["ou-above__level-4-region","EMPTY",null,null,{"rows":{}}],
+        ["ou-above__level-3-region","VALUE",3000,null,{"rows":{"D1":3000}}]
     ]
 }

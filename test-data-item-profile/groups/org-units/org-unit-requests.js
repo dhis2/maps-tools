@@ -29,7 +29,7 @@ const requests = (orgUnitIds) => {
         },
         {
             name: 'programIndicators',
-            path: '/api/programIndicators.json?filter=code:$like:PTT_PROG&fields=id,code,program[id],orgUnitField,analyticsType&paging=false&order=code:asc',
+            path: '/api/programIndicators.json?filter=code:$like:PTT_PROG&fields=id,code,program[id],orgUnitField,analyticsType,analyticsPeriodBoundaries[id]&paging=false&order=code:asc',
             list: 'programIndicators',
             expected: 7,
         },

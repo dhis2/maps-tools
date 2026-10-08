@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-43",
     "version": "2.43.3-SNAPSHOT",
-    "revision": "7cfb297",
-    "date": "2026-10-05",
+    "revision": "0615503",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -56,7 +56,7 @@
         "periodTypeDifferences": []
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 516,
         "mismatches": [],
         "refusedTypes": {}
     },
@@ -64,10 +64,72 @@
     "responses": [
         {
             "name": "dataElements",
-            "path": "/api/dataElements.json?filter=code:$like:PTT_G3&fields=id,code,name,aggregationType,valueType,domainType,dataSetElements[dataSet[id,periodType]]&paging=false&order=code:asc",
+            "path": "/api/dataElements.json?filter=code:$like:PTT_G3&filter=code:$like:PTT_DIS&rootJunction=OR&fields=id,code,name,aggregationType,valueType,domainType,categoryCombo[id],dataSetElements[dataSet[id,periodType],categoryCombo[id]]&paging=false&order=code:asc",
             "httpStatus": 200,
             "response": {
                 "dataElements": [
+                    {
+                        "code": "PTT_DIS_BOTH",
+                        "name": "PTT disaggregation both",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Monthly",
+                                    "id": "MTEN4XmC0k3"
+                                },
+                                "categoryCombo": {
+                                    "id": "EyESnzDvcwh"
+                                }
+                            },
+                            {
+                                "dataSet": {
+                                    "periodType": "Quarterly",
+                                    "id": "DMfYb9cbUwP"
+                                },
+                                "categoryCombo": {
+                                    "id": "GFe8Z3ErDol"
+                                }
+                            }
+                        ],
+                        "id": "wrXAErJOkRS",
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        }
+                    },
+                    {
+                        "code": "PTT_DIS_PLACE",
+                        "name": "PTT disaggregation place",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Monthly",
+                                    "id": "NlZrxX5S0X8"
+                                },
+                                "categoryCombo": {
+                                    "id": "EyESnzDvcwh"
+                                }
+                            },
+                            {
+                                "dataSet": {
+                                    "periodType": "Quarterly",
+                                    "id": "Ij6jwq1Ceiq"
+                                },
+                                "categoryCombo": {
+                                    "id": "GFe8Z3ErDol"
+                                }
+                            }
+                        ],
+                        "id": "T4Gk4A7PTRJ",
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        }
+                    },
                     {
                         "code": "PTT_G3_HISTORY",
                         "name": "PTT G3 history",
@@ -82,7 +144,10 @@
                                 }
                             }
                         ],
-                        "id": "hR0FkmDKXvh"
+                        "id": "hR0FkmDKXvh",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     },
                     {
                         "code": "PTT_G3_MW",
@@ -104,7 +169,10 @@
                                 }
                             }
                         ],
-                        "id": "hbv3rzk8Fne"
+                        "id": "hbv3rzk8Fne",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     },
                     {
                         "code": "PTT_G3_ORPHAN",
@@ -113,7 +181,10 @@
                         "valueType": "INTEGER",
                         "domainType": "AGGREGATE",
                         "dataSetElements": [],
-                        "id": "idqEIJ4ahkB"
+                        "id": "idqEIJ4ahkB",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     },
                     {
                         "code": "PTT_G3_PLACE",
@@ -135,7 +206,10 @@
                                 }
                             }
                         ],
-                        "id": "Z6EUgky36Mv"
+                        "id": "Z6EUgky36Mv",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     }
                 ]
             }
@@ -759,10 +833,49 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "categoryOptionCombos",
+            "path": "/api/categoryOptionCombos.json?filter=id:in:[HllvX50cXC0,l6y6maQF8He,eUlTvjHxjZF,MHtSLMctHku,eHq7UQzuwBc]&fields=id,categoryCombo[id]&paging=false&order=id:asc",
+            "httpStatus": 200,
+            "response": {
+                "categoryOptionCombos": [
+                    {
+                        "categoryCombo": {
+                            "id": "GFe8Z3ErDol"
+                        },
+                        "id": "eHq7UQzuwBc"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        },
+                        "id": "eUlTvjHxjZF"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        },
+                        "id": "HllvX50cXC0"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        },
+                        "id": "l6y6maQF8He"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "GFe8Z3ErDol"
+                        },
+                        "id": "MHtSLMctHku"
+                    }
+                ]
+            }
         }
     ],
     "rows": [
-        ["meta-dataElements","VALUE",4],
+        ["meta-dataElements","VALUE",6],
         ["meta-dataElements-dataSets","VALUE",4],
         ["meta-indicators","VALUE",14],
         ["meta-dataSets","VALUE",5],
@@ -770,6 +883,7 @@
         ["meta-dataItems","VALUE",23],
         ["meta-periodTypes","VALUE",24],
         ["meta-aggregationTypes","VALUE",1],
+        ["meta-categoryOptionCombos","VALUE",5],
         ["raw-mw__r-all__A","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
         ["raw-mw__r-all__B","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
         ["raw-mw__r-all__region","VALUE",48,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],

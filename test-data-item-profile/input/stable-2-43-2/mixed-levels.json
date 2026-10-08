@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "instance": "stable-2-43-1",
-    "version": "2.43.1",
-    "revision": "9cbfbf3",
-    "date": "2026-10-05",
+    "instance": "stable-2-43-2",
+    "version": "2.43.2",
+    "revision": "13927ae",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -56,16 +56,17 @@
         "periodTypeDifferences": []
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 516,
         "mismatches": [],
         "refusedTypes": {}
     },
-    "group": "entered-above",
+    "group": "mixed-levels",
     "rows": [
-        ["ou-above__F1","EMPTY",null,null,{"rows":{}}],
-        ["ou-above__D1","VALUE",3000,null,{"rows":{"D1":3000}}],
-        ["ou-above__region","VALUE",3000,null,{"rows":{"region":3000}}],
-        ["ou-above__level-4-region","EMPTY",null,null,{"rows":{}}],
-        ["ou-above__level-3-region","VALUE",3000,null,{"rows":{"D1":3000}}]
+        ["ou-mixed-element__F1","VALUE",3,null,{"rows":{"F1":3}}],
+        ["ou-mixed-element__D1","VALUE",3033,null,{"rows":{"D1":3033}}],
+        ["ou-mixed-element__region","VALUE",3333,null,{"rows":{"region":3333}}],
+        ["ou-mixed-indicator__F1","VALUE",3,null,{"rows":{"F1":3}}],
+        ["ou-mixed-indicator__D1","VALUE",3033,null,{"rows":{"D1":3033}}],
+        ["ou-mixed-indicator__region","VALUE",3333,null,{"rows":{"region":3333}}]
     ]
 }

@@ -122,13 +122,21 @@ const SMOKE_REQUESTS = [
     'dataSets',
     'expressionDimensionItems',
     'periodTypes',
+    'categoryOptionCombos',
 ]
 const ORG_UNIT_REQUESTS =
     /^(dataElements-aggregationLevels|programIndicators|programs|organisationUnitLevels|count-|list-|me)/
 const keptRequest = (name) =>
     SMOKE_REQUESTS.includes(name) || ORG_UNIT_REQUESTS.test(name)
 const SHAPE_OBJECTS = 4
-const REQUIRED_CODES = { dataElements: ['PTT_G3_MW', 'PTT_G3_ORPHAN'] }
+const REQUIRED_CODES = {
+    dataElements: [
+        'PTT_G3_MW',
+        'PTT_G3_ORPHAN',
+        'PTT_DIS_BOTH',
+        'PTT_DIS_PLACE',
+    ],
+}
 
 // The first objects of each list, and any the library's tests name.
 const trimResponse = (name, response) =>

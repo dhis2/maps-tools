@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "instance": "stable-2-43-1",
-    "version": "2.43.1",
-    "revision": "9cbfbf3",
-    "date": "2026-10-05",
+    "instance": "dev-2-40",
+    "version": "2.40.13-SNAPSHOT",
+    "revision": "0d20d50",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -27,47 +27,112 @@
             "NONE"
         ],
         "serverPeriodTypes": [
-            "BiMonthly",
-            "BiWeekly",
             "Daily",
-            "FinancialApril",
-            "FinancialAug",
-            "FinancialFeb",
-            "FinancialJuly",
-            "FinancialNov",
-            "FinancialOct",
-            "FinancialSep",
+            "Weekly",
+            "WeeklyWednesday",
+            "WeeklyThursday",
+            "WeeklySaturday",
+            "WeeklySunday",
+            "BiWeekly",
             "Monthly",
+            "BiMonthly",
             "Quarterly",
             "QuarterlyNov",
             "SixMonthly",
             "SixMonthlyApril",
             "SixMonthlyNov",
-            "TwoYearly",
-            "Weekly",
-            "WeeklyFriday",
-            "WeeklySaturday",
-            "WeeklySunday",
-            "WeeklyThursday",
-            "WeeklyWednesday",
-            "Yearly"
+            "Yearly",
+            "FinancialApril",
+            "FinancialJuly",
+            "FinancialOct",
+            "FinancialNov"
         ],
         "defaultCocId": "HllvX50cXC0",
-        "periodTypeDifferences": []
+        "periodTypeDifferences": [
+            "WeeklyFriday: missing on the server",
+            "FinancialFeb: missing on the server",
+            "FinancialAug: missing on the server",
+            "FinancialSep: missing on the server",
+            "TwoYearly: missing on the server"
+        ]
     },
     "periodCheck": {
-        "checked": 562,
+        "checked": 508,
         "mismatches": [],
-        "refusedTypes": {}
+        "refusedTypes": {
+            "QuarterlyNov": "500: Can't find resource for bundle java.util.PropertyResourceBundle, key format.QuarterlyNov.startDate"
+        }
     },
     "group": "detection-requests",
     "responses": [
         {
             "name": "dataElements",
-            "path": "/api/dataElements.json?filter=code:$like:PTT_G3&fields=id,code,name,aggregationType,valueType,domainType,dataSetElements[dataSet[id,periodType]]&paging=false&order=code:asc",
+            "path": "/api/dataElements.json?filter=code:$like:PTT_G3&filter=code:$like:PTT_DIS&rootJunction=OR&fields=id,code,name,aggregationType,valueType,domainType,categoryCombo[id],dataSetElements[dataSet[id,periodType],categoryCombo[id]]&paging=false&order=code:asc",
             "httpStatus": 200,
             "response": {
                 "dataElements": [
+                    {
+                        "code": "PTT_DIS_BOTH",
+                        "name": "PTT disaggregation both",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Quarterly",
+                                    "id": "DMfYb9cbUwP"
+                                },
+                                "categoryCombo": {
+                                    "id": "GFe8Z3ErDol"
+                                }
+                            },
+                            {
+                                "dataSet": {
+                                    "periodType": "Monthly",
+                                    "id": "MTEN4XmC0k3"
+                                },
+                                "categoryCombo": {
+                                    "id": "EyESnzDvcwh"
+                                }
+                            }
+                        ],
+                        "id": "wrXAErJOkRS",
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        }
+                    },
+                    {
+                        "code": "PTT_DIS_PLACE",
+                        "name": "PTT disaggregation place",
+                        "aggregationType": "SUM",
+                        "valueType": "INTEGER",
+                        "domainType": "AGGREGATE",
+                        "dataSetElements": [
+                            {
+                                "dataSet": {
+                                    "periodType": "Monthly",
+                                    "id": "NlZrxX5S0X8"
+                                },
+                                "categoryCombo": {
+                                    "id": "EyESnzDvcwh"
+                                }
+                            },
+                            {
+                                "dataSet": {
+                                    "periodType": "Quarterly",
+                                    "id": "Ij6jwq1Ceiq"
+                                },
+                                "categoryCombo": {
+                                    "id": "GFe8Z3ErDol"
+                                }
+                            }
+                        ],
+                        "id": "T4Gk4A7PTRJ",
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        }
+                    },
                     {
                         "code": "PTT_G3_HISTORY",
                         "name": "PTT G3 history",
@@ -82,7 +147,10 @@
                                 }
                             }
                         ],
-                        "id": "hR0FkmDKXvh"
+                        "id": "hR0FkmDKXvh",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     },
                     {
                         "code": "PTT_G3_MW",
@@ -93,18 +161,21 @@
                         "dataSetElements": [
                             {
                                 "dataSet": {
-                                    "periodType": "Weekly",
-                                    "id": "YlravvdHwIj"
+                                    "periodType": "WeeklyWednesday",
+                                    "id": "wRXyMvEnlyA"
                                 }
                             },
                             {
                                 "dataSet": {
-                                    "periodType": "WeeklyWednesday",
-                                    "id": "wRXyMvEnlyA"
+                                    "periodType": "Weekly",
+                                    "id": "YlravvdHwIj"
                                 }
                             }
                         ],
-                        "id": "hbv3rzk8Fne"
+                        "id": "hbv3rzk8Fne",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     },
                     {
                         "code": "PTT_G3_ORPHAN",
@@ -113,7 +184,10 @@
                         "valueType": "INTEGER",
                         "domainType": "AGGREGATE",
                         "dataSetElements": [],
-                        "id": "idqEIJ4ahkB"
+                        "id": "idqEIJ4ahkB",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     },
                     {
                         "code": "PTT_G3_PLACE",
@@ -135,7 +209,10 @@
                                 }
                             }
                         ],
-                        "id": "Z6EUgky36Mv"
+                        "id": "Z6EUgky36Mv",
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        }
                     }
                 ]
             }
@@ -582,10 +659,40 @@
             "response": {
                 "periodTypes": [
                     {
-                        "name": "BiMonthly",
-                        "isoDuration": "P2M",
-                        "isoFormat": "yyyyMMB",
-                        "frequencyOrder": 61
+                        "name": "Daily",
+                        "isoDuration": "P1D",
+                        "isoFormat": "yyyyMMdd",
+                        "frequencyOrder": 1
+                    },
+                    {
+                        "name": "Weekly",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyyWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklyWednesday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyyWedWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklyThursday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyyThuWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklySaturday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyySatWn",
+                        "frequencyOrder": 7
+                    },
+                    {
+                        "name": "WeeklySunday",
+                        "isoDuration": "P7D",
+                        "isoFormat": "yyyySunWn",
+                        "frequencyOrder": 7
                     },
                     {
                         "name": "BiWeekly",
@@ -594,58 +701,16 @@
                         "frequencyOrder": 14
                     },
                     {
-                        "name": "Daily",
-                        "isoDuration": "P1D",
-                        "isoFormat": "yyyyMMdd",
-                        "frequencyOrder": 1
-                    },
-                    {
-                        "name": "FinancialApril",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyyApril",
-                        "frequencyOrder": 365
-                    },
-                    {
-                        "name": "FinancialAug",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyyAug",
-                        "frequencyOrder": 365
-                    },
-                    {
-                        "name": "FinancialFeb",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyyFeb",
-                        "frequencyOrder": 365
-                    },
-                    {
-                        "name": "FinancialJuly",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyyJuly",
-                        "frequencyOrder": 365
-                    },
-                    {
-                        "name": "FinancialNov",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyyNov",
-                        "frequencyOrder": 365
-                    },
-                    {
-                        "name": "FinancialOct",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyyOct",
-                        "frequencyOrder": 365
-                    },
-                    {
-                        "name": "FinancialSep",
-                        "isoDuration": "P1Y",
-                        "isoFormat": "yyyySep",
-                        "frequencyOrder": 365
-                    },
-                    {
                         "name": "Monthly",
                         "isoDuration": "P1M",
                         "isoFormat": "yyyyMM",
                         "frequencyOrder": 30
+                    },
+                    {
+                        "name": "BiMonthly",
+                        "isoDuration": "P2M",
+                        "isoFormat": "yyyyMMB",
+                        "frequencyOrder": 61
                     },
                     {
                         "name": "Quarterly",
@@ -678,50 +743,33 @@
                         "frequencyOrder": 182
                     },
                     {
-                        "name": "TwoYearly",
-                        "isoDuration": "P2Y",
-                        "frequencyOrder": 730
-                    },
-                    {
-                        "name": "Weekly",
-                        "isoDuration": "P7D",
-                        "isoFormat": "yyyyWn",
-                        "frequencyOrder": 7
-                    },
-                    {
-                        "name": "WeeklyFriday",
-                        "isoDuration": "P7D",
-                        "isoFormat": "yyyyFriWn",
-                        "frequencyOrder": 7
-                    },
-                    {
-                        "name": "WeeklySaturday",
-                        "isoDuration": "P7D",
-                        "isoFormat": "yyyySatWn",
-                        "frequencyOrder": 7
-                    },
-                    {
-                        "name": "WeeklySunday",
-                        "isoDuration": "P7D",
-                        "isoFormat": "yyyySunWn",
-                        "frequencyOrder": 7
-                    },
-                    {
-                        "name": "WeeklyThursday",
-                        "isoDuration": "P7D",
-                        "isoFormat": "yyyyThuWn",
-                        "frequencyOrder": 7
-                    },
-                    {
-                        "name": "WeeklyWednesday",
-                        "isoDuration": "P7D",
-                        "isoFormat": "yyyyWedWn",
-                        "frequencyOrder": 7
-                    },
-                    {
                         "name": "Yearly",
                         "isoDuration": "P1Y",
                         "isoFormat": "yyyy",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialApril",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyApril",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialJuly",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyJuly",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialOct",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyOct",
+                        "frequencyOrder": 365
+                    },
+                    {
+                        "name": "FinancialNov",
+                        "isoDuration": "P1Y",
+                        "isoFormat": "yyyyNov",
                         "frequencyOrder": 365
                     }
                 ]
@@ -759,17 +807,57 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "categoryOptionCombos",
+            "path": "/api/categoryOptionCombos.json?filter=id:in:[HllvX50cXC0,l6y6maQF8He,eUlTvjHxjZF,MHtSLMctHku,eHq7UQzuwBc]&fields=id,categoryCombo[id]&paging=false&order=id:asc",
+            "httpStatus": 200,
+            "response": {
+                "categoryOptionCombos": [
+                    {
+                        "categoryCombo": {
+                            "id": "GFe8Z3ErDol"
+                        },
+                        "id": "eHq7UQzuwBc"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        },
+                        "id": "eUlTvjHxjZF"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "bjDvmb4bfuf"
+                        },
+                        "id": "HllvX50cXC0"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "EyESnzDvcwh"
+                        },
+                        "id": "l6y6maQF8He"
+                    },
+                    {
+                        "categoryCombo": {
+                            "id": "GFe8Z3ErDol"
+                        },
+                        "id": "MHtSLMctHku"
+                    }
+                ]
+            }
         }
     ],
     "rows": [
-        ["meta-dataElements","VALUE",4],
+        ["meta-dataElements","VALUE",6],
         ["meta-dataElements-dataSets","VALUE",4],
         ["meta-indicators","VALUE",14],
         ["meta-dataSets","VALUE",5],
         ["meta-expressionDimensionItems","VALUE",4],
         ["meta-dataItems","VALUE",23],
-        ["meta-periodTypes","VALUE",24],
+        ["meta-periodTypes","VALUE",19],
         ["meta-aggregationTypes","VALUE",1],
+        ["meta-categoryOptionCombos","VALUE",5],
         ["raw-mw__r-all__A","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
         ["raw-mw__r-all__B","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
         ["raw-mw__r-all__region","VALUE",48,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],
@@ -807,6 +895,6 @@
         ["raw-orphan__r-2025__B","VALUE",3,null,{"periodTypes":["Monthly"]}],
         ["raw-orphan__r-2025__region","VALUE",6,null,{"periodTypes":["Monthly"]}],
         ["raw-range-inside-only","VALUE",3,null,{"periodTypes":["Weekly"],"periods":["2025W17","2025W18","2025W19"]}],
-        ["raw-row-limit","VALUE",51408,null,{"periodTypes":["BiWeekly","Daily","Monthly","Weekly","WeeklyFriday","WeeklySaturday","WeeklySunday","WeeklyThursday","WeeklyWednesday"]}]
+        ["raw-row-limit","VALUE",47700,null,{"periodTypes":["BiWeekly","Daily","Monthly","Weekly","WeeklySaturday","WeeklySunday","WeeklyThursday","WeeklyWednesday"]}]
     ]
 }

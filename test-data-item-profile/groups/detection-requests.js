@@ -16,6 +16,7 @@ const {
 } = require('../period-types.js')
 const { toRow } = require('../observations.js')
 const { uid } = require('../uid.js')
+const { OPTION_COMBOS } = require('./disaggregation.js')
 const { SUBJECTS } = require('./mixed-collection.js')
 const { ORG_UNITS, supportedTypes } = require('./shared.js')
 
@@ -24,7 +25,7 @@ const KEY = 'detection-requests'
 const METADATA_REQUESTS = [
     {
         name: 'dataElements',
-        path: '/api/dataElements.json?filter=code:$like:PTT_G3&fields=id,code,name,aggregationType,valueType,domainType,dataSetElements[dataSet[id,periodType]]&paging=false&order=code:asc',
+        path: '/api/dataElements.json?filter=code:$like:PTT_G3&filter=code:$like:PTT_DIS&rootJunction=OR&fields=id,code,name,aggregationType,valueType,domainType,categoryCombo[id],dataSetElements[dataSet[id,periodType],categoryCombo[id]]&paging=false&order=code:asc',
     },
     {
         name: 'dataElements-dataSets',
@@ -228,8 +229,24 @@ const verdictOfRaw = (expected, observed) => {
         : 'fail'
 }
 
+/*
+ * The library maps a disaggregation to its category combo: our option
+ * combos (group 16) and the default one, whose id comes from the server.
+ */
+const optionCombosRequest = (defaultCocId) => ({
+    name: 'categoryOptionCombos',
+    path: `/api/categoryOptionCombos.json?filter=id:in:[${[
+        defaultCocId,
+        ...OPTION_COMBOS.map((coc) => coc.id),
+    ].join(',')}]&fields=id,categoryCombo[id]&paging=false&order=id:asc`,
+})
+
 const buildGroup = (context) => {
-    const metadataCases = METADATA_REQUESTS.map((request) => ({
+    const requests = [
+        ...METADATA_REQUESTS,
+        optionCombosRequest(context.defaultCocId),
+    ]
+    const metadataCases = requests.map((request) => ({
         id: `meta-${request.name}`,
         item: {
             notes: 'Metadata request; the response is in metadata-shapes.json.',
