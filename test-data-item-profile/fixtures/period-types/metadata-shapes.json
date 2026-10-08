@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "source": "maps-tools/test-data-item-profile (ca5b352, with local changes)",
+    "source": "maps-tools/test-data-item-profile (27d9037, with local changes)",
     "versions": {
         "2.44-SNAPSHOT": {
             "instance": "dev",

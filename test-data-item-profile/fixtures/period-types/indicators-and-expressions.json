@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "group": "indicators-and-expressions",
     "provisional": false,
-    "source": "maps-tools/test-data-item-profile (ca5b352, with local changes)",
+    "source": "maps-tools/test-data-item-profile (27d9037, with local changes)",
     "runs": [
         {
             "instance": "dev",
