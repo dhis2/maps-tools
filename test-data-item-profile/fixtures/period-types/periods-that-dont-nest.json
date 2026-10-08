@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "group": "periods-that-dont-nest",
     "provisional": false,
-    "source": "maps-tools/test-data-item-profile (f47b258, with local changes)",
+    "source": "maps-tools/test-data-item-profile (2b47ba2, with local changes)",
     "runs": [
         {
             "instance": "dev",
