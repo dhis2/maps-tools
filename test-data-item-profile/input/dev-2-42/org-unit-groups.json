@@ -1,0 +1,71 @@
+{
+    "schemaVersion": 1,
+    "instance": "dev-2-42",
+    "version": "2.42.7-SNAPSHOT",
+    "revision": "4791e6f",
+    "date": "2026-10-08",
+    "serverInfo": {
+        "aggregationTypes": [
+            "SUM",
+            "AVERAGE",
+            "AVERAGE_SUM_ORG_UNIT",
+            "LAST",
+            "LAST_AVERAGE_ORG_UNIT",
+            "LAST_LAST_ORG_UNIT",
+            "LAST_IN_PERIOD",
+            "LAST_IN_PERIOD_AVERAGE_ORG_UNIT",
+            "FIRST",
+            "FIRST_AVERAGE_ORG_UNIT",
+            "FIRST_FIRST_ORG_UNIT",
+            "COUNT",
+            "STDDEV",
+            "VARIANCE",
+            "MIN",
+            "MAX",
+            "MIN_SUM_ORG_UNIT",
+            "MAX_SUM_ORG_UNIT",
+            "NONE"
+        ],
+        "serverPeriodTypes": [
+            "Daily",
+            "Weekly",
+            "WeeklyWednesday",
+            "WeeklyThursday",
+            "WeeklySaturday",
+            "WeeklySunday",
+            "BiWeekly",
+            "Monthly",
+            "BiMonthly",
+            "Quarterly",
+            "QuarterlyNov",
+            "SixMonthly",
+            "SixMonthlyApril",
+            "SixMonthlyNov",
+            "Yearly",
+            "FinancialApril",
+            "FinancialJuly",
+            "FinancialSep",
+            "FinancialOct",
+            "FinancialNov"
+        ],
+        "defaultCocId": "HllvX50cXC0",
+        "periodTypeDifferences": [
+            "WeeklyFriday: missing on the server",
+            "FinancialFeb: missing on the server",
+            "FinancialAug: missing on the server",
+            "TwoYearly: missing on the server"
+        ]
+    },
+    "periodCheck": {
+        "checked": 510,
+        "mismatches": [],
+        "refusedTypes": {}
+    },
+    "group": "org-unit-groups",
+    "rows": [
+        ["ou-groups__g","VALUE",30303,null,{"rows":{"D2":30300,"F1":3}}],
+        ["ou-groups__g-in-D1","VALUE",3,null,{"rows":{"F1":3}}],
+        ["ou-groups__g-in-region","VALUE",30303,null,{"rows":{"D2":30300,"F1":3}}],
+        ["ou-groups__empty","ERROR",null,"E7143: Organisation unit or organisation unit level is not valid"]
+    ]
+}
