@@ -212,6 +212,12 @@ are the same for every version.
 
 ## Fixtures
 
+**The format is a contract with `@dhis2/analytics`**, whose specs read it:
+file and group names, `observed`, `collectionSources` (with `orgUnits` and
+`categoryCombo`), `categoryOptionCombo` on operands, and the request names
+in `metadata-shapes.json`. Adding fields is fine; to rename, remove or
+reshape one, tell the library's maintainers first.
+
 `fixtures/period-types/<group>.json`, schema version 1, as agreed with the
 library: `runs`, and `cases` with `id`, `item`, `query`, `expected`, and
 `observed` and `verdict` by version. One case per line. `source` names the
