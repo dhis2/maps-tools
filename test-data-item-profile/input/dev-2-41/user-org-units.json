@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-41",
     "version": "2.41.11-SNAPSHOT",
-    "revision": "c4163ff",
-    "date": "2026-10-02",
+    "revision": "3c4ab7e",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "user-org-units",
     "rows": [
         ["ou-user__user-orgunit","VALUE",333333,null,{"rows":{"region":333333}}],
         ["ou-user__children","VALUE",333333,null,{"rows":{"D3":300000,"D1":3033,"D2":30300}}],

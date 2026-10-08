@@ -3,7 +3,7 @@
     "instance": "stable-2-42-6",
     "version": "2.42.6",
     "revision": "dd8bdbb",
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "aggregation-levels",
     "rows": [
         ["ou-agg-f-3__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-agg-f-3__D1","EMPTY",null,null,{"rows":{}}],

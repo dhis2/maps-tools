@@ -3,7 +3,7 @@
     "instance": "stable-2-42-6",
     "version": "2.42.6",
     "revision": "dd8bdbb",
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "reporting-rates",
     "rows": [
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__A","VALUE",100],
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__B","VALUE",100],

@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-43",
     "version": "2.43.3-SNAPSHOT",
-    "revision": "eec3abc",
-    "date": "2026-10-02",
+    "revision": "7cfb297",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -60,6 +60,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "aggregation-levels",
     "rows": [
         ["ou-agg-f-3__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-agg-f-3__D1","EMPTY",null,null,{"rows":{}}],

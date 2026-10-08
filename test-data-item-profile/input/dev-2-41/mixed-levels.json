@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-41",
     "version": "2.41.11-SNAPSHOT",
-    "revision": "c4163ff",
-    "date": "2026-10-02",
+    "revision": "3c4ab7e",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "mixed-levels",
     "rows": [
         ["ou-mixed-element__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-mixed-element__D1","VALUE",3033,null,{"rows":{"D1":3033}}],

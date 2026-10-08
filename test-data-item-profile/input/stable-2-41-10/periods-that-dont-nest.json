@@ -3,7 +3,7 @@
     "instance": "stable-2-41-10",
     "version": "2.41.10",
     "revision": "1a3484f",
-    "date": "2026-10-02",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "periods-that-dont-nest",
     "rows": [
         ["nest-Weekly__q-Monthly__p-202401__A","VALUE",4],
         ["nest-Weekly__q-Monthly__p-202402__A","VALUE",5],

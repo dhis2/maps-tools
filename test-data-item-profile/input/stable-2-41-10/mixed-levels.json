@@ -3,7 +3,7 @@
     "instance": "stable-2-41-10",
     "version": "2.41.10",
     "revision": "1a3484f",
-    "date": "2026-10-02",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "mixed-levels",
     "rows": [
         ["ou-mixed-element__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-mixed-element__D1","VALUE",3033,null,{"rows":{"D1":3033}}],

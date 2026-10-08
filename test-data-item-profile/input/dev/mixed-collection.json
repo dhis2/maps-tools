@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev",
     "version": "2.44-SNAPSHOT",
-    "revision": "b732899",
-    "date": "2026-10-02",
+    "revision": "508d1ed",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -60,6 +60,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "mixed-collection",
     "rows": [
         ["mixed-mw__q-Daily__r-2025Q2__A","EMPTY",null,null,{"coarse":36}],
         ["mixed-mw__q-Daily__r-2025Q2__B","EMPTY",null,null,{"coarse":360}],

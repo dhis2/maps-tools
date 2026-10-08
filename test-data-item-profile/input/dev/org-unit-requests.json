@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev",
     "version": "2.44-SNAPSHOT",
-    "revision": "b732899",
-    "date": "2026-10-02",
+    "revision": "508d1ed",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -60,6 +60,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "org-unit-requests",
     "responses": [
         {
             "name": "dataElements-aggregationLevels",
@@ -258,6 +259,13 @@
             "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "pageSize": 1,
+                    "total": 1169,
+                    "pageCount": 1169,
+                    "nextPage": "http://play.im.dhis2.org/dev/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1&page=2"
+                },
                 "gist": true,
                 "organisationUnits": [
                     {
@@ -271,6 +279,13 @@
             "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "pageSize": 1,
+                    "total": 9,
+                    "pageCount": 9,
+                    "nextPage": "http://play.im.dhis2.org/dev/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1&page=2"
+                },
                 "gist": true,
                 "organisationUnits": [
                     {
@@ -284,6 +299,13 @@
             "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "total": 2,
+                    "pageSize": 1,
+                    "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                    "pageCount": 2
+                },
                 "organisationUnits": [
                     {
                         "id": "tsmDjF9bxzK"
@@ -296,6 +318,13 @@
             "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "total": 2,
+                    "pageSize": 1,
+                    "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                    "pageCount": 2
+                },
                 "organisationUnits": [
                     {
                         "id": "tsmDjF9bxzK"
@@ -308,6 +337,13 @@
             "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "pageSize": 1,
+                    "total": 3,
+                    "pageCount": 3,
+                    "nextPage": "http://play.im.dhis2.org/dev/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1&page=2"
+                },
                 "gist": true,
                 "organisationUnits": [
                     {
@@ -321,6 +357,13 @@
             "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "total": 2,
+                    "pageSize": 1,
+                    "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                    "pageCount": 2
+                },
                 "organisationUnits": [
                     {
                         "id": "ZBm5vBRXjeH"
@@ -333,6 +376,13 @@
             "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "total": 3,
+                    "pageSize": 1,
+                    "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                    "pageCount": 3
+                },
                 "organisationUnits": [
                     {
                         "id": "tsmDjF9bxzK"
@@ -345,6 +395,12 @@
             "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "total": 0,
+                    "pageSize": 1,
+                    "pageCount": 0
+                },
                 "organisationUnits": []
             }
         },
@@ -353,6 +409,13 @@
             "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
             "httpStatus": 200,
             "response": {
+                "pager": {
+                    "page": 1,
+                    "total": 2,
+                    "pageSize": 1,
+                    "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                    "pageCount": 2
+                },
                 "organisationUnits": [
                     {
                         "id": "Zkx2DMsGgi0"

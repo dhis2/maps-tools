@@ -9,6 +9,7 @@ const {
     expectedPlaceValue,
     expectedRateStatus,
     expectedStatus,
+    statusOfValue,
 } = require('../expected.js')
 const {
     periodDays,
@@ -69,7 +70,11 @@ const seriesOf = (name, place) => {
 }
 
 // An operand's expected value at a period and org unit, or null.
+// Group 1's weekly elements aren't modelled here: their values are recorded.
 const operandValue = (name, queryType, queryPeriod, orgUnit) => {
+    if (!ELEMENTS[name]) {
+        return null
+    }
     const { aggregationType, periodType } = ELEMENTS[name]
     const atPlace = (place) =>
         expectedPlaceValue({
@@ -85,6 +90,37 @@ const operandValue = (name, queryType, queryPeriod, orgUnit) => {
 }
 
 const divide = (a, b) => (a === null || b === null || b === 0 ? null : a / b)
+
+/*
+ * Sums: a spec with `sides` (the operands of the numerator, then of the
+ * denominator when it isn't 1). As in dhis2-core's SKIP_IF_ALL_VALUES_MISSING
+ * (DefaultExpressionService), a missing operand counts as 0, a side has no
+ * value when all its operands are missing, and every side needs a value.
+ *
+ * Expression items behave the same whatever their missingValueStrategy:
+ * analytics ignores SKIP_IF_ANY_VALUE_MISSING and NEVER_SKIP on every
+ * version (VERSION-FINDINGS.md, finding 8).
+ */
+const sidesStatus = ({ sides }, queryType) => {
+    const missing = (name) => operandStatus(name, queryType) === 'EMPTY'
+    if (sides.some((side) => side.every(missing))) {
+        return 'EMPTY'
+    }
+    const types = sides.flat().map((name) => OPERAND_TYPES[name].periodType)
+    return statusOfValue(1, queryType, types)
+}
+
+// Missing operands count as 0; null where an operand's value isn't computed.
+const sidesValue = ({ sides }, v, queryType) => {
+    const totals = sides.map((side) =>
+        side.reduce((total, name) => {
+            const value =
+                operandStatus(name, queryType) === 'EMPTY' ? 0 : v(name)
+            return total === null || value === null ? null : total + value
+        }, 0)
+    )
+    return totals.length === 2 ? divide(totals[0], totals[1]) : totals[0]
+}
 
 /*
  * Each indicator: its expression, the data operands that limit where it has
@@ -167,6 +203,32 @@ const indicatorSpecs = ({ ids, defaultCocId, constantId, orgUnitGroupId }) => [
         operands: ['count', 'popSum'],
         value: (v) => divide(v('count'), v('popSum')),
     },
+    // A monthly count plus a yearly total: the total counts as 0 by month.
+    {
+        name: 'sum-missing',
+        numerator: `#{${ids.count}}+#{${ids.popSum}}`,
+        sides: [['count', 'popSum']],
+    },
+    // Two weekly items, both missing by day: no value.
+    {
+        name: 'sum-weeks',
+        numerator: `#{${ids.weekly}}+#{${ids.wednesday}}`,
+        sides: [['weekly', 'wednesday']],
+    },
+    // The same sum over the yearly total: no value without the total.
+    {
+        name: 'sum-over-yearly',
+        numerator: `#{${ids.count}}+#{${ids.popSum}}`,
+        denominator: `#{${ids.popSum}}`,
+        sides: [['count', 'popSum'], ['popSum']],
+    },
+]
+
+// Expression items over the same sum, one per missing value strategy.
+const STRATEGY_ITEMS = [
+    { name: 'skip-if-all', strategy: 'SKIP_IF_ALL_VALUES_MISSING' },
+    { name: 'skip-if-any', strategy: 'SKIP_IF_ANY_VALUE_MISSING' },
+    { name: 'never-skip', strategy: 'NEVER_SKIP' },
 ]
 
 const OPERAND_TYPES = {
@@ -174,19 +236,26 @@ const OPERAND_TYPES = {
     popAvg: ELEMENTS.popAvg,
     popSum: ELEMENTS.popSum,
     rate: { aggregationType: 'SUM', periodType: 'Monthly' },
+    // Group 1's SUM elements, weekly from Monday and from Wednesday.
+    weekly: { aggregationType: 'SUM', periodType: 'Weekly' },
+    wednesday: { aggregationType: 'SUM', periodType: 'WeeklyWednesday' },
 }
+
+const operandStatus = (name, queryType) =>
+    name === 'rate'
+        ? expectedRateStatus(OPERAND_TYPES.rate.periodType, queryType)
+        : expectedStatus({
+              aggregationType: OPERAND_TYPES[name].aggregationType,
+              collectionType: OPERAND_TYPES[name].periodType,
+              queryType,
+          })
+
+const operandsOfSpec = (spec) =>
+    spec.operands ?? [...new Set(spec.sides.flat())]
 
 // EMPTY if any data operand is empty, REPEATED if all repeat, else VALUE.
 const combinedStatus = (operands, queryType) => {
-    const statuses = operands.map((name) =>
-        name === 'rate'
-            ? expectedRateStatus(OPERAND_TYPES.rate.periodType, queryType)
-            : expectedStatus({
-                  aggregationType: OPERAND_TYPES[name].aggregationType,
-                  collectionType: OPERAND_TYPES[name].periodType,
-                  queryType,
-              })
-    )
+    const statuses = operands.map((name) => operandStatus(name, queryType))
     if (statuses.includes('EMPTY')) {
         return 'EMPTY'
     }
@@ -228,6 +297,8 @@ const buildGroup = (context) => {
         count: elements.count.id,
         popAvg: elements.popAvg.id,
         popSum: elements.popSum.id,
+        weekly: uid('g1-SUM-Weekly'),
+        wednesday: uid('g1-SUM-WeeklyWednesday'),
         dataSet: monthly.id,
     }
 
@@ -248,19 +319,40 @@ const buildGroup = (context) => {
         annualized: !!spec.annualized,
         spec,
     }))
-    const expressionItem = {
-        key: 'g4-expression',
-        id: uid('g4-expression'),
-        code: 'PTT_G4_EXPRESSION',
-        name: 'PTT G4 expression count times 2',
-        shortName: 'PTT G4 expression',
-        expression: `#{${ids.count}}*2`,
-        spec: {
-            name: 'expression',
-            operands: ['count'],
-            value: (v) => (v('count') === null ? null : v('count') * 2),
-        },
-    }
+    const expression = (key, name, expressionText, spec, strategy) => ({
+        key: `g4-${key}`,
+        id: uid(`g4-${key}`),
+        code: `PTT_G4_${key.toUpperCase().replace(/-/g, '_')}`,
+        name,
+        shortName: name.replace('PTT G4 ', 'PTT G4 ').slice(0, 50),
+        expression: expressionText,
+        ...(strategy ? { missingValueStrategy: strategy } : {}),
+        spec,
+    })
+    const expressionItems = [
+        expression(
+            'expression',
+            'PTT G4 expression count times 2',
+            `#{${ids.count}}*2`,
+            {
+                name: 'expression',
+                operands: ['count'],
+                value: (v) => (v('count') === null ? null : v('count') * 2),
+            }
+        ),
+        ...STRATEGY_ITEMS.map(({ name, strategy }) =>
+            expression(
+                `expression-${name}`,
+                `PTT G4 expression sum ${name}`,
+                `#{${ids.count}}+#{${ids.popSum}}`,
+                {
+                    name: `expression-${name}`,
+                    sides: [['count', 'popSum']],
+                },
+                strategy
+            )
+        ),
+    ]
 
     const dataValues = [
         ['count', monthly],
@@ -297,7 +389,9 @@ const buildGroup = (context) => {
     const operandsOf = (indicator) => {
         const { nested } = indicator.spec
         if (!nested) {
-            return indicator.spec.operands.map((name) => operandItem(name, ids))
+            return operandsOfSpec(indicator.spec).map((name) =>
+                operandItem(name, ids)
+            )
         }
         const inner = indicators.find((i) => i.spec.name === nested)
         return [
@@ -324,26 +418,41 @@ const buildGroup = (context) => {
                 operands: operandsOf(indicator),
             },
         })),
-        {
+        ...expressionItems.map((expressionItem) => ({
             object: expressionItem,
             item: {
                 code: expressionItem.code,
                 dimensionItemType: 'EXPRESSION_DIMENSION_ITEM',
                 expression: expressionItem.expression,
-                operands: [operandItem('count', ids)],
+                ...(expressionItem.missingValueStrategy
+                    ? {
+                          missingValueStrategy:
+                              expressionItem.missingValueStrategy,
+                      }
+                    : {}),
+                operands: operandsOfSpec(expressionItem.spec).map((name) =>
+                    operandItem(name, ids)
+                ),
             },
-        },
+        })),
     ]
 
     const cases = items.flatMap(({ object, item }) =>
         supportedTypes(context).flatMap((queryType) =>
             queryPeriods(queryType).flatMap((queryPeriod) =>
                 ORG_UNITS.map((orgUnit) => {
-                    const status = object.spec.empty?.(queryPeriod, queryType)
-                        ? 'EMPTY'
-                        : combinedStatus(object.spec.operands, queryType)
+                    const { spec } = object
+                    const status = spec.sides
+                        ? sidesStatus(spec, queryType)
+                        : spec.empty?.(queryPeriod, queryType)
+                          ? 'EMPTY'
+                          : combinedStatus(spec.operands, queryType)
                     const v = (name, period = queryPeriod) =>
                         operandValue(name, queryType, period, orgUnit)
+                    const value = () =>
+                        spec.sides
+                            ? sidesValue(spec, v, queryType)
+                            : spec.value(v, queryPeriod, queryType)
                     return {
                         id: `ind-${object.spec.name}__q-${queryType}__p-${queryPeriod.id}__${orgUnit}`,
                         item,
@@ -354,14 +463,7 @@ const buildGroup = (context) => {
                         },
                         expected: {
                             status,
-                            value:
-                                status === 'EMPTY'
-                                    ? null
-                                    : object.spec.value(
-                                          v,
-                                          queryPeriod,
-                                          queryType
-                                      ),
+                            value: status === 'EMPTY' ? null : value(),
                         },
                         cells: [
                             { dx: object.id, pe: queryPeriod.id, ou: orgUnit },
@@ -378,7 +480,7 @@ const buildGroup = (context) => {
                         }`,
                         observe: observeSingle(
                             queryType,
-                            object.spec.operands.map(
+                            operandsOfSpec(spec).map(
                                 (name) => OPERAND_TYPES[name].periodType
                             )
                         ),
@@ -395,7 +497,7 @@ const buildGroup = (context) => {
         dataElements: Object.values(elements),
         dataSets: [monthly, yearly],
         indicators,
-        expressionItems: [expressionItem],
+        expressionItems,
         dataValues,
         registrations,
         cases,

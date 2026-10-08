@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-42",
     "version": "2.42.7-SNAPSHOT",
-    "revision": "c9120cf",
-    "date": "2026-10-02",
+    "revision": "94703a4",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "periods-that-dont-nest",
     "rows": [
         ["nest-Weekly__q-Monthly__p-202401__A","VALUE",4],
         ["nest-Weekly__q-Monthly__p-202402__A","VALUE",5],

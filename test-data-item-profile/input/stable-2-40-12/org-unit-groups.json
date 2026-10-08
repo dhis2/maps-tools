@@ -3,7 +3,7 @@
     "instance": "stable-2-40-12",
     "version": "2.40.12",
     "revision": "82b6022",
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -63,6 +63,7 @@
             "QuarterlyNov": "500: Can't find resource for bundle java.util.PropertyResourceBundle, key format.QuarterlyNov.startDate"
         }
     },
+    "group": "org-unit-groups",
     "rows": [
         ["ou-groups__g","VALUE",30303,null,{"rows":{"D2":30300,"F1":3}}],
         ["ou-groups__g-in-D1","VALUE",3,null,{"rows":{"F1":3}}],

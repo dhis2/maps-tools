@@ -1,10 +1,10 @@
 {
     "schemaVersion": 1,
-    "source": "maps-tools/test-data-item-profile (944d3f7, with local changes)",
+    "source": "maps-tools/test-data-item-profile (ca5b352, with local changes)",
     "versions": {
         "2.44-SNAPSHOT": {
             "instance": "dev",
-            "date": "2026-10-02",
+            "date": "2026-10-05",
             "requests": [
                 {
                     "name": "dataElements",
@@ -68,14 +68,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Monthly",
-                                            "id": "Zp46A37uZSE"
+                                            "periodType": "Weekly",
+                                            "id": "EBLMCfwOuUT"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "EBLMCfwOuUT"
+                                            "periodType": "Monthly",
+                                            "id": "Zp46A37uZSE"
                                         }
                                     }
                                 ],
@@ -246,6 +246,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -321,14 +357,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -359,6 +414,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -414,6 +487,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -813,6 +901,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "pageSize": 1,
+                            "total": 1169,
+                            "pageCount": 1169,
+                            "nextPage": "http://play.im.dhis2.org/dev/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1&page=2"
+                        },
                         "gist": true,
                         "organisationUnits": [
                             {
@@ -826,6 +921,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "pageSize": 1,
+                            "total": 9,
+                            "pageCount": 9,
+                            "nextPage": "http://play.im.dhis2.org/dev/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1&page=2"
+                        },
                         "gist": true,
                         "organisationUnits": [
                             {
@@ -839,6 +941,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -851,6 +960,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -863,6 +979,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "pageSize": 1,
+                            "total": 3,
+                            "pageCount": 3,
+                            "nextPage": "http://play.im.dhis2.org/dev/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1&page=2"
+                        },
                         "gist": true,
                         "organisationUnits": [
                             {
@@ -876,6 +999,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -888,6 +1018,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -900,6 +1037,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -908,6 +1051,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -967,7 +1117,7 @@
         },
         "2.41.11-SNAPSHOT": {
             "instance": "dev-2-41",
-            "date": "2026-10-02",
+            "date": "2026-10-05",
             "requests": [
                 {
                     "name": "dataElements",
@@ -1031,14 +1181,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Monthly",
-                                            "id": "Zp46A37uZSE"
+                                            "periodType": "Weekly",
+                                            "id": "EBLMCfwOuUT"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "EBLMCfwOuUT"
+                                            "periodType": "Monthly",
+                                            "id": "Zp46A37uZSE"
                                         }
                                     }
                                 ],
@@ -1209,6 +1359,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -1284,14 +1470,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -1322,6 +1527,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -1377,6 +1600,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -1747,6 +1985,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -1759,6 +2004,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -1771,6 +2023,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -1783,6 +2042,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -1795,6 +2061,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -1807,6 +2080,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -1819,6 +2099,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -1831,6 +2118,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -1839,6 +2132,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-41/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -1898,7 +2198,7 @@
         },
         "2.42.7-SNAPSHOT": {
             "instance": "dev-2-42",
-            "date": "2026-10-02",
+            "date": "2026-10-05",
             "requests": [
                 {
                     "name": "dataElements",
@@ -1931,14 +2231,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "WeeklyWednesday",
-                                            "id": "wRXyMvEnlyA"
+                                            "periodType": "Weekly",
+                                            "id": "YlravvdHwIj"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "YlravvdHwIj"
+                                            "periodType": "WeeklyWednesday",
+                                            "id": "wRXyMvEnlyA"
                                         }
                                     }
                                 ],
@@ -1962,14 +2262,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Monthly",
-                                            "id": "Zp46A37uZSE"
+                                            "periodType": "Weekly",
+                                            "id": "EBLMCfwOuUT"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "EBLMCfwOuUT"
+                                            "periodType": "Monthly",
+                                            "id": "Zp46A37uZSE"
                                         }
                                     }
                                 ],
@@ -2140,6 +2440,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -2215,14 +2551,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -2253,6 +2608,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -2308,6 +2681,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -2684,6 +3072,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -2696,6 +3091,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -2708,6 +3110,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -2720,6 +3129,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -2732,6 +3148,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -2744,6 +3167,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -2756,6 +3186,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -2768,6 +3205,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -2776,6 +3219,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-42/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -2835,7 +3285,7 @@
         },
         "2.43.3-SNAPSHOT": {
             "instance": "dev-2-43",
-            "date": "2026-10-02",
+            "date": "2026-10-05",
             "requests": [
                 {
                     "name": "dataElements",
@@ -2868,14 +3318,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "WeeklyWednesday",
-                                            "id": "wRXyMvEnlyA"
+                                            "periodType": "Weekly",
+                                            "id": "YlravvdHwIj"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "YlravvdHwIj"
+                                            "periodType": "WeeklyWednesday",
+                                            "id": "wRXyMvEnlyA"
                                         }
                                     }
                                 ],
@@ -3077,6 +3527,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -3152,14 +3638,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -3190,6 +3695,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -3245,6 +3768,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -3644,6 +4182,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -3656,6 +4201,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -3668,6 +4220,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -3680,6 +4239,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -3692,6 +4258,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -3704,6 +4277,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -3716,6 +4296,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -3728,6 +4315,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -3736,6 +4329,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/dev-2-43/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -3795,7 +4395,7 @@
         },
         "2.40.12": {
             "instance": "stable-2-40-12",
-            "date": "2026-10-02",
+            "date": "2026-10-05",
             "requests": [
                 {
                     "name": "dataElements",
@@ -3859,14 +4459,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Monthly",
-                                            "id": "Zp46A37uZSE"
+                                            "periodType": "Weekly",
+                                            "id": "EBLMCfwOuUT"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "EBLMCfwOuUT"
+                                            "periodType": "Monthly",
+                                            "id": "Zp46A37uZSE"
                                         }
                                     }
                                 ],
@@ -4037,6 +4637,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -4112,14 +4748,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -4150,6 +4805,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -4205,6 +4878,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -4575,6 +5263,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -4587,6 +5282,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -4599,6 +5301,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -4611,6 +5320,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -4623,6 +5339,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -4635,6 +5358,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -4647,6 +5377,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -4659,6 +5396,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -4667,6 +5410,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-40-12/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -4726,7 +5476,7 @@
         },
         "2.41.10": {
             "instance": "stable-2-41-10",
-            "date": "2026-10-02",
+            "date": "2026-10-08",
             "requests": [
                 {
                     "name": "dataElements",
@@ -4759,14 +5509,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "YlravvdHwIj"
+                                            "periodType": "WeeklyWednesday",
+                                            "id": "wRXyMvEnlyA"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "WeeklyWednesday",
-                                            "id": "wRXyMvEnlyA"
+                                            "periodType": "Weekly",
+                                            "id": "YlravvdHwIj"
                                         }
                                     }
                                 ],
@@ -4790,14 +5540,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "EBLMCfwOuUT"
+                                            "periodType": "Monthly",
+                                            "id": "Zp46A37uZSE"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Monthly",
-                                            "id": "Zp46A37uZSE"
+                                            "periodType": "Weekly",
+                                            "id": "EBLMCfwOuUT"
                                         }
                                     }
                                 ],
@@ -4968,6 +5718,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -5043,14 +5829,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -5081,6 +5886,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -5136,6 +5959,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -5506,6 +6344,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -5518,6 +6363,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -5530,6 +6382,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -5542,6 +6401,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -5554,6 +6420,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -5566,6 +6439,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -5578,6 +6458,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -5590,6 +6477,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -5598,6 +6491,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-41-10/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -5657,7 +6557,7 @@
         },
         "2.42.6": {
             "instance": "stable-2-42-6",
-            "date": "2026-10-02",
+            "date": "2026-10-05",
             "requests": [
                 {
                     "name": "dataElements",
@@ -5899,6 +6799,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -5974,14 +6910,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -6012,6 +6967,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -6067,6 +7040,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -6443,6 +7431,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -6455,6 +7450,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -6467,6 +7469,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -6479,6 +7488,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -6491,6 +7507,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -6503,6 +7526,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -6515,6 +7545,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -6527,6 +7564,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -6535,6 +7578,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-42-6/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -6627,14 +7677,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "WeeklyWednesday",
-                                            "id": "wRXyMvEnlyA"
+                                            "periodType": "Weekly",
+                                            "id": "YlravvdHwIj"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "YlravvdHwIj"
+                                            "periodType": "WeeklyWednesday",
+                                            "id": "wRXyMvEnlyA"
                                         }
                                     }
                                 ],
@@ -6658,14 +7708,14 @@
                                 "dataSetElements": [
                                     {
                                         "dataSet": {
-                                            "periodType": "Monthly",
-                                            "id": "Zp46A37uZSE"
+                                            "periodType": "Weekly",
+                                            "id": "EBLMCfwOuUT"
                                         }
                                     },
                                     {
                                         "dataSet": {
-                                            "periodType": "Weekly",
-                                            "id": "EBLMCfwOuUT"
+                                            "periodType": "Monthly",
+                                            "id": "Zp46A37uZSE"
                                         }
                                     }
                                 ],
@@ -6836,6 +7886,42 @@
                                 "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                                 "denominator": "1",
                                 "id": "FquF1GsTVuA"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_MISSING",
+                                "name": "PTT G4 indicator sum-missing",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "1",
+                                "id": "NlSr8Y6A2Vk"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "denominator": "#{nxyiifFYsbc}",
+                                "id": "qaMFabmPqLH"
+                            },
+                            {
+                                "code": "PTT_G4_IND_SUM_WEEKS",
+                                "name": "PTT G4 indicator sum-weeks",
+                                "annualized": false,
+                                "indicatorType": {
+                                    "factor": 1,
+                                    "id": "c6blltlrGIm"
+                                },
+                                "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                                "denominator": "1",
+                                "id": "T1q6Gh7jYuD"
                             }
                         ]
                     }
@@ -6911,14 +7997,33 @@
                 },
                 {
                     "name": "expressionDimensionItems",
-                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+                    "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
                     "httpStatus": 200,
                     "response": {
                         "expressionDimensionItems": [
                             {
                                 "code": "PTT_G4_EXPRESSION",
                                 "expression": "#{BeN8IzxwwJF}*2",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                                 "id": "gdmRgPhI76J"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "NEVER_SKIP",
+                                "id": "JzaPFPBpfRB"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                                "id": "pnmCVrG9qnE"
+                            },
+                            {
+                                "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                                "id": "XqnQKWKRqzs"
                             }
                         ]
                     }
@@ -6949,6 +8054,24 @@
                                 "expression": "#{BeN8IzxwwJF}*2",
                                 "name": "PTT G4 expression count times 2",
                                 "id": "gdmRgPhI76J",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum never-skip",
+                                "id": "JzaPFPBpfRB",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-all",
+                                "id": "pnmCVrG9qnE",
+                                "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                            },
+                            {
+                                "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                                "name": "PTT G4 expression sum skip-if-any",
+                                "id": "XqnQKWKRqzs",
                                 "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                             },
                             {
@@ -7004,6 +8127,21 @@
                             {
                                 "name": "PTT G4 indicator reporting-rate",
                                 "id": "FquF1GsTVuA",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-missing",
+                                "id": "NlSr8Y6A2Vk",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-over-yearly",
+                                "id": "qaMFabmPqLH",
+                                "dimensionItemType": "INDICATOR"
+                            },
+                            {
+                                "name": "PTT G4 indicator sum-weeks",
+                                "id": "T1q6Gh7jYuD",
                                 "dimensionItemType": "INDICATOR"
                             },
                             {
@@ -7403,6 +8541,13 @@
                     "path": "/api/organisationUnits.json?filter=level:eq:4&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 1169,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=level%3Aeq%3A4&fields=id",
+                            "pageCount": 1169
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Rp268JB6Ne4"
@@ -7415,6 +8560,13 @@
                     "path": "/api/organisationUnits.json?filter=path:like:RIinNUb6rg7&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 9,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=path%3Alike%3ARIinNUb6rg7&fields=id",
+                            "pageCount": 9
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"
@@ -7427,6 +8579,13 @@
                     "path": "/api/organisationUnits.json?filter=dataSets.id:eq:v200HCJsE6E&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=dataSets.id%3Aeq%3Av200HCJsE6E&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -7439,6 +8598,13 @@
                     "path": "/api/organisationUnits.json?filter=programs.id:eq:KfzRtyEQHht&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=programs.id%3Aeq%3AKfzRtyEQHht&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -7451,6 +8617,13 @@
                     "path": "/api/organisationUnits.json?filter=id:in:[tsmDjF9bxzK,YcWWJD42rFM,THU3mEbE4b6]&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=id%3Ain%3A%5BtsmDjF9bxzK%2CYcWWJD42rFM%2CTHU3mEbE4b6%5D&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "THU3mEbE4b6"
@@ -7463,6 +8636,13 @@
                     "path": "/api/organisationUnits.json?filter=organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "ZBm5vBRXjeH"
@@ -7475,6 +8655,13 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:TTEvM2Zx7wF&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 3,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=parent.parent.organisationUnitGroups.id%3Aeq%3ATTEvM2Zx7wF&fields=id",
+                            "pageCount": 3
+                        },
                         "organisationUnits": [
                             {
                                 "id": "tsmDjF9bxzK"
@@ -7487,6 +8674,12 @@
                     "path": "/api/organisationUnits.json?filter=parent.parent.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 0,
+                            "pageSize": 1,
+                            "pageCount": 0
+                        },
                         "organisationUnits": []
                     }
                 },
@@ -7495,6 +8688,13 @@
                     "path": "/api/organisationUnits.json?filter=children.organisationUnitGroups.id:eq:VSMvSA8RdOa&fields=id&pageSize=1",
                     "httpStatus": 200,
                     "response": {
+                        "pager": {
+                            "page": 1,
+                            "total": 2,
+                            "pageSize": 1,
+                            "nextPage": "https://play.im.dhis2.org/stable-2-43-1/api/organisationUnits.json?page=2&pageSize=1&filter=children.organisationUnitGroups.id%3Aeq%3AVSMvSA8RdOa&fields=id",
+                            "pageCount": 2
+                        },
                         "organisationUnits": [
                             {
                                 "id": "Zkx2DMsGgi0"

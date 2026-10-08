@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-43",
     "version": "2.43.3-SNAPSHOT",
-    "revision": "eec3abc",
-    "date": "2026-10-02",
+    "revision": "7cfb297",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -60,6 +60,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "reporting-rates",
     "rows": [
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__A","VALUE",100],
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__B","VALUE",100],

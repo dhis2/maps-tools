@@ -3,7 +3,7 @@
     "instance": "stable-2-42-6",
     "version": "2.42.6",
     "revision": "dd8bdbb",
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "partly-assigned",
     "rows": [
         ["ou-partly__F3","EMPTY",null,null,{"rows":{}}],
         ["ou-partly__D2","EMPTY",null,null,{"rows":{}}],

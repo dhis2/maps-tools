@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-42",
     "version": "2.42.7-SNAPSHOT",
-    "revision": "c9120cf",
-    "date": "2026-10-02",
+    "revision": "94703a4",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "detection-requests",
     "responses": [
         {
             "name": "dataElements",
@@ -93,14 +94,14 @@
                         "dataSetElements": [
                             {
                                 "dataSet": {
-                                    "periodType": "WeeklyWednesday",
-                                    "id": "wRXyMvEnlyA"
+                                    "periodType": "Weekly",
+                                    "id": "YlravvdHwIj"
                                 }
                             },
                             {
                                 "dataSet": {
-                                    "periodType": "Weekly",
-                                    "id": "YlravvdHwIj"
+                                    "periodType": "WeeklyWednesday",
+                                    "id": "wRXyMvEnlyA"
                                 }
                             }
                         ],
@@ -124,14 +125,14 @@
                         "dataSetElements": [
                             {
                                 "dataSet": {
-                                    "periodType": "Monthly",
-                                    "id": "Zp46A37uZSE"
+                                    "periodType": "Weekly",
+                                    "id": "EBLMCfwOuUT"
                                 }
                             },
                             {
                                 "dataSet": {
-                                    "periodType": "Weekly",
-                                    "id": "EBLMCfwOuUT"
+                                    "periodType": "Monthly",
+                                    "id": "Zp46A37uZSE"
                                 }
                             }
                         ],
@@ -302,6 +303,42 @@
                         "numerator": "R{FUvJSlEH9B3.REPORTING_RATE}",
                         "denominator": "1",
                         "id": "FquF1GsTVuA"
+                    },
+                    {
+                        "code": "PTT_G4_IND_SUM_MISSING",
+                        "name": "PTT G4 indicator sum-missing",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "denominator": "1",
+                        "id": "NlSr8Y6A2Vk"
+                    },
+                    {
+                        "code": "PTT_G4_IND_SUM_OVER_YEARLY",
+                        "name": "PTT G4 indicator sum-over-yearly",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "denominator": "#{nxyiifFYsbc}",
+                        "id": "qaMFabmPqLH"
+                    },
+                    {
+                        "code": "PTT_G4_IND_SUM_WEEKS",
+                        "name": "PTT G4 indicator sum-weeks",
+                        "annualized": false,
+                        "indicatorType": {
+                            "factor": 1,
+                            "id": "c6blltlrGIm"
+                        },
+                        "numerator": "#{gO2uYZJka4H}+#{qRPFmjPEVIw}",
+                        "denominator": "1",
+                        "id": "T1q6Gh7jYuD"
                     }
                 ]
             }
@@ -377,14 +414,33 @@
         },
         {
             "name": "expressionDimensionItems",
-            "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false",
+            "path": "/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc",
             "httpStatus": 200,
             "response": {
                 "expressionDimensionItems": [
                     {
                         "code": "PTT_G4_EXPRESSION",
                         "expression": "#{BeN8IzxwwJF}*2",
+                        "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
                         "id": "gdmRgPhI76J"
+                    },
+                    {
+                        "code": "PTT_G4_EXPRESSION_NEVER_SKIP",
+                        "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "missingValueStrategy": "NEVER_SKIP",
+                        "id": "JzaPFPBpfRB"
+                    },
+                    {
+                        "code": "PTT_G4_EXPRESSION_SKIP_IF_ALL",
+                        "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "missingValueStrategy": "SKIP_IF_ALL_VALUES_MISSING",
+                        "id": "pnmCVrG9qnE"
+                    },
+                    {
+                        "code": "PTT_G4_EXPRESSION_SKIP_IF_ANY",
+                        "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "missingValueStrategy": "SKIP_IF_ANY_VALUE_MISSING",
+                        "id": "XqnQKWKRqzs"
                     }
                 ]
             }
@@ -415,6 +471,24 @@
                         "expression": "#{BeN8IzxwwJF}*2",
                         "name": "PTT G4 expression count times 2",
                         "id": "gdmRgPhI76J",
+                        "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                    },
+                    {
+                        "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "name": "PTT G4 expression sum never-skip",
+                        "id": "JzaPFPBpfRB",
+                        "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                    },
+                    {
+                        "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "name": "PTT G4 expression sum skip-if-all",
+                        "id": "pnmCVrG9qnE",
+                        "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
+                    },
+                    {
+                        "expression": "#{BeN8IzxwwJF}+#{nxyiifFYsbc}",
+                        "name": "PTT G4 expression sum skip-if-any",
+                        "id": "XqnQKWKRqzs",
                         "dimensionItemType": "EXPRESSION_DIMENSION_ITEM"
                     },
                     {
@@ -470,6 +544,21 @@
                     {
                         "name": "PTT G4 indicator reporting-rate",
                         "id": "FquF1GsTVuA",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator sum-missing",
+                        "id": "NlSr8Y6A2Vk",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator sum-over-yearly",
+                        "id": "qaMFabmPqLH",
+                        "dimensionItemType": "INDICATOR"
+                    },
+                    {
+                        "name": "PTT G4 indicator sum-weeks",
+                        "id": "T1q6Gh7jYuD",
                         "dimensionItemType": "INDICATOR"
                     },
                     {
@@ -653,10 +742,10 @@
     "rows": [
         ["meta-dataElements","VALUE",4],
         ["meta-dataElements-dataSets","VALUE",4],
-        ["meta-indicators","VALUE",11],
+        ["meta-indicators","VALUE",14],
         ["meta-dataSets","VALUE",5],
-        ["meta-expressionDimensionItems","VALUE",1],
-        ["meta-dataItems","VALUE",17],
+        ["meta-expressionDimensionItems","VALUE",4],
+        ["meta-dataItems","VALUE",23],
         ["meta-periodTypes","VALUE",20],
         ["meta-aggregationTypes","VALUE",1],
         ["raw-mw__r-all__A","VALUE",24,null,{"periodTypes":["Weekly","WeeklyWednesday"]}],

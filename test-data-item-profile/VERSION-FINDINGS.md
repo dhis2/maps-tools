@@ -3,7 +3,9 @@
 Runs of `run-all.js` on every live play instance, on 2026-09-30, again on
 2026-10-01 (after the nightly reset) with group 7 and one period per
 request (finding 3), and on 2026-10-02 with the org unit groups 8 to 15
-(findings 11 to 17). Same generated data (see `README.md`). The tables
+(findings 11 to 17), and on 2026-10-05 with sums and missing value
+strategies (finding 8; 2.41.10 on 2026-10-08). Same generated data (see
+`README.md`). The tables
 behind each point are in [results/REPORT.md](results/REPORT.md); the
 per-case data is in `fixtures/period-types/` and `fixtures/org-units/`.
 
@@ -11,20 +13,22 @@ per-case data is in `fixtures/period-types/` and `fixtures/org-units/`.
 
 pass / fail / recorded per group, against the rules below (`expected.js`
 holds them since 2026-10-05; before, a first hypothesis, which these
-findings corrected). Observations from 2026-10-01 and 2026-10-02. Counts
-differ between versions because older versions have fewer period types, so
-fewer cases. Group 7 expects nothing: it scores candidate rules (finding 3).
+findings corrected). Observations from 2026-10-05, and 2026-10-08 for
+2.41.10, whose plain list endpoints returned nothing on 2026-10-05.
+Counts differ between versions because older versions have fewer period
+types, so fewer cases. Group 7 expects nothing: it scores candidate rules
+(finding 3).
 
-| Version          | Instance         | G1 aggregation       | G2 nesting   | G3 mixed    | G4 indicators  | G5 rates        | G6 requests | G7 carry      |
-| ---------------- | ---------------- | -------------------- | ------------ | ----------- | -------------- | --------------- | ----------- | ------------- |
-| 2.40.12          | `stable-2-40-12` | 25836 / 2052 / 13266 | 16 / 0 / 210 | 105 / 0 / 0 | 984 / 72 / 312 | 1386 / 90 / 234 | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.41.10          | `stable-2-41-10` | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1035 / 0 / 333 | 1458 / 0 / 252  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.41.11-SNAPSHOT | `dev-2-41`       | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1035 / 0 / 333 | 1458 / 0 / 252  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.42.6           | `stable-2-42-6`  | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1083 / 0 / 357 | 1512 / 0 / 288  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.42.7-SNAPSHOT  | `dev-2-42`       | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1083 / 0 / 357 | 1512 / 0 / 288  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.43.1           | `stable-2-43-1`  | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1239 / 0 / 417 | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.43.3-SNAPSHOT  | `dev-2-43`       | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1239 / 0 / 417 | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
-| 2.44-SNAPSHOT    | `dev`            | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1239 / 0 / 417 | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| Version          | Instance         | Date       | G1 aggregation       | G2 nesting   | G3 mixed    | G4 indicators    | G5 rates        | G6 requests | G7 carry      |
+| ---------------- | ---------------- | ---------- | -------------------- | ------------ | ----------- | ---------------- | --------------- | ----------- | ------------- |
+| 2.40.12          | `stable-2-40-12` | 2026-10-05 | 25836 / 2052 / 13266 | 16 / 0 / 210 | 105 / 0 / 0 | 1548 / 108 / 396 | 1386 / 90 / 234 | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.41.10          | `stable-2-41-10` | 2026-10-08 | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1629 / 0 / 423   | 1458 / 0 / 252  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.41.11-SNAPSHOT | `dev-2-41`       | 2026-10-05 | 27048 / 0 / 14106    | 16 / 0 / 210 | 105 / 0 / 0 | 1629 / 0 / 423   | 1458 / 0 / 252  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.42.6           | `stable-2-42-6`  | 2026-10-05 | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1707 / 0 / 453   | 1512 / 0 / 288  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.42.7-SNAPSHOT  | `dev-2-42`       | 2026-10-05 | 30147 / 0 / 15453    | 18 / 0 / 210 | 105 / 0 / 0 | 1707 / 0 / 453   | 1512 / 0 / 288  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.43.1           | `stable-2-43-1`  | 2026-10-05 | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.43.3-SNAPSHOT  | `dev-2-43`       | 2026-10-05 | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
+| 2.44-SNAPSHOT    | `dev`            | 2026-10-05 | 40181 / 0 / 20125    | 22 / 0 / 244 | 105 / 0 / 0 | 1959 / 0 / 525   | 1710 / 0 / 360  | 45 / 0 / 1  | 0 / 0 / 22246 |
 
 `play.im.dhis2.org/dev-2-40` didn't answer: 2.40 is covered by stable only.
 
@@ -214,8 +218,20 @@ Every operand kind works on every version: `#{de}`, `#{de.coc}`, `N{}`,
 `R{ds.REPORTING_RATE}`, `C{}`, `OUG{}`, `[days]`, `.periodOffset(-1)`, and
 an expression item.
 
-- An indicator has a value only where all its data operands do: a monthly
-  count over a yearly summed population is empty below the year.
+- An indicator has a value only where both sides do: a monthly count over
+  a yearly summed population is empty below the year.
+- A side that sums items follows `SKIP_IF_ALL_VALUES_MISSING`
+  (2026-10-05): a missing item counts as 0, and the side has no value only
+  when all its items are missing. `#{monthly}+#{yearly}` asked for January
+  2025 gives the monthly 13; for 2025, 222 + 132 = 354. Two weekly items
+  (Monday and Wednesday weeks) asked by day: empty. The same sum over the
+  yearly item, by month: empty (the denominator is missing).
+- **Expression items ignore their `missingValueStrategy`.** The strategy is
+  saved and read back on every version, but analytics treats all three
+  like `SKIP_IF_ALL_VALUES_MISSING`: with `SKIP_IF_ANY_VALUE_MISSING`,
+  `#{monthly}+#{yearly}` by month still gives 13, not empty; with
+  `NEVER_SKIP`, every item missing gives no row, not 0. The same on every
+  version.
 - `C{}`, `OUG{}` and `[days]` alone have a value at every period type,
   even where no data exists. `OUG{}` counts the group's members inside the
   org unit asked for (1 at A, 2 at the region).
@@ -224,9 +240,6 @@ an expression item.
 - On a first import, an expression item that refers to an element created
   in the same payload is refused ("Expression is not parsable"); it works
   once the element exists.
-- The fails are `R{}` in shorter periods (finding 9); before 2.43, the
-  averaged coverage values too (finding 2); on 2.40, QuarterlyNov queries
-  (finding 5).
 
 ### 9. Reporting rates answer 0, not empty, when asked finer (G5)
 

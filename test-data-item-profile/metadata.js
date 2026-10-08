@@ -101,6 +101,9 @@ const buildMetadata = (model, { rootOrgUnitId, phase }) => {
             name: item.name,
             shortName: item.shortName,
             expression: item.expression,
+            ...(item.missingValueStrategy
+                ? { missingValueStrategy: item.missingValueStrategy }
+                : {}),
         })),
         ...extraMetadata(groups),
     }

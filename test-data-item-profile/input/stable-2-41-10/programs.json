@@ -3,7 +3,7 @@
     "instance": "stable-2-41-10",
     "version": "2.41.10",
     "revision": "1a3484f",
-    "date": "2026-10-02",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -57,10 +57,11 @@
         ]
     },
     "periodCheck": {
-        "checked": 0,
+        "checked": 554,
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "programs",
     "rows": [
         ["ou-prog-event__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-prog-event__F2","VALUE",2,null,{"rows":{"F2":2}}],

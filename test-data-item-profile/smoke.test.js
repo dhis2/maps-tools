@@ -147,7 +147,7 @@ describe('smoke subset', () => {
                             },
                         },
                         {
-                            name: 'periodTypes',
+                            name: 'dataItems',
                             path: 'p',
                             httpStatus: 200,
                             response: {},

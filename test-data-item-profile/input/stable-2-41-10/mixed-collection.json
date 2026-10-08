@@ -3,7 +3,7 @@
     "instance": "stable-2-41-10",
     "version": "2.41.10",
     "revision": "1a3484f",
-    "date": "2026-10-02",
+    "date": "2026-10-08",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "mixed-collection",
     "rows": [
         ["mixed-mw__q-Daily__r-2025Q2__A","EMPTY",null,null,{"coarse":36}],
         ["mixed-mw__q-Daily__r-2025Q2__B","EMPTY",null,null,{"coarse":360}],

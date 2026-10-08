@@ -3,7 +3,7 @@
     "instance": "stable-2-40-12",
     "version": "2.40.12",
     "revision": "82b6022",
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -63,6 +63,7 @@
             "QuarterlyNov": "500: Can't find resource for bundle java.util.PropertyResourceBundle, key format.QuarterlyNov.startDate"
         }
     },
+    "group": "reporting-rates",
     "rows": [
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__A","VALUE",100],
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__B","VALUE",100],

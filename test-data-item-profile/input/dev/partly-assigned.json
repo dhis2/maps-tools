@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev",
     "version": "2.44-SNAPSHOT",
-    "revision": "b732899",
-    "date": "2026-10-02",
+    "revision": "508d1ed",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -60,6 +60,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "partly-assigned",
     "rows": [
         ["ou-partly__F3","EMPTY",null,null,{"rows":{}}],
         ["ou-partly__D2","EMPTY",null,null,{"rows":{}}],

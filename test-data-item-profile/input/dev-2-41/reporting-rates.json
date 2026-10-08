@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-41",
     "version": "2.41.11-SNAPSHOT",
-    "revision": "c4163ff",
-    "date": "2026-10-02",
+    "revision": "3c4ab7e",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -61,6 +61,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "reporting-rates",
     "rows": [
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__A","VALUE",100],
         ["rate-REPORTING_RATE-Daily__q-Daily__p-20250101__B","VALUE",100],

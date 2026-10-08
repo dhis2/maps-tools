@@ -121,6 +121,7 @@ const SMOKE_REQUESTS = [
     'indicators',
     'dataSets',
     'expressionDimensionItems',
+    'periodTypes',
 ]
 const ORG_UNIT_REQUESTS =
     /^(dataElements-aggregationLevels|programIndicators|programs|organisationUnitLevels|count-|list-|me)/

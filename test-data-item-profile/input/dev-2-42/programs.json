@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev-2-42",
     "version": "2.42.7-SNAPSHOT",
-    "revision": "c9120cf",
-    "date": "2026-10-02",
+    "revision": "94703a4",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -57,10 +57,11 @@
         ]
     },
     "periodCheck": {
-        "checked": 0,
+        "checked": 556,
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "programs",
     "rows": [
         ["ou-prog-event__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-prog-event__F2","VALUE",2,null,{"rows":{"F2":2}}],

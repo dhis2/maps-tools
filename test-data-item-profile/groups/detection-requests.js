@@ -40,7 +40,7 @@ const METADATA_REQUESTS = [
     },
     {
         name: 'expressionDimensionItems',
-        path: '/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression&paging=false',
+        path: '/api/expressionDimensionItems.json?filter=code:$like:PTT&fields=id,code,expression,missingValueStrategy&paging=false&order=code:asc',
     },
     {
         name: 'dataItems',
@@ -58,7 +58,10 @@ const METADATA_REQUESTS = [
     },
 ]
 
-// Fields that change with every import or say nothing about shape.
+/*
+ * Fields that change with every import or say nothing about shape. `pager`
+ * stays: the library reads counts from pager.total.
+ */
 const DROPPED_FIELDS = new Set([
     'href',
     'created',
@@ -69,7 +72,6 @@ const DROPPED_FIELDS = new Set([
     'access',
     'sharing',
     'translations',
-    'pager',
 ])
 
 const sanitize = (value) => {

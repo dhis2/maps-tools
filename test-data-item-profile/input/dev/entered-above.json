@@ -2,8 +2,8 @@
     "schemaVersion": 1,
     "instance": "dev",
     "version": "2.44-SNAPSHOT",
-    "revision": "b732899",
-    "date": "2026-10-02",
+    "revision": "508d1ed",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -60,6 +60,7 @@
         "mismatches": [],
         "refusedTypes": {}
     },
+    "group": "entered-above",
     "rows": [
         ["ou-above__F1","EMPTY",null,null,{"rows":{}}],
         ["ou-above__D1","VALUE",3000,null,{"rows":{"D1":3000}}],

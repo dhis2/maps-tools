@@ -3,7 +3,7 @@
     "instance": "stable-2-40-12",
     "version": "2.40.12",
     "revision": "82b6022",
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "serverInfo": {
         "aggregationTypes": [
             "SUM",
@@ -57,10 +57,13 @@
         ]
     },
     "periodCheck": {
-        "checked": 0,
+        "checked": 554,
         "mismatches": [],
-        "refusedTypes": {}
+        "refusedTypes": {
+            "QuarterlyNov": "500: Can't find resource for bundle java.util.PropertyResourceBundle, key format.QuarterlyNov.startDate"
+        }
     },
+    "group": "programs",
     "rows": [
         ["ou-prog-event__F1","VALUE",3,null,{"rows":{"F1":3}}],
         ["ou-prog-event__F2","VALUE",2,null,{"rows":{"F2":2}}],
