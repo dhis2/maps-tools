@@ -1,4 +1,4 @@
-# DHIS2 coordinate/fallback test-data generator
+# Event layer coordinates: test data
 
 Generates DHIS2 metadata and tracker data covering every combination of
 `coordinateField` / `fallbackCoordinateField` resolution used by the
@@ -6,7 +6,14 @@ maps-app event layer (`src/util/event.js`, `src/components/dataItem/CoordinateFi
 in [dhis2/maps-app](https://github.com/dhis2/maps-app)), so the behaviour
 can be manually verified in the app instead of guessed at.
 
-## Quickstart: running maps-app's Cypress spec end-to-end
+Made for [DHIS2-8165](https://dhis2.atlassian.net/browse/DHIS2-8165),
+fallback coordinates in event layers, and its maps-app PR
+[#3707](https://github.com/dhis2/maps-app/pull/3707), whose Cypress spec
+reads the fixtures this tool writes.
+
+Plain Node (18 or newer), no dependencies, no install step.
+
+## Running the maps-app Cypress spec
 
 `eventCoordinateFallbackScenarios.cy.js` in
 [dhis2/maps-app](https://github.com/dhis2/maps-app)
@@ -106,31 +113,29 @@ Every run (including `--dryRun`) writes `output/import-summary.{json,csv}`
 (the metadata/tracker object counts, which instance, and when). All of
 `output/` is gitignored.
 
-## Usage
-
-Run directly with `node` — no `yarn`/`npm` install step or project
-dependencies required beyond Node itself (v18+, for global `fetch`). Paths
-below assume running from the repo root; adjust if running from inside
-this folder.
+## Quickstart
 
 ```bash
-# Preview: builds every payload and checks for id collisions, makes no
-# network calls except a best-effort read of the root org unit.
-node test-data-event-layer-coordinates/index.js --dryRun
-
-# Import into a local DHIS2 instance (defaults: http://localhost:8080,
-# admin/district)
-node test-data-event-layer-coordinates/index.js
-
-# Target a different instance
-node test-data-event-layer-coordinates/index.js \
-  --baseUrl=http://localhost:8090 --username=admin --password=district
+cd test-data-event-layer-coordinates
+node index.js --dryRun       # builds every payload, imports nothing
+node index.js                # metadata and tracker data
+node run-analytics.js        # analytics tables, first time on an instance
+node verify.js               # 12 combinations; --mode=full for all 92
 ```
 
-Flags can also be set via env vars: `DHIS2_BASE_URL`, `DHIS2_USERNAME`,
-`DHIS2_PASSWORD`. Keeping a local, gitignored `.env.local` with `export`
-lines and `source`-ing it before running is a convenient way to avoid
-retyping flags for a given instance.
+The default server is `http://localhost:8080`. Credentials come from flags
+(`--baseUrl`, `--username`, `--password`) or `DHIS2_BASE_URL`,
+`DHIS2_USERNAME`, `DHIS2_PASSWORD`. Defaults are `admin`/`district`. For a
+fixed instance, keep a gitignored `.env.local` with `export` lines and
+`source` it by hand: nothing loads it for you.
+
+## Scripts
+
+| Script             | What it does                                                                                                                                         |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.js`         | Imports the metadata and tracker data. `--dryRun` builds the payloads and checks for id collisions; its only request is a read of the root org unit. |
+| `run-analytics.js` | Starts the analytics tables job (`skipAggregate=true`) and waits for it.                                                                             |
+| `verify.js`        | Queries event analytics for every combination and compares the coordinates with `resolve.js`. GET only. `--mode=smoke` (default) or `--mode=full`.   |
 
 Only point this at a local/disposable instance — it creates ~300 metadata
 and data objects and is not intended for a shared instance.
@@ -147,7 +152,7 @@ e.g. a local [dhis2/maps-app](https://github.com/dhis2/maps-app) checkout,
 whose `eventCoordinateFallbackScenarios.cy.js` spec reads them from there:
 
 ```bash
-node test-data-event-layer-coordinates/index.js --fixturesRepo=/path/to/maps-app
+node index.js --fixturesRepo=/path/to/maps-app
 ```
 
 This writes, into `<fixturesRepo>/cypress/fixtures/`:
@@ -173,7 +178,7 @@ files are skipped, with a warning explaining how to enable them.
 Once the data is imported, run:
 
 ```bash
-node test-data-event-layer-coordinates/verify.js --baseUrl=http://localhost:8080
+node verify.js --baseUrl=http://localhost:8080
 ```
 
 This queries `/api/analytics/events/query` directly (the same endpoint
@@ -234,7 +239,7 @@ Two modes, via `--mode`:
   (92 analytics requests).
 
 ```bash
-node test-data-event-layer-coordinates/verify.js --mode=full
+node verify.js --mode=full
 ```
 
 **"Analytics tables don't exist yet" error**: event/tracker analytics reads
@@ -244,7 +249,7 @@ this (DHIS2 error code `E7144`) and fails fast with instructions instead of
 repeating the same error for every test case. Run:
 
 ```bash
-node test-data-event-layer-coordinates/run-analytics.js --baseUrl=http://localhost:8080
+node run-analytics.js --baseUrl=http://localhost:8080
 ```
 
 This kicks off table generation (`skipAggregate=true` — event/tracker
