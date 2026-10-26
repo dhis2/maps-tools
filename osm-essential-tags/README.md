@@ -2,9 +2,15 @@
 
 The OpenStreetMap tags worth importing into DHIS2, grouped in categories and
 subcategories, and a script counting how many features each tag has in a
-country or a bounding box. The maps-app OSM import mockup uses the same file
-as its list of categories (`src/components/osmImport/essentialTags.json`, a
-copy to keep in sync).
+country or a bounding box.
+
+Made for the maps-app OSM import mockup,
+[#3809](https://github.com/dhis2/maps-app/pull/3809), which imports
+OpenStreetMap features into DHIS2 as events, one program per category. The
+mockup uses the same file as its list of categories
+(`src/components/osmImport/essentialTags.json`, a copy to keep in sync), and
+the counts show what an import would fetch: roads, for example, are mostly
+paths and tracks.
 
 Plain Node (18 or newer), no dependencies, no install step.
 
