@@ -55,7 +55,7 @@ anything itself. Full sequence, from nothing running to green tests:
    `--baseUrl` needed — `config.js` already falls back to the
    `DHIS2_BASE_URL` you sourced in step 2:
    ```bash
-   node runAnalytics.js
+   node run-analytics.js
    ```
 6. Optional but recommended — confirm the instance resolves coordinates
    correctly before trusting the UI test:
@@ -181,7 +181,7 @@ maps-app hits), and for every event returned, compares the actual returned
 `geometry` **coordinates** against the coordinate an independent reference
 implementation (`resolve.js`) says the correct winning source should carry,
 computed from that event's known per-source coordinates (`points`, built in
-`trackerPayload.js`). It prints `[PASS]`/`[FAIL]` per
+`tracker-payload.js`). It prints `[PASS]`/`[FAIL]` per
 `coordinateField`/`fallbackCoordinateField` combination tested, with the
 first few mismatches shown (including the expected field/coordinate vs what
 actually came back), a final pass/fail tally, and exits non-zero if
@@ -244,7 +244,7 @@ this (DHIS2 error code `E7144`) and fails fast with instructions instead of
 repeating the same error for every test case. Run:
 
 ```bash
-node test-data-event-layer-coordinates/runAnalytics.js --baseUrl=http://localhost:8080
+node test-data-event-layer-coordinates/run-analytics.js --baseUrl=http://localhost:8080
 ```
 
 This kicks off table generation (`skipAggregate=true` — event/tracker

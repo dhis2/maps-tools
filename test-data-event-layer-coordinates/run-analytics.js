@@ -5,7 +5,7 @@
 // events show up in analytics queries at all (DHIS2 error code E7144).
 const { createClient } = require('./client.js')
 const { getConfig } = require('./config.js')
-const { createDebugLog, DEBUG_LOG_PATH } = require('./debugLog.js')
+const { createDebugLog, DEBUG_LOG_PATH } = require('./debug-log.js')
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 

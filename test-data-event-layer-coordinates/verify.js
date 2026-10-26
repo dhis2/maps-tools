@@ -11,19 +11,19 @@
 // `coordinateOuFallback` are documented. Requesting `geometrySource` as a
 // dimension was rejected outright by a real instance (E7224 - "not part of
 // the program"). Since every candidate geometry source is generated with
-// its own distinct, known coordinate (see geometry.js/trackerPayload.js),
+// its own distinct, known coordinate (see geometry.js/tracker-payload.js),
 // comparing the returned `geometry` coordinates against the coordinate the
 // correct winning source is known to carry proves resolution/cascade
 // precedence empirically, without depending on any of that undocumented
 // surface.
 const { createClient } = require('./client.js')
 const { getConfig } = require('./config.js')
-const { createDebugLog, DEBUG_LOG_PATH } = require('./debugLog.js')
+const { createDebugLog, DEBUG_LOG_PATH } = require('./debug-log.js')
 const { buildMetadata } = require('./metadata.js')
 const { resolveExpected, PSI, OU, PI, TEI, CASCADING } = require('./resolve.js')
-const { buildTrackerPayload } = require('./trackerPayload.js')
+const { buildTrackerPayload } = require('./tracker-payload.js')
 const { deterministicUid } = require('./uid.js')
-const { writeVerifyReport } = require('./verifyReport.js')
+const { writeVerifyReport } = require('./verify-report.js')
 
 const BASE_COORDS = [-13.2317, 8.4657]
 const START_DATE = '2020-01-01'
@@ -292,7 +292,7 @@ const run = async () => {
                 console.error(
                     `\n*** Analytics tables don't exist yet for this program (${programId}). ***\n` +
                         `Run the analytics job on ${config.baseUrl} first, then re-run verify.js:\n` +
-                        `  node test-data-event-layer-coordinates/runAnalytics.js --baseUrl=${config.baseUrl}\n` +
+                        `  node test-data-event-layer-coordinates/run-analytics.js --baseUrl=${config.baseUrl}\n` +
                         `(or in the app: Data Administration > Analytics > Run analytics tables)\n` +
                         `This can take a while depending on the instance.\n`
                 )

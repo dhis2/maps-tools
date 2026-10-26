@@ -21,7 +21,7 @@ const CASCADE_WITHOUT_TEI = [PSI, OU]
 // `points` maps every candidate field id (the 4 built-ins plus whichever
 // custom DE/TEA ids are in play) to that event's known [lon, lat] for that
 // field, or null if the field has no data on this event - see
-// trackerPayload.js, which builds this map from the same channel-distinct
+// tracker-payload.js, which builds this map from the same channel-distinct
 // coordinates it writes into the imported data. Returns the field id and
 // coordinate the server is expected to resolve `geometry` to, or
 // { field: null, point: null } if no configured source has data.

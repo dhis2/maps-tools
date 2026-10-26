@@ -1,6 +1,6 @@
 # Coordinate fallback field: cross-version findings
 
-Empirical results from running `index.js` → `runAnalytics.js` → `verify.js --mode=full`
+Empirical results from running `index.js` → `run-analytics.js` → `verify.js --mode=full`
 against every version below, using the same generated dataset (see `README.md`).
 
 ## Results

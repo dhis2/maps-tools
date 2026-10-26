@@ -1,11 +1,11 @@
 const path = require('node:path')
 const { createClient } = require('./client.js')
 const { getConfig } = require('./config.js')
-const { writeFieldIds } = require('./fieldIds.js')
-const { writeScenarioIndex } = require('./idMap.js')
+const { writeFieldIds } = require('./field-ids.js')
+const { writeScenarioIndex } = require('./id-map.js')
 const { buildMetadata } = require('./metadata.js')
 const { writeImportSummary } = require('./summary.js')
-const { buildTrackerPayload } = require('./trackerPayload.js')
+const { buildTrackerPayload } = require('./tracker-payload.js')
 const { deterministicUid } = require('./uid.js')
 
 // Near Freetown, Sierra Leone - arbitrary but realistic-looking default.
