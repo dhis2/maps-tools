@@ -49,6 +49,9 @@ warning.
   a re-run updates the data in place instead of duplicating it.
 - Every metadata object has a code starting `PTE_`, which is what
   `cleanup.js` removes.
+- The id seed (`perf-tracked-entities:v1:`) and the `PTE` prefix keep the
+  tool's first name, `perf-tracked-entities`: changing them would change
+  every id.
 
 ### Relationships
 
@@ -114,7 +117,7 @@ data.
 ## Quickstart
 
 ```bash
-cd perf-tracked-entities
+cd test-data-tracked-entity-layer-performance
 node --test                          # the pure parts
 node generate.js --dryRun            # writes the payloads to output/, sends nothing
 node generate.js                     # metadata and all datasets (~7 min on maps-app-43-1)

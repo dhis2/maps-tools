@@ -5,7 +5,7 @@ const ALPHABET =
 const LETTERS = ALPHABET.slice(0, 52)
 
 // Every object this tool owns has its id seeded with this prefix. Bump the
-// version to get a fresh set of ids.
+// version to get a fresh set of ids. It keeps the tool's first name.
 const SEED_PREFIX = 'perf-tracked-entities:v1:'
 
 // A valid DHIS2 UID (^[A-Za-z][A-Za-z0-9]{10}$) from a SHA-256 of the seed,
