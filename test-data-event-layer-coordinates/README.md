@@ -21,15 +21,15 @@ Plain Node (18 or newer), no dependencies, no install step.
 combination, reading the fixtures this tool writes rather than recomputing
 anything itself. Full sequence, from nothing running to green tests:
 
-1. Have a DHIS2 instance reachable — a local instance works, but any
-   shared dev/play instance does too (e.g. `https://dev.im.dhis2.org/<some-instance>`).
+1. Have a DHIS2 instance this tool may write to (see "Where it may
+   write"): `localhost`, a play instance or `https://dev.im.dhis2.org/maps-app-43-1`.
    This tool and maps-app's Cypress config both need to point at the
    _same_ instance directly (step 3) — no local proxy needed.
 2. Set up `.env.local` here so you don't retype flags in every command
    below (gitignored, never committed):
     ```bash
     # test-data-event-layer-coordinates/.env.local
-    export DHIS2_BASE_URL=https://dev.im.dhis2.org/my-dev-instance
+    export DHIS2_BASE_URL=https://dev.im.dhis2.org/maps-app-43-1
     export DHIS2_USERNAME=admin
     export DHIS2_PASSWORD=<your password>
     ```
@@ -44,8 +44,8 @@ anything itself. Full sequence, from nothing running to green tests:
     ```json
     // maps-app/cypress.env.json
     {
-        "dhis2BaseUrl": "https://dev.im.dhis2.org/my-dev-instance",
-        "dhis2InstanceVersion": "2.44-SNAPSHOT",
+        "dhis2BaseUrl": "https://dev.im.dhis2.org/maps-app-43-1",
+        "dhis2InstanceVersion": "2.43.1",
         "dhis2Username": "admin",
         "dhis2Password": "<your password>"
     }
@@ -113,10 +113,21 @@ Every run (including `--dryRun`) writes `output/import-summary.{json,csv}`
 (the metadata/tracker object counts, which instance, and when). All of
 `output/` is gitignored.
 
+## Where it may write
+
+Only the public play instances (`https://play.im.dhis2.org/<name>`),
+`https://dev.im.dhis2.org/maps-app-43-1` and `localhost`. `guard.js` refuses
+any other server for the scripts that write (`index.js`, `run-analytics.js`).
+`verify.js` only reads, so it runs anywhere.
+
+Play instances reset every night, so prefer `maps-app-43-1`, which keeps the
+data.
+
 ## Quickstart
 
 ```bash
 cd test-data-event-layer-coordinates
+node --test                  # the guard
 node index.js --dryRun       # builds every payload, imports nothing
 node index.js                # metadata and tracker data
 node run-analytics.js        # analytics tables, first time on an instance
@@ -136,9 +147,6 @@ fixed instance, keep a gitignored `.env.local` with `export` lines and
 | `index.js`         | Imports the metadata and tracker data. `--dryRun` builds the payloads and checks for id collisions; its only request is a read of the root org unit. |
 | `run-analytics.js` | Starts the analytics tables job (`skipAggregate=true`) and waits for it.                                                                             |
 | `verify.js`        | Queries event analytics for every combination and compares the coordinates with `resolve.js`. GET only. `--mode=smoke` (default) or `--mode=full`.   |
-
-Only point this at a local/disposable instance — it creates ~300 metadata
-and data objects and is not intended for a shared instance.
 
 `--chunkSize=N` splits the tracker import into batches of N events (mainly
 useful for isolating which object fails if an import errors).

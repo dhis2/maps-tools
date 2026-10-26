@@ -2,6 +2,7 @@ const path = require('node:path')
 const { createClient } = require('./client.js')
 const { getConfig } = require('./config.js')
 const { writeFieldIds } = require('./field-ids.js')
+const { assertWritable } = require('./guard.js')
 const { writeScenarioIndex } = require('./id-map.js')
 const { buildMetadata } = require('./metadata.js')
 const { writeImportSummary } = require('./summary.js')
@@ -73,6 +74,9 @@ const resolveRootOrgUnitId = async (client, { dryRun }) => {
 
 const run = async () => {
     const config = getConfig()
+    if (!config.dryRun) {
+        assertWritable(config.baseUrl)
+    }
     const client = createClient(config)
 
     console.log(

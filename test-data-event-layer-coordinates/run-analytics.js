@@ -6,6 +6,7 @@
 const { createClient } = require('./client.js')
 const { getConfig } = require('./config.js')
 const { createDebugLog, DEBUG_LOG_PATH } = require('./debug-log.js')
+const { assertWritable } = require('./guard.js')
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -43,6 +44,7 @@ const getMostRecentTaskEntries = async (client) => {
 
 const run = async () => {
     const config = getConfig()
+    assertWritable(config.baseUrl)
     const client = createClient(config)
 
     console.log(`Target: ${config.baseUrl} (user: ${config.username})`)
