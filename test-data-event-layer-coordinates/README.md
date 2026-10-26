@@ -17,83 +17,83 @@ anything itself. Full sequence, from nothing running to green tests:
 1. Have a DHIS2 instance reachable — a local instance works, but any
    shared dev/play instance does too (e.g. `https://dev.im.dhis2.org/<some-instance>`).
    This tool and maps-app's Cypress config both need to point at the
-   *same* instance directly (step 3) — no local proxy needed.
+   _same_ instance directly (step 3) — no local proxy needed.
 2. Set up `.env.local` here so you don't retype flags in every command
    below (gitignored, never committed):
-   ```bash
-   # test-data-event-layer-coordinates/.env.local
-   export DHIS2_BASE_URL=https://dev.im.dhis2.org/my-dev-instance
-   export DHIS2_USERNAME=admin
-   export DHIS2_PASSWORD=<your password>
-   ```
-   Then `source` it in your shell — **it is not auto-loaded**, this tool
-   has no `dotenv` dependency by design, so the values only take effect
-   once they're in your shell's environment:
-   ```bash
-   source .env.local
-   ```
+    ```bash
+    # test-data-event-layer-coordinates/.env.local
+    export DHIS2_BASE_URL=https://dev.im.dhis2.org/my-dev-instance
+    export DHIS2_USERNAME=admin
+    export DHIS2_PASSWORD=<your password>
+    ```
+    Then `source` it in your shell — **it is not auto-loaded**, this tool
+    has no `dotenv` dependency by design, so the values only take effect
+    once they're in your shell's environment:
+    ```bash
+    source .env.local
+    ```
 3. Point maps-app's Cypress config at the same instance (also gitignored,
    also local-only):
-   ```json
-   // maps-app/cypress.env.json
-   {
-       "dhis2BaseUrl": "https://dev.im.dhis2.org/my-dev-instance",
-       "dhis2InstanceVersion": "2.44-SNAPSHOT",
-       "dhis2Username": "admin",
-       "dhis2Password": "<your password>"
-   }
-   ```
-   (`dhis2InstanceVersion` is required — match it to the instance's actual
-   version.)
+    ```json
+    // maps-app/cypress.env.json
+    {
+        "dhis2BaseUrl": "https://dev.im.dhis2.org/my-dev-instance",
+        "dhis2InstanceVersion": "2.44-SNAPSHOT",
+        "dhis2Username": "admin",
+        "dhis2Password": "<your password>"
+    }
+    ```
+    (`dhis2InstanceVersion` is required — match it to the instance's actual
+    version.)
 4. Generate the metadata/data and write the fixtures straight into the
    maps-app checkout:
-   ```bash
-   node index.js --fixturesRepo=/path/to/maps-app
-   ```
+    ```bash
+    node index.js --fixturesRepo=/path/to/maps-app
+    ```
 5. Build analytics tables for the new programs (first time only against a
    given instance — see "Analytics tables don't exist yet" below). No
    `--baseUrl` needed — `config.js` already falls back to the
    `DHIS2_BASE_URL` you sourced in step 2:
-   ```bash
-   node run-analytics.js
-   ```
+    ```bash
+    node run-analytics.js
+    ```
 6. Optional but recommended — confirm the instance resolves coordinates
    correctly before trusting the UI test:
-   ```bash
-   node verify.js
-   ```
+    ```bash
+    node verify.js
+    ```
 7. From maps-app, run just this spec — `start-server-and-test` starts the
    dev server and waits for it before running Cypress:
-   ```bash
-   npx start-server-and-test 'yarn start' http://localhost:3000 \
-     'yarn cypress run --e2e --spec "cypress/integration/layers/eventCoordinateFallbackScenarios.cy.js"'
-   ```
-   For a headed run, swap the last part for
-   `yarn cy:open` and pick the spec from the list once it
-   opens.
+    ```bash
+    npx start-server-and-test 'yarn start' http://localhost:3000 \
+      'yarn cypress run --e2e --spec "cypress/integration/layers/eventCoordinateFallbackScenarios.cy.js"'
+    ```
+    For a headed run, swap the last part for
+    `yarn cy:open` and pick the spec from the list once it
+    opens.
 
 ## What it creates
 
 **Metadata** (re-running is safe — every object gets a deterministic id, so
 imports update in place instead of duplicating):
 
--   2 org units: "Maps Test OU (with geometry)" and "Maps Test OU (no geometry)"
--   3 data elements: "Maps Test Coordinate DE" (`COORDINATE`), "Maps Test OrgUnit DE"
-    (`ORGANISATION_UNIT`), "Maps Test Scenario Code DE" (`TEXT`)
--   3 tracked entity attributes: the TEI/enrollment-level equivalents of the above
--   1 tracked entity type: "Maps Test Person"
--   2 programs, each with one program stage:
-    -   "Maps Test Coordinates (Tracker)" — `WITH_REGISTRATION`
-    -   "Maps Test Coordinates (Event)" — `WITHOUT_REGISTRATION`
+- 2 org units: "Maps Test OU (with geometry)" and "Maps Test OU (no geometry)"
+- 3 data elements: "Maps Test Coordinate DE" (`COORDINATE`), "Maps Test OrgUnit DE"
+  (`ORGANISATION_UNIT`), "Maps Test Scenario Code DE" (`TEXT`)
+- 3 tracked entity attributes: the TEI/enrollment-level equivalents of the above
+- 1 tracked entity type: "Maps Test Person"
+- 2 programs, each with one program stage:
+    - "Maps Test Coordinates (Tracker)" — `WITH_REGISTRATION`
+    - "Maps Test Coordinates (Event)" — `WITHOUT_REGISTRATION`
 
 **Data** — full cartesian product of geometry-presence flags:
 
--   16 standalone events under the event program
--   16 enrollments/tracked entities under the tracker program, each with 16
-    events underneath → 256 events
--   **272 events total**, every one tagged with a "Scenario Code" data
-    element/attribute value describing exactly which geometry sources it has
-    data for (e.g. `PI1_TEI0_TEAC1_TEAO0__EVT1_OU1_DEC0_DEO1`)
+- 16 standalone events under the event program
+- 16 enrollments/tracked entities under the tracker program, each with 16
+  events underneath → 256 events
+- **272 events total**, every one tagged with a "Scenario Code" data
+  element/attribute value describing exactly which geometry sources it has
+  data for (e.g. `PI1_TEI0_TEAC1_TEAO0__EVT1_OU1_DEC0_DEO1`)
 
 Every populated geometry source (event, org unit, enrollment, TEI, the
 custom coordinate DE/TEA) gets its own distinct, known coordinate rather
@@ -152,15 +152,15 @@ node test-data-event-layer-coordinates/index.js --fixturesRepo=/path/to/maps-app
 
 This writes, into `<fixturesRepo>/cypress/fixtures/`:
 
--   `eventCoordinateFallbackScenarios.{json,csv}` — every generated
-    event/enrollment/TEI id alongside its scenario code and boolean flags,
-    so you can look up which event exercises which case. The CSV is flat
-    (one row per event/enrollment, boolean flag columns), handy for opening
-    in a spreadsheet to filter/sort.
--   `eventCoordinateFallbackFieldIds.json` — the custom DE/TEA ids
-    (`deCoordinate`, `deOrgUnit`, `teaCoordinate`, `teaOrgUnit`), so the
-    consuming Cypress spec can interpret the scenarios file's `points`
-    without depending on this tool's code.
+- `eventCoordinateFallbackScenarios.{json,csv}` — every generated
+  event/enrollment/TEI id alongside its scenario code and boolean flags,
+  so you can look up which event exercises which case. The CSV is flat
+  (one row per event/enrollment, boolean flag columns), handy for opening
+  in a spreadsheet to filter/sort.
+- `eventCoordinateFallbackFieldIds.json` — the custom DE/TEA ids
+  (`deCoordinate`, `deOrgUnit`, `teaCoordinate`, `teaOrgUnit`), so the
+  consuming Cypress spec can interpret the scenarios file's `points`
+  without depending on this tool's code.
 
 `--fixturesRepo` can also be set via `DHIS2_FIXTURES_REPO`. If omitted, the
 import still runs (metadata/tracker data still gets created), but fixture
@@ -206,12 +206,12 @@ whether a given target instance's backend exposes a source label at all.
 
 It also writes the full results to `output/`, at two granularities:
 
--   `verify-summary.{json,csv}` — one row per combination tested, with
-    pass/fail counts.
--   `verify-details.{json,csv}` — one row per event checked within each
-    combination (the full audit trail behind the summary: expected
-    field/coordinate vs actual coordinate, and any request error),
-    filterable/sortable in a spreadsheet.
+- `verify-summary.{json,csv}` — one row per combination tested, with
+  pass/fail counts.
+- `verify-details.{json,csv}` — one row per event checked within each
+  combination (the full audit trail behind the summary: expected
+  field/coordinate vs actual coordinate, and any request error),
+  filterable/sortable in a spreadsheet.
 
 `--debug` prints the raw analytics response headers and first 3 rows for
 the first request of a run — useful for inspecting exactly what a target
@@ -219,19 +219,19 @@ instance's analytics response looks like when something doesn't add up.
 
 Two modes, via `--mode`:
 
--   `--mode=smoke` (default) — a curated set of 12 combinations covering
-    the interesting cases (default field, org unit, enrollment, tracked
-    entity, custom `COORDINATE`/`ORGANISATION_UNIT` fields, plain fallback,
-    `cascading` fallback) for both programs. Fast, good as a sanity check
-    after every import.
--   `--mode=full` — every main field the app actually offers, crossed
-    with every fallback option the app offers for that main field (none,
-    cascading, and every other field) — the same option set
-    `CoordinateField.jsx` presents in the UI. That's 92
-    `coordinateField`/`fallbackCoordinateField` combinations (20 for the
-    event program, 72 for the tracker program), each checked against all
-    of that program's events — full coverage of the matrix, but slower
-    (92 analytics requests).
+- `--mode=smoke` (default) — a curated set of 12 combinations covering
+  the interesting cases (default field, org unit, enrollment, tracked
+  entity, custom `COORDINATE`/`ORGANISATION_UNIT` fields, plain fallback,
+  `cascading` fallback) for both programs. Fast, good as a sanity check
+  after every import.
+- `--mode=full` — every main field the app actually offers, crossed
+  with every fallback option the app offers for that main field (none,
+  cascading, and every other field) — the same option set
+  `CoordinateField.jsx` presents in the UI. That's 92
+  `coordinateField`/`fallbackCoordinateField` combinations (20 for the
+  event program, 72 for the tracker program), each checked against all
+  of that program's events — full coverage of the matrix, but slower
+  (92 analytics requests).
 
 ```bash
 node test-data-event-layer-coordinates/verify.js --mode=full
