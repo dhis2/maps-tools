@@ -33,24 +33,25 @@ values:
 - A subcategory can span keys, e.g. `pharmacies` is both `amenity=pharmacy`
   and `healthcare=pharmacy`.
 
-| Category | Subcategories |
-| --- | --- |
-| Health facilities | hospitals, clinics, doctors and dentists, pharmacies, maternal care, other care, ambulance stations |
-| Education | kindergartens, schools, higher education |
-| Water and sanitation | drinking water, water infrastructure, sanitation |
-| Humanitarian | refugee sites, detention centres, shelters, border crossings, military, offices |
-| Public services | security and justice, administration, markets, financial |
-| Cemeteries | cemeteries |
-| Settlements | cities and towns, villages, hamlets, neighbourhoods |
-| Transport hubs | stations, fuel, airports |
-| Roads | motorways, trunk, primary, secondary, tertiary, minor roads, tracks and service, paths |
-| Waterways | rivers, streams, canals and drains |
+| Category             | Subcategories                                                                                       |
+| -------------------- | --------------------------------------------------------------------------------------------------- |
+| Health facilities    | hospitals, clinics, doctors and dentists, pharmacies, maternal care, other care, ambulance stations |
+| Education            | kindergartens, schools, higher education                                                            |
+| Water and sanitation | drinking water, water infrastructure, sanitation                                                    |
+| Humanitarian         | refugee sites, detention centres, shelters, border crossings, military, offices                     |
+| Public services      | security and justice, administration, markets, financial                                            |
+| Cemeteries           | cemeteries                                                                                          |
+| Settlements          | cities and towns, villages, hamlets, neighbourhoods                                                 |
+| Transport hubs       | stations, fuel, airports                                                                            |
+| Roads                | motorways, trunk, primary, secondary, tertiary, minor roads, tracks and service, paths              |
+| Waterways            | rivers, streams, canals and drains                                                                  |
 
 ## Counting
 
-```sh
-node fetch-counts.mjs --country SL
-node fetch-counts.mjs --bbox 7.90,-11.80,7.99,-11.70 --name bo-town
+```bash
+cd osm-essential-tags
+node fetch-counts.js --country=SL
+node fetch-counts.js --bbox=7.90,-11.80,7.99,-11.70 --name=bo-town
 ```
 
 - `--country` takes an ISO 3166-1 code and counts within the country's

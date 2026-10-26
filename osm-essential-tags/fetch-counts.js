@@ -1,14 +1,13 @@
 // Counts OSM features per essential tag in a country or bbox, with Overpass.
 //
-//   node fetch-counts.mjs --country SL
-//   node fetch-counts.mjs --bbox 7.90,-11.80,7.99,-11.70 --name bo-town
+//   node fetch-counts.js --country=SL
+//   node fetch-counts.js --bbox=7.90,-11.80,7.99,-11.70 --name=bo-town
 //
 // Writes results/<name>.json after each use, and resumes from it when re-run,
 // as public Overpass servers are often busy. Prints a markdown table.
 
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+const fs = require('node:fs/promises')
+const path = require('node:path')
 
 // Tried in turn when a server is busy
 const OVERPASS_URLS = [
@@ -19,11 +18,18 @@ const MAX_ATTEMPTS = 6
 const USER_AGENT = 'dhis2-maps-osm-essential-tags/1'
 const DELAY_MS = 3000
 
-const dir = path.dirname(fileURLToPath(import.meta.url))
-
-const getArg = (name) => {
-    const index = process.argv.indexOf(`--${name}`)
-    return index > -1 ? process.argv[index + 1] : undefined
+const parseArgs = (argv) => {
+    const args = {}
+    argv.forEach((arg) => {
+        if (!arg.startsWith('--')) {
+            return
+        }
+        const body = arg.slice(2)
+        const eqIndex = body.indexOf('=')
+        const key = eqIndex === -1 ? body : body.slice(0, eqIndex)
+        args[key] = eqIndex === -1 ? true : body.slice(eqIndex + 1)
+    })
+    return args
 }
 
 // "type:any" -> nwr, "type:node,way" -> nw, "type:way" -> way.
@@ -37,7 +43,9 @@ const toElements = (type) => {
     if (types.length === 1) {
         return { node: 'node', way: 'way', relation: 'rel' }[types[0]]
     }
-    return types.map((t) => ({ node: 'n', way: 'w', relation: 'r' })[t]).join('')
+    return types
+        .map((t) => ({ node: 'n', way: 'w', relation: 'r' })[t])
+        .join('')
 }
 
 // Flattens a use into [{ elements, key, cat, value }]
@@ -81,7 +89,10 @@ const runQuery = async (query, attempt = 1) => {
     })
 
     // Busy or rate limited, wait and retry on the next server
-    if ((response.status === 429 || response.status >= 500) && attempt < MAX_ATTEMPTS) {
+    if (
+        (response.status === 429 || response.status >= 500) &&
+        attempt < MAX_ATTEMPTS
+    ) {
         console.error(`  ${response.status} from ${url}, retrying`)
         await sleep(DELAY_MS * attempt * 5)
         return runQuery(query, attempt + 1)
@@ -103,18 +114,23 @@ const readResults = async (file) => {
 }
 
 const main = async () => {
-    const country = getArg('country')
-    const bbox = getArg('bbox')
-    const name = getArg('name') ?? country ?? 'bbox'
+    const {
+        country,
+        bbox,
+        name = country ?? 'bbox',
+    } = parseArgs(process.argv.slice(2))
 
-    if (!country && !bbox) {
-        throw new Error('Use --country <ISO code> or --bbox s,w,n,e')
+    if (typeof country !== 'string' && typeof bbox !== 'string') {
+        throw new Error('Use --country=<ISO code> or --bbox=s,w,n,e')
     }
 
     const essentialTags = JSON.parse(
-        await fs.readFile(path.join(dir, 'essential-tags-v1.json'), 'utf8')
+        await fs.readFile(
+            path.join(__dirname, 'essential-tags-v1.json'),
+            'utf8'
+        )
     )
-    const file = path.join(dir, 'results', `${name}.json`)
+    const file = path.join(__dirname, 'results', `${name}.json`)
     const results = await readResults(file)
     const done = new Set(results.map(({ use }) => use))
 
@@ -131,8 +147,12 @@ const main = async () => {
         const counts = await runQuery(buildQuery(tags, { country, bbox }))
 
         tags.forEach((tag, i) => {
-            const { nodes = 0, ways = 0, relations = 0, total = 0 } =
-                counts[i]?.tags ?? {}
+            const {
+                nodes = 0,
+                ways = 0,
+                relations = 0,
+                total = 0,
+            } = counts[i]?.tags ?? {}
             results.push({
                 use: useName,
                 ...tag,
