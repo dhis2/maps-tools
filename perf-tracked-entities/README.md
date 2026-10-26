@@ -6,6 +6,17 @@ two requests the layer can make: the tracker API (2.40, and the loader before
 [DHIS2-16362](https://dhis2.atlassian.net/browse/DHIS2-16362)) and tracker
 analytics (2.41+).
 
+Made for [DHIS2-16362](https://dhis2.atlassian.net/browse/DHIS2-16362), which
+moves the tracked entity layer to tracker analytics, and mainly for these
+maps-app PRs:
+
+- [#3800](https://github.com/dhis2/maps-app/pull/3800), load tracked entities
+  from tracker analytics on 2.41+: the benchmark compares both requests at 1k
+  to 100k tracked entities.
+- [#3799](https://github.com/dhis2/maps-app/pull/3799), warn when tracked
+  entities exceed the tracker limit: the 100k dataset and its relationships
+  trigger the warnings.
+
 Plain Node (18 or newer), no dependencies, no install step.
 
 ## What it creates
