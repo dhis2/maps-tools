@@ -1,0 +1,80 @@
+{
+    "userRoles": [
+        {
+            "id": "PteAccRole1",
+            "name": "PTE maps and event analytics",
+            "description": "Maps and event analytics, for maps-app tests",
+            "authorities": ["M_dhis-web-maps", "F_VIEW_EVENT_ANALYTICS"]
+        },
+        {
+            "id": "PteNoAnRol1",
+            "name": "PTE maps only",
+            "description": "Maps without event analytics, for maps-app tests",
+            "authorities": ["M_dhis-web-maps"]
+        }
+    ],
+    "users": [
+        {
+            "id": "PteAccUser1",
+            "username": "pte_capture_bombali_analytics",
+            "password": "PteAccess#2026",
+            "firstName": "PTE",
+            "surname": "Capture Bombali, analytics",
+            "userRoles": [
+                {
+                    "id": "PteAccRole1"
+                }
+            ],
+            "organisationUnits": [
+                {
+                    "id": "O6uvpzGd5pu"
+                }
+            ],
+            "dataViewOrganisationUnits": [
+                {
+                    "id": "ImspTQPwCqd"
+                }
+            ]
+        },
+        {
+            "id": "PteNoAnUse1",
+            "username": "pte_capture_bombali_no_analytics",
+            "password": "PteAccess#2026",
+            "firstName": "PTE",
+            "surname": "Capture Bombali, no analytics",
+            "userRoles": [
+                {
+                    "id": "PteNoAnRol1"
+                }
+            ],
+            "organisationUnits": [
+                {
+                    "id": "O6uvpzGd5pu"
+                }
+            ],
+            "dataViewOrganisationUnits": [
+                {
+                    "id": "ImspTQPwCqd"
+                }
+            ]
+        },
+        {
+            "id": "PteNoCapUs1",
+            "username": "pte_no_capture_analytics",
+            "password": "PteAccess#2026",
+            "firstName": "PTE",
+            "surname": "No capture, analytics",
+            "userRoles": [
+                {
+                    "id": "PteAccRole1"
+                }
+            ],
+            "organisationUnits": [],
+            "dataViewOrganisationUnits": [
+                {
+                    "id": "ImspTQPwCqd"
+                }
+            ]
+        }
+    ]
+}

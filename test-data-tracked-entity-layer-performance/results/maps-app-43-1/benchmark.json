@@ -1,0 +1,348 @@
+{
+  "baseUrl": "https://dev.im.dhis2.org/maps-app-43-1",
+  "version": "2.43.1",
+  "date": "2026-10-05T16:21:30.856Z",
+  "repeats": 3,
+  "results": [
+    {
+      "dataset": "1k",
+      "count": 1000,
+      "cases": [
+        {
+          "name": "tracker",
+          "label": "Tracker API (old loader)",
+          "runs": [
+            {
+              "ms": 1026,
+              "status": 200,
+              "bytes": 103832,
+              "rows": 1000,
+              "error": null
+            },
+            {
+              "ms": 911,
+              "status": 200,
+              "bytes": 103832,
+              "rows": 1000,
+              "error": null
+            },
+            {
+              "ms": 859,
+              "status": 200,
+              "bytes": 103832,
+              "rows": 1000,
+              "error": null
+            }
+          ],
+          "medianMs": 911,
+          "bytes": 103832,
+          "rows": 1000,
+          "error": null
+        },
+        {
+          "name": "analytics",
+          "label": "Analytics (new loader)",
+          "runs": [
+            {
+              "ms": 358,
+              "status": 200,
+              "bytes": 55589,
+              "rows": 1000,
+              "error": null
+            },
+            {
+              "ms": 228,
+              "status": 200,
+              "bytes": 55589,
+              "rows": 1000,
+              "error": null
+            },
+            {
+              "ms": 228,
+              "status": 200,
+              "bytes": 55589,
+              "rows": 1000,
+              "error": null
+            }
+          ],
+          "medianMs": 228,
+          "bytes": 55589,
+          "rows": 1000,
+          "error": null
+        }
+      ]
+    },
+    {
+      "dataset": "10k",
+      "count": 10000,
+      "cases": [
+        {
+          "name": "tracker",
+          "label": "Tracker API (old loader)",
+          "runs": [
+            {
+              "ms": 7111,
+              "status": 200,
+              "bytes": 1037773,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 7226,
+              "status": 200,
+              "bytes": 1037773,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 7166,
+              "status": 200,
+              "bytes": 1037773,
+              "rows": 10000,
+              "error": null
+            }
+          ],
+          "medianMs": 7166,
+          "bytes": 1037773,
+          "rows": 10000,
+          "error": null
+        },
+        {
+          "name": "analytics",
+          "label": "Analytics (new loader)",
+          "runs": [
+            {
+              "ms": 931,
+              "status": 200,
+              "bytes": 548533,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 642,
+              "status": 200,
+              "bytes": 548533,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 654,
+              "status": 200,
+              "bytes": 548533,
+              "rows": 10000,
+              "error": null
+            }
+          ],
+          "medianMs": 654,
+          "bytes": 548533,
+          "rows": 10000,
+          "error": null
+        }
+      ]
+    },
+    {
+      "dataset": "50k",
+      "count": 50000,
+      "cases": [
+        {
+          "name": "tracker",
+          "label": "Tracker API (old loader)",
+          "runs": [
+            {
+              "ms": 34548,
+              "status": 200,
+              "bytes": 5188885,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 34568,
+              "status": 200,
+              "bytes": 5188885,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 33401,
+              "status": 200,
+              "bytes": 5188885,
+              "rows": 50000,
+              "error": null
+            }
+          ],
+          "medianMs": 34548,
+          "bytes": 5188885,
+          "rows": 50000,
+          "error": null
+        },
+        {
+          "name": "analytics",
+          "label": "Analytics (new loader)",
+          "runs": [
+            {
+              "ms": 2859,
+              "status": 200,
+              "bytes": 2739645,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 2495,
+              "status": 200,
+              "bytes": 2739645,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 2188,
+              "status": 200,
+              "bytes": 2739645,
+              "rows": 50000,
+              "error": null
+            }
+          ],
+          "medianMs": 2495,
+          "bytes": 2739645,
+          "rows": 50000,
+          "error": null
+        }
+      ]
+    },
+    {
+      "dataset": "100k",
+      "count": 100000,
+      "cases": [
+        {
+          "name": "tracker",
+          "label": "Tracker API (old loader)",
+          "runs": [
+            {
+              "ms": 32637,
+              "status": 200,
+              "bytes": 5188886,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 32981,
+              "status": 200,
+              "bytes": 5188886,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 33203,
+              "status": 200,
+              "bytes": 5188886,
+              "rows": 50000,
+              "error": null
+            }
+          ],
+          "medianMs": 32981,
+          "bytes": 5188886,
+          "rows": 50000,
+          "error": null
+        },
+        {
+          "name": "analytics",
+          "label": "Analytics (new loader)",
+          "runs": [
+            {
+              "ms": 2572,
+              "status": 200,
+              "bytes": 2739591,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 2002,
+              "status": 200,
+              "bytes": 2739682,
+              "rows": 50000,
+              "error": null
+            },
+            {
+              "ms": 2260,
+              "status": 200,
+              "bytes": 2739574,
+              "rows": 50000,
+              "error": null
+            }
+          ],
+          "medianMs": 2260,
+          "bytes": 2739591,
+          "rows": 50000,
+          "error": null
+        }
+      ]
+    },
+    {
+      "dataset": "poly-10k",
+      "count": 10000,
+      "cases": [
+        {
+          "name": "tracker",
+          "label": "Tracker API (old loader)",
+          "runs": [
+            {
+              "ms": 7496,
+              "status": 200,
+              "bytes": 2404850,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 7771,
+              "status": 200,
+              "bytes": 2404850,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 7699,
+              "status": 200,
+              "bytes": 2404850,
+              "rows": 10000,
+              "error": null
+            }
+          ],
+          "medianMs": 7699,
+          "bytes": 2404850,
+          "rows": 10000,
+          "error": null
+        },
+        {
+          "name": "analytics",
+          "label": "Analytics (new loader)",
+          "runs": [
+            {
+              "ms": 1140,
+              "status": 200,
+              "bytes": 1775620,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 1156,
+              "status": 200,
+              "bytes": 1775620,
+              "rows": 10000,
+              "error": null
+            },
+            {
+              "ms": 966,
+              "status": 200,
+              "bytes": 1775620,
+              "rows": 10000,
+              "error": null
+            }
+          ],
+          "medianMs": 1140,
+          "bytes": 1775620,
+          "rows": 10000,
+          "error": null
+        }
+      ]
+    }
+  ]
+}
