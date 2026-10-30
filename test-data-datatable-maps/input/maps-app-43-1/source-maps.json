@@ -1,0 +1,3982 @@
+{
+    "baseUrl": "https://dev.im.dhis2.org/maps-app-43-1",
+    "version": "2.43.1",
+    "fetchedAt": "2026-10-29T15:36:27.341Z",
+    "maps": [
+        {
+            "name": "#3735 - Thematic layer - Single ",
+            "lastUpdated": "2026-08-03T09:08:02.881",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "ANC 1st visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T09:08:02.881",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_12_MONTHS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "fbfJHSPpUQD"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#feebe2,#fbb4b9,#f768a1,#c51b8a,#7a0177",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"rawValue\",\"range\",\"color\"],\"pinnedKeys\":[\"orgUnitOwn\"],\"orderedKeys\":[\"orgUnitOwn\",\"id\",\"level\",\"orgUnitPath\",\"rawValue\",\"legend\",\"color\",\"range\",\"type\"]},\"combinedLayerKey\":\"zV7sxjNQnGL\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_12_MONTHS",
+                                    "name": "LAST_12_MONTHS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 1st visit",
+                                    "id": "fbfJHSPpUQD"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 1st visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 1st visit",
+                    "favorite": false,
+                    "id": "aql1PhbqyV8",
+                    "attributeValues": []
+                }
+            ],
+            "id": "yYaagMvoVTE",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Thematic layer - Timeline",
+            "lastUpdated": "2026-08-03T09:35:46.436",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "ANC 1st visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T09:35:46.436",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_12_MONTHS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "fbfJHSPpUQD"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#feebe2,#fbb4b9,#f768a1,#c51b8a,#7a0177",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "TIMELINE",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"combinedLayerKey\":\"zV7sxjNQnGL\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_12_MONTHS",
+                                    "name": "LAST_12_MONTHS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 1st visit",
+                                    "id": "fbfJHSPpUQD"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 1st visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 1st visit",
+                    "favorite": false,
+                    "id": "y0XLgQtfN2n",
+                    "attributeValues": []
+                }
+            ],
+            "id": "aOJt39Bxi7o",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Thematic layer - Timeline (x2)",
+            "lastUpdated": "2026-08-03T10:37:01.741",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "ANC 1st visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T10:37:01.741",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_12_MONTHS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "fbfJHSPpUQD"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#feebe2,#fbb4b9,#f768a1,#c51b8a,#7a0177",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "TIMELINE",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"combinedLayerKey\":\"zV7sxjNQnGL\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_12_MONTHS",
+                                    "name": "LAST_12_MONTHS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 1st visit",
+                                    "id": "fbfJHSPpUQD"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 1st visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 1st visit",
+                    "favorite": false,
+                    "id": "OS396Z9Irew",
+                    "attributeValues": []
+                },
+                {
+                    "name": "ANC 2nd visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T10:37:01.742",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_12_MONTHS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "cYeuwXTCPkU"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#f1eda9,#d9ef8b,#66bd63,#238443,#004529",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "TIMELINE",
+                    "thematicMapType": "BUBBLE",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"combinedLayerKey\":\"BJJ8sfeu2xL\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_12_MONTHS",
+                                    "name": "LAST_12_MONTHS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 2nd visit",
+                                    "id": "cYeuwXTCPkU"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 2nd visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 2nd visit",
+                    "favorite": false,
+                    "id": "gcDXeGK3ive",
+                    "attributeValues": []
+                }
+            ],
+            "id": "McbOy0vTX5C",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Thematic layer - Split",
+            "lastUpdated": "2026-08-03T09:49:59.788",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "ANC 1st visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T09:49:59.788",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "202508",
+                        "202507",
+                        "202506"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "fbfJHSPpUQD"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#feebe2,#fbb4b9,#f768a1,#c51b8a,#7a0177",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SPLIT_BY_PERIOD",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"period_202508_rawValue\",\"period_202507_rawValue\",\"period_202506_rawValue\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\",\"period_202508_rawValue\",\"period_202507_rawValue\",\"period_202506_rawValue\"]},\"combinedLayerKey\":\"zV7sxjNQnGL\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202508",
+                                    "name": "202508"
+                                },
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202507",
+                                    "name": "202507"
+                                },
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202506",
+                                    "name": "202506"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 1st visit",
+                                    "id": "fbfJHSPpUQD"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 1st visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 1st visit",
+                    "favorite": false,
+                    "id": "LkJL28PzoMR",
+                    "attributeValues": []
+                }
+            ],
+            "id": "Xcb2gEhq9EX",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Thematic layer - Split (x2)",
+            "lastUpdated": "2026-08-03T10:12:25.480",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "ANC 1st visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T10:12:25.480",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "202508",
+                        "202507",
+                        "202506"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "fbfJHSPpUQD"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#feebe2,#fbb4b9,#f768a1,#c51b8a,#7a0177",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SPLIT_BY_PERIOD",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"period_202508_rawValue\",\"period_202507_rawValue\",\"period_202506_rawValue\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\",\"period_202508_rawValue\",\"period_202507_rawValue\",\"period_202506_rawValue\"]},\"combinedLayerKey\":\"zV7sxjNQnGL\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202508",
+                                    "name": "202508"
+                                },
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202507",
+                                    "name": "202507"
+                                },
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202506",
+                                    "name": "202506"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 1st visit",
+                                    "id": "fbfJHSPpUQD"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 1st visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 1st visit",
+                    "favorite": false,
+                    "id": "FqH9NY42dmZ",
+                    "attributeValues": []
+                },
+                {
+                    "name": "ANC 2nd visit",
+                    "created": "2026-08-03T08:31:13.261",
+                    "lastUpdated": "2026-08-03T10:12:25.481",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "202508",
+                        "202507",
+                        "202506"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "dataElement": {
+                                "id": "cYeuwXTCPkU"
+                            },
+                            "dataDimensionItemType": "DATA_ELEMENT"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 5,
+                    "classes": 5,
+                    "colorScale": "#f1eda9,#d9ef8b,#66bd63,#238443,#004529",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SPLIT_BY_PERIOD",
+                    "thematicMapType": "BUBBLE",
+                    "config": "{\"legendIsolated\":{\"min\":0,\"max\":0,\"color\":\"#CCCCCC\"},\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"period_202508_rawValue\",\"period_202507_rawValue\",\"period_202506_rawValue\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\",\"period_202508_rawValue\",\"period_202507_rawValue\",\"period_202506_rawValue\"]},\"combinedLayerKey\":\"ywZ6V0wDb8e\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202508",
+                                    "name": "202508"
+                                },
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202507",
+                                    "name": "202507"
+                                },
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "202506",
+                                    "name": "202506"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "DATA_ELEMENT",
+                                    "name": "ANC 2nd visit",
+                                    "id": "cYeuwXTCPkU"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "ANC 2nd visit",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "ANC 2nd visit",
+                    "favorite": false,
+                    "id": "opTY9FxiOHf",
+                    "attributeValues": []
+                }
+            ],
+            "id": "jFLIzT79k0q",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Facilities layer - No style",
+            "lastUpdated": "2026-08-03T11:01:41.923",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Facilities",
+                    "created": "2026-08-03T10:55:48.319",
+                    "lastUpdated": "2026-08-03T11:01:41.923",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "facility",
+                    "opacity": 1,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\"]},\"combinedLayerKey\":\"hbMl0I5j5CQ\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-4",
+                                    "name": "LEVEL-4"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Facilities",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Facilities",
+                    "favorite": false,
+                    "id": "x602QtbJWJu",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T10:58:04.696",
+                    "lastUpdated": "2026-08-03T11:01:41.923",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"hbMl0I5j5CQ\":{\"type\":\"orgUnit\",\"aggregation\":{\"count\":\"COUNT\"}}},\"combinedLayerKey\":\"CrNBNtVSaAl\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "wk77GFRVi6y",
+                    "attributeValues": []
+                }
+            ],
+            "id": "Ty4iI2O3t3c",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Facilities layer - Facility type",
+            "lastUpdated": "2026-08-03T11:04:50.836",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Facilities",
+                    "created": "2026-08-03T10:55:48.319",
+                    "lastUpdated": "2026-08-03T11:04:50.836",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "facility",
+                    "opacity": 1,
+                    "organisationUnitGroupSet": {
+                        "id": "J5jldMd8OHv"
+                    },
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\"]},\"combinedLayerKey\":\"hbMl0I5j5CQ\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-4",
+                                    "name": "LEVEL-4"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Facilities",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Facilities",
+                    "favorite": false,
+                    "id": "lVRbWf2SxCM",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T10:58:04.696",
+                    "lastUpdated": "2026-08-03T11:04:50.836",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"hbMl0I5j5CQ\":{\"type\":\"orgUnit\",\"aggregation\":{\"count\":\"COUNT\"}}},\"combinedLayerKey\":\"CrNBNtVSaAl\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "jewgNAlym8L",
+                    "attributeValues": []
+                }
+            ],
+            "id": "tMLCPz8Lb0B",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Organisation units layer - No style",
+            "lastUpdated": "2026-08-03T11:13:32.427",
+            "basemap": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T11:13:32.326",
+                    "lastUpdated": "2026-08-03T11:13:32.427",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "orgUnit",
+                    "organisationUnitColor": "#971C1C",
+                    "opacity": 1,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"hWVImSdRCv5\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "UssP2Rh43Pj",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T11:13:32.331",
+                    "lastUpdated": "2026-08-03T11:13:32.427",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"EIroTFpBeEy\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "iEJb0uhlFwq",
+                    "attributeValues": []
+                }
+            ],
+            "id": "BJ6PDONq0UQ",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Organisation units layer - Area",
+            "lastUpdated": "2026-08-03T11:14:54.488",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T11:13:32.326",
+                    "lastUpdated": "2026-08-03T11:14:54.488",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "orgUnit",
+                    "organisationUnitColor": "#000000",
+                    "opacity": 1,
+                    "organisationUnitGroupSet": {
+                        "id": "uIuxlbV1vRT"
+                    },
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"combinedLayerKey\":\"hWVImSdRCv5\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "uNIsm7DKtd3",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T11:13:32.331",
+                    "lastUpdated": "2026-08-03T11:14:54.488",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"EIroTFpBeEy\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "qzTkfkQRaYX",
+                    "attributeValues": []
+                }
+            ],
+            "id": "C7PIMo0NuNV",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Earth engine layer - Population age groups",
+            "lastUpdated": "2026-08-03T11:25:09.587",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Population age groups WorldPop Global2",
+                    "created": "2026-08-03T11:24:01.934",
+                    "lastUpdated": "2026-08-03T11:25:09.587",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "earthEngine",
+                    "opacity": 0.9,
+                    "areaRadius": 5000,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"id\":\"projects/wpgp-global2/assets/agesex_100m\",\"style\":{\"min\":0,\"max\":10,\"palette\":[\"#fee5d9\",\"#fcbba1\",\"#fc9272\",\"#fb6a4a\",\"#de2d26\",\"#a50f15\"]},\"band\":[\"m_00\",\"m_01\"],\"aggregationType\":[\"sum\",\"mean\"],\"period\":{\"id\":\"2026\",\"startDate\":\"2026-01-01T00:00:00.000Z\",\"endDate\":\"2026-12-31T23:59:59.000Z\",\"year\":2026,\"name\":\"2026\"},\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"sum\",\"m_00_sum\",\"m_01_sum\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"sum\",\"mean\",\"m_00_sum\",\"m_00_mean\",\"m_01_sum\",\"m_01_mean\",\"type\"]},\"combinedLayerKey\":\"tHxgJsKE5UC\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Population age groups WorldPop Global2",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Population age groups WorldPop Global2",
+                    "favorite": false,
+                    "id": "onwBKlvKeET",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-03T11:25:09.585",
+                    "lastUpdated": "2026-08-03T11:25:09.587",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"tHxgJsKE5UC\":{\"type\":\"orgUnit\",\"aggregation\":{\"sum\":\"SUM\",\"mean\":\"SUM\",\"m_00_sum\":\"SUM\",\"m_00_mean\":\"SUM\",\"m_01_sum\":\"SUM\",\"m_01_mean\":\"SUM\"}}},\"combinedColumnConfig\":{\"visibleKeys\":[\"name\",\"tHxgJsKE5UC_mean\",\"tHxgJsKE5UC_m_00_mean\",\"tHxgJsKE5UC_m_01_mean\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"name\",\"level\",\"tHxgJsKE5UC_sum\",\"tHxgJsKE5UC_mean\",\"tHxgJsKE5UC_m_00_sum\",\"tHxgJsKE5UC_m_00_mean\",\"tHxgJsKE5UC_m_01_sum\",\"tHxgJsKE5UC_m_01_mean\"]},\"combinedLayerKey\":\"maRJKhaY6vy\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "uqonbXv73Ey",
+                    "attributeValues": []
+                }
+            ],
+            "id": "FMgI8NLiFxj",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Tracked entities layer",
+            "lastUpdated": "2026-10-05T14:18:48.961",
+            "mapViews": [
+                {
+                    "name": "Malaria focus investigation",
+                    "created": "2026-08-03T11:38:23.478",
+                    "lastUpdated": "2026-10-05T14:18:48.961",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd",
+                            "id": "ImspTQPwCqd"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "startDate": "2000-01-01T00:00:00.000",
+                    "endDate": "2026-08-03T00:00:00.000",
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "M3xtLkYBlKI",
+                        "name": "Malaria focus investigation"
+                    },
+                    "trackedEntityType": {
+                        "id": "We9I19a3vO1",
+                        "name": "Focus area"
+                    },
+                    "organisationUnitSelectionMode": "DESCENDANTS",
+                    "layer": "trackedEntity",
+                    "opacity": 0.5,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"relationships\":null}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "ImspTQPwCqd",
+                                    "name": "Sierra Leone"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Malaria focus investigation",
+                    "subscribed": false,
+                    "metaData": {
+                        "ImspTQPwCqd": {
+                            "uid": "ImspTQPwCqd",
+                            "code": "OU_525",
+                            "name": "Sierra Leone"
+                        }
+                    },
+                    "displayFormName": "Malaria focus investigation",
+                    "favorite": false,
+                    "id": "ROJfd05exee",
+                    "attributeValues": []
+                }
+            ],
+            "id": "ezJk7w1rFuN",
+            "basemaps": [
+                {
+                    "id": "osmLight",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - ~1k - Server cluster",
+            "lastUpdated": "2026-08-04T12:30:38.918",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Birth",
+                    "created": "2026-08-04T12:20:57.928",
+                    "lastUpdated": "2026-08-04T12:30:38.918",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_5_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "IpHINAT79UW",
+                        "name": "Child Programme"
+                    },
+                    "programStage": {
+                        "id": "A03MvHHogjR",
+                        "name": "Birth"
+                    },
+                    "layer": "event",
+                    "method": 2,
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"K11MjvCu0Y5\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_5_YEARS",
+                                    "name": "LAST_5_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Birth",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Birth",
+                    "favorite": false,
+                    "id": "O7ZUtfKFXD8",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-04T12:28:26.941",
+                    "lastUpdated": "2026-08-04T12:30:38.918",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"K11MjvCu0Y5\":{\"type\":\"orgUnit\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\",\"value\":\"AVERAGE\"}}},\"combinedLayerKey\":\"yxLWK934KAM\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                },
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "QTIk0SgbmLS",
+                    "attributeValues": []
+                }
+            ],
+            "id": "vzs97laj9ID",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - ~1k - Client cluster - MCH Apgar Score",
+            "lastUpdated": "2026-08-04T12:28:27.215",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Birth",
+                    "created": "2026-08-04T12:20:57.928",
+                    "lastUpdated": "2026-08-04T12:28:27.215",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_5_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "IpHINAT79UW",
+                        "name": "Child Programme"
+                    },
+                    "programStage": {
+                        "id": "A03MvHHogjR",
+                        "name": "Birth"
+                    },
+                    "layer": "event",
+                    "method": 2,
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"K11MjvCu0Y5\"}",
+                    "styleDataItem": {
+                        "id": "a3kGcGDCuk6",
+                        "valueType": "NUMBER"
+                    },
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_5_YEARS",
+                                    "name": "LAST_5_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Birth",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Birth",
+                    "favorite": false,
+                    "id": "GGiIyqPbxR1",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-04T12:28:26.941",
+                    "lastUpdated": "2026-08-04T12:28:27.216",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"K11MjvCu0Y5\":{\"type\":\"orgUnit\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\",\"value\":\"AVERAGE\"}}},\"combinedLayerKey\":\"yxLWK934KAM\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                },
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "snf7hEJkgA4",
+                    "attributeValues": []
+                }
+            ],
+            "id": "BspYL92n5pW",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - Server cluster",
+            "lastUpdated": "2026-08-03T11:50:46.795",
+            "basemap": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Birth",
+                    "created": "2026-08-03T11:50:46.455",
+                    "lastUpdated": "2026-08-03T11:50:46.795",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_10_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd",
+                            "id": "ImspTQPwCqd"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "IpHINAT79UW",
+                        "name": "Child Programme"
+                    },
+                    "programStage": {
+                        "id": "A03MvHHogjR",
+                        "name": "Birth"
+                    },
+                    "layer": "event",
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"PxgH6vB9p3f\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_10_YEARS",
+                                    "name": "LAST_10_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "ImspTQPwCqd",
+                                    "name": "Sierra Leone"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Birth",
+                    "subscribed": false,
+                    "metaData": {
+                        "ImspTQPwCqd": {
+                            "uid": "ImspTQPwCqd",
+                            "code": "OU_525",
+                            "name": "Sierra Leone"
+                        }
+                    },
+                    "displayFormName": "Birth",
+                    "favorite": false,
+                    "id": "ZYamLMp6nVm",
+                    "attributeValues": []
+                }
+            ],
+            "id": "yKWzn188DgM",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - ~10k - Client cluster - Gender",
+            "lastUpdated": "2026-08-04T07:32:11.824",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Birth",
+                    "created": "2026-08-03T11:50:46.455",
+                    "lastUpdated": "2026-08-04T07:32:11.824",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_10_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/O6uvpzGd5pu",
+                            "id": "O6uvpzGd5pu"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/lc3eMKXaEfw",
+                            "id": "lc3eMKXaEfw"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/jUb8gELQApl",
+                            "id": "jUb8gELQApl"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/PMa2VCrupOd",
+                            "id": "PMa2VCrupOd"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/kJq2mPyFEHo",
+                            "id": "kJq2mPyFEHo"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/qhqAxPSTUXp",
+                            "id": "qhqAxPSTUXp"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/Vth0fbpFcsO",
+                            "id": "Vth0fbpFcsO"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/jmIPBj66vD6",
+                            "id": "jmIPBj66vD6"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/TEQlaapDQoK",
+                            "id": "TEQlaapDQoK"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/bL4ooGhyHRQ",
+                            "id": "bL4ooGhyHRQ"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/eIQbndfxQMb",
+                            "id": "eIQbndfxQMb"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/at6UHUQatSo",
+                            "id": "at6UHUQatSo"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "IpHINAT79UW",
+                        "name": "Child Programme"
+                    },
+                    "programStage": {
+                        "id": "A03MvHHogjR",
+                        "name": "Birth"
+                    },
+                    "layer": "event",
+                    "noDataColor": "#CCCCCC",
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"noDataLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"countEventsOutsideOrgUnits\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"eventdate\",\"lastupdated\",\"ouBoundary\",\"eventstatus\",\"cejWyOfXge6\",\"legend\",\"range\",\"color\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitId\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"eventdate\",\"lastupdated\",\"ouBoundary\",\"eventstatus\",\"cejWyOfXge6\",\"legend\",\"range\",\"color\",\"type\"]},\"combinedLayerKey\":\"PxgH6vB9p3f\"}",
+                    "styleDataItem": {
+                        "id": "cejWyOfXge6",
+                        "optionSet": {
+                            "id": "pC3N9N77UmT",
+                            "options": [
+                                {
+                                    "id": "rBvjJYbMCVx",
+                                    "style": {
+                                        "color": "#1f78b4"
+                                    }
+                                },
+                                {
+                                    "id": "Mnp3oXrpAbK",
+                                    "style": {
+                                        "color": "#ff7f00"
+                                    }
+                                }
+                            ]
+                        },
+                        "valueType": "TEXT"
+                    },
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_10_YEARS",
+                                    "name": "LAST_10_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "jUb8gELQApl": "ImspTQPwCqd",
+                        "TEQlaapDQoK": "ImspTQPwCqd",
+                        "eIQbndfxQMb": "ImspTQPwCqd",
+                        "Vth0fbpFcsO": "ImspTQPwCqd",
+                        "PMa2VCrupOd": "ImspTQPwCqd",
+                        "O6uvpzGd5pu": "ImspTQPwCqd",
+                        "bL4ooGhyHRQ": "ImspTQPwCqd",
+                        "kJq2mPyFEHo": "ImspTQPwCqd",
+                        "fdc6uOvgoji": "ImspTQPwCqd",
+                        "at6UHUQatSo": "ImspTQPwCqd",
+                        "lc3eMKXaEfw": "ImspTQPwCqd",
+                        "qhqAxPSTUXp": "ImspTQPwCqd",
+                        "jmIPBj66vD6": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "O6uvpzGd5pu",
+                                    "name": "Bombali"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "lc3eMKXaEfw",
+                                    "name": "Bonthe"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "jUb8gELQApl",
+                                    "name": "Kailahun"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "PMa2VCrupOd",
+                                    "name": "Kambia"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "kJq2mPyFEHo",
+                                    "name": "Kenema"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "qhqAxPSTUXp",
+                                    "name": "Koinadugu"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "Vth0fbpFcsO",
+                                    "name": "Kono"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "jmIPBj66vD6",
+                                    "name": "Moyamba"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "TEQlaapDQoK",
+                                    "name": "Port Loko"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "bL4ooGhyHRQ",
+                                    "name": "Pujehun"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "eIQbndfxQMb",
+                                    "name": "Tonkolili"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "at6UHUQatSo",
+                                    "name": "Western Area"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Birth",
+                    "subscribed": false,
+                    "metaData": {
+                        "jUb8gELQApl": {
+                            "uid": "jUb8gELQApl",
+                            "code": "OU_204856",
+                            "name": "Kailahun"
+                        },
+                        "TEQlaapDQoK": {
+                            "uid": "TEQlaapDQoK",
+                            "code": "OU_254945",
+                            "name": "Port Loko"
+                        },
+                        "eIQbndfxQMb": {
+                            "uid": "eIQbndfxQMb",
+                            "code": "OU_268149",
+                            "name": "Tonkolili"
+                        },
+                        "Vth0fbpFcsO": {
+                            "uid": "Vth0fbpFcsO",
+                            "code": "OU_233310",
+                            "name": "Kono"
+                        },
+                        "PMa2VCrupOd": {
+                            "uid": "PMa2VCrupOd",
+                            "code": "OU_211212",
+                            "name": "Kambia"
+                        },
+                        "O6uvpzGd5pu": {
+                            "uid": "O6uvpzGd5pu",
+                            "code": "OU_264",
+                            "name": "Bombali"
+                        },
+                        "bL4ooGhyHRQ": {
+                            "uid": "bL4ooGhyHRQ",
+                            "code": "OU_260377",
+                            "name": "Pujehun"
+                        },
+                        "kJq2mPyFEHo": {
+                            "uid": "kJq2mPyFEHo",
+                            "code": "OU_222616",
+                            "name": "Kenema"
+                        },
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        },
+                        "at6UHUQatSo": {
+                            "uid": "at6UHUQatSo",
+                            "code": "OU_278310",
+                            "name": "Western Area"
+                        },
+                        "lc3eMKXaEfw": {
+                            "uid": "lc3eMKXaEfw",
+                            "code": "OU_197385",
+                            "name": "Bonthe"
+                        },
+                        "qhqAxPSTUXp": {
+                            "uid": "qhqAxPSTUXp",
+                            "code": "OU_226213",
+                            "name": "Koinadugu"
+                        },
+                        "jmIPBj66vD6": {
+                            "uid": "jmIPBj66vD6",
+                            "code": "OU_246990",
+                            "name": "Moyamba"
+                        }
+                    },
+                    "displayFormName": "Birth",
+                    "favorite": false,
+                    "id": "EyJ8M0SwvIK",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-04T07:27:56.614",
+                    "lastUpdated": "2026-08-04T07:32:11.824",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/O6uvpzGd5pu",
+                            "id": "O6uvpzGd5pu"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/lc3eMKXaEfw",
+                            "id": "lc3eMKXaEfw"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/jUb8gELQApl",
+                            "id": "jUb8gELQApl"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/PMa2VCrupOd",
+                            "id": "PMa2VCrupOd"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/kJq2mPyFEHo",
+                            "id": "kJq2mPyFEHo"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/qhqAxPSTUXp",
+                            "id": "qhqAxPSTUXp"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/Vth0fbpFcsO",
+                            "id": "Vth0fbpFcsO"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/jmIPBj66vD6",
+                            "id": "jmIPBj66vD6"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/TEQlaapDQoK",
+                            "id": "TEQlaapDQoK"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/bL4ooGhyHRQ",
+                            "id": "bL4ooGhyHRQ"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/eIQbndfxQMb",
+                            "id": "eIQbndfxQMb"
+                        },
+                        {
+                            "path": "/ImspTQPwCqd/at6UHUQatSo",
+                            "id": "at6UHUQatSo"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"PxgH6vB9p3f\":{\"type\":\"orgUnit\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\"}}},\"combinedLayerKey\":\"F2xWk73Ytmq\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "jUb8gELQApl": "ImspTQPwCqd",
+                        "TEQlaapDQoK": "ImspTQPwCqd",
+                        "eIQbndfxQMb": "ImspTQPwCqd",
+                        "Vth0fbpFcsO": "ImspTQPwCqd",
+                        "PMa2VCrupOd": "ImspTQPwCqd",
+                        "O6uvpzGd5pu": "ImspTQPwCqd",
+                        "bL4ooGhyHRQ": "ImspTQPwCqd",
+                        "kJq2mPyFEHo": "ImspTQPwCqd",
+                        "fdc6uOvgoji": "ImspTQPwCqd",
+                        "at6UHUQatSo": "ImspTQPwCqd",
+                        "lc3eMKXaEfw": "ImspTQPwCqd",
+                        "qhqAxPSTUXp": "ImspTQPwCqd",
+                        "jmIPBj66vD6": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "O6uvpzGd5pu",
+                                    "name": "Bombali"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "lc3eMKXaEfw",
+                                    "name": "Bonthe"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "jUb8gELQApl",
+                                    "name": "Kailahun"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "PMa2VCrupOd",
+                                    "name": "Kambia"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "kJq2mPyFEHo",
+                                    "name": "Kenema"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "qhqAxPSTUXp",
+                                    "name": "Koinadugu"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "Vth0fbpFcsO",
+                                    "name": "Kono"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "jmIPBj66vD6",
+                                    "name": "Moyamba"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "TEQlaapDQoK",
+                                    "name": "Port Loko"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "bL4ooGhyHRQ",
+                                    "name": "Pujehun"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "eIQbndfxQMb",
+                                    "name": "Tonkolili"
+                                },
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "at6UHUQatSo",
+                                    "name": "Western Area"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {
+                        "jUb8gELQApl": {
+                            "uid": "jUb8gELQApl",
+                            "code": "OU_204856",
+                            "name": "Kailahun"
+                        },
+                        "TEQlaapDQoK": {
+                            "uid": "TEQlaapDQoK",
+                            "code": "OU_254945",
+                            "name": "Port Loko"
+                        },
+                        "eIQbndfxQMb": {
+                            "uid": "eIQbndfxQMb",
+                            "code": "OU_268149",
+                            "name": "Tonkolili"
+                        },
+                        "Vth0fbpFcsO": {
+                            "uid": "Vth0fbpFcsO",
+                            "code": "OU_233310",
+                            "name": "Kono"
+                        },
+                        "PMa2VCrupOd": {
+                            "uid": "PMa2VCrupOd",
+                            "code": "OU_211212",
+                            "name": "Kambia"
+                        },
+                        "O6uvpzGd5pu": {
+                            "uid": "O6uvpzGd5pu",
+                            "code": "OU_264",
+                            "name": "Bombali"
+                        },
+                        "bL4ooGhyHRQ": {
+                            "uid": "bL4ooGhyHRQ",
+                            "code": "OU_260377",
+                            "name": "Pujehun"
+                        },
+                        "kJq2mPyFEHo": {
+                            "uid": "kJq2mPyFEHo",
+                            "code": "OU_222616",
+                            "name": "Kenema"
+                        },
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        },
+                        "at6UHUQatSo": {
+                            "uid": "at6UHUQatSo",
+                            "code": "OU_278310",
+                            "name": "Western Area"
+                        },
+                        "lc3eMKXaEfw": {
+                            "uid": "lc3eMKXaEfw",
+                            "code": "OU_197385",
+                            "name": "Bonthe"
+                        },
+                        "qhqAxPSTUXp": {
+                            "uid": "qhqAxPSTUXp",
+                            "code": "OU_226213",
+                            "name": "Koinadugu"
+                        },
+                        "jmIPBj66vD6": {
+                            "uid": "jmIPBj66vD6",
+                            "code": "OU_246990",
+                            "name": "Moyamba"
+                        }
+                    },
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "NLo5mkXlyx7",
+                    "attributeValues": []
+                }
+            ],
+            "id": "d28EZNVL7K4",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - ~50k - Server cluster",
+            "lastUpdated": "2026-08-04T07:30:47.719",
+            "basemap": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Inpatient morbidity and mortality",
+                    "created": "2026-08-04T07:30:47.356",
+                    "lastUpdated": "2026-08-04T07:30:47.719",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_10_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd",
+                            "id": "ImspTQPwCqd"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "eBAyeGv0exc",
+                        "name": "Inpatient morbidity and mortality"
+                    },
+                    "programStage": {
+                        "id": "Zj7UnCAulEk",
+                        "name": "Inpatient morbidity and mortality"
+                    },
+                    "layer": "event",
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"puOHz9QqBYS\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_10_YEARS",
+                                    "name": "LAST_10_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "ImspTQPwCqd",
+                                    "name": "Sierra Leone"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Inpatient morbidity and mortality",
+                    "subscribed": false,
+                    "metaData": {
+                        "ImspTQPwCqd": {
+                            "uid": "ImspTQPwCqd",
+                            "code": "OU_525",
+                            "name": "Sierra Leone"
+                        }
+                    },
+                    "displayFormName": "Inpatient morbidity and mortality",
+                    "favorite": false,
+                    "id": "lJUAvPZ2NiF",
+                    "attributeValues": []
+                }
+            ],
+            "id": "YeFx91b5MJb",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - ~50k - Client cluster - Age in years",
+            "lastUpdated": "2026-08-04T07:32:52.967",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Inpatient morbidity and mortality",
+                    "created": "2026-08-04T07:30:47.356",
+                    "lastUpdated": "2026-08-04T07:32:52.967",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_10_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd",
+                            "id": "ImspTQPwCqd"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "eBAyeGv0exc",
+                        "name": "Inpatient morbidity and mortality"
+                    },
+                    "programStage": {
+                        "id": "Zj7UnCAulEk",
+                        "name": "Inpatient morbidity and mortality"
+                    },
+                    "layer": "event",
+                    "method": 1,
+                    "legendSet": {
+                        "id": "Yf6UHoPkdS6",
+                        "name": "Age 10y interval"
+                    },
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"puOHz9QqBYS\"}",
+                    "styleDataItem": {
+                        "id": "qrur9Dvnyt5",
+                        "valueType": "INTEGER"
+                    },
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_10_YEARS",
+                                    "name": "LAST_10_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "ImspTQPwCqd",
+                                    "name": "Sierra Leone"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Inpatient morbidity and mortality",
+                    "subscribed": false,
+                    "metaData": {
+                        "ImspTQPwCqd": {
+                            "uid": "ImspTQPwCqd",
+                            "code": "OU_525",
+                            "name": "Sierra Leone"
+                        }
+                    },
+                    "displayFormName": "Inpatient morbidity and mortality",
+                    "favorite": false,
+                    "id": "EE8vh9IRGRk",
+                    "attributeValues": []
+                }
+            ],
+            "id": "MspwLJoAM07",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - >100k - Server cluster ",
+            "lastUpdated": "2026-08-04T07:34:16.271",
+            "basemap": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Malaria case registration",
+                    "created": "2026-08-04T07:34:15.956",
+                    "lastUpdated": "2026-08-04T07:34:16.271",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_10_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd",
+                            "id": "ImspTQPwCqd"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "VBqh0ynB2wv",
+                        "name": "Malaria case registration"
+                    },
+                    "programStage": {
+                        "id": "pTo4uMt3xur",
+                        "name": "Malaria case registration"
+                    },
+                    "layer": "event",
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "psigeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"X61sIsNAkTI\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_10_YEARS",
+                                    "name": "LAST_10_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "ImspTQPwCqd",
+                                    "name": "Sierra Leone"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Malaria case registration",
+                    "subscribed": false,
+                    "metaData": {
+                        "ImspTQPwCqd": {
+                            "uid": "ImspTQPwCqd",
+                            "code": "OU_525",
+                            "name": "Sierra Leone"
+                        }
+                    },
+                    "displayFormName": "Malaria case registration",
+                    "favorite": false,
+                    "id": "cyRL7mkJUs1",
+                    "attributeValues": []
+                }
+            ],
+            "id": "SsyMJjoX4Hi",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Events layer - >100k - Client cluster - Gender",
+            "lastUpdated": "2026-08-04T07:36:50.840",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Malaria case registration",
+                    "created": "2026-08-04T07:34:15.956",
+                    "lastUpdated": "2026-08-04T07:36:50.840",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_10_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd",
+                            "id": "ImspTQPwCqd"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "VBqh0ynB2wv",
+                        "name": "Malaria case registration"
+                    },
+                    "programStage": {
+                        "id": "pTo4uMt3xur",
+                        "name": "Malaria case registration"
+                    },
+                    "layer": "event",
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": true,
+                    "eventCoordinateField": "psigeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"X61sIsNAkTI\"}",
+                    "styleDataItem": {
+                        "id": "oZg33kd9taw",
+                        "optionSet": {
+                            "id": "pC3N9N77UmT",
+                            "options": [
+                                {
+                                    "id": "rBvjJYbMCVx",
+                                    "style": {
+                                        "color": "#1f78b4"
+                                    }
+                                },
+                                {
+                                    "id": "Mnp3oXrpAbK",
+                                    "style": {
+                                        "color": "#ff7f00"
+                                    }
+                                }
+                            ]
+                        },
+                        "valueType": "TEXT"
+                    },
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_10_YEARS",
+                                    "name": "LAST_10_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "ImspTQPwCqd",
+                                    "name": "Sierra Leone"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Malaria case registration",
+                    "subscribed": false,
+                    "metaData": {
+                        "ImspTQPwCqd": {
+                            "uid": "ImspTQPwCqd",
+                            "code": "OU_525",
+                            "name": "Sierra Leone"
+                        }
+                    },
+                    "displayFormName": "Malaria case registration",
+                    "favorite": false,
+                    "id": "c1dGg64WTx4",
+                    "attributeValues": []
+                }
+            ],
+            "id": "JXuEP1lEhSD",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - Malaria cases (aggregated) and NDVI",
+            "lastUpdated": "2026-08-04T13:52:32.767",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Vegetation index monthly",
+                    "created": "2026-07-28T17:22:06.735",
+                    "lastUpdated": "2026-08-04T13:52:32.767",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "earthEngine",
+                    "opacity": 0.9,
+                    "areaRadius": 5000,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"id\":\"MODIS/061/MOD13Q1/VI/MONTHLY\",\"style\":{\"min\":0,\"max\":0.8,\"palette\":[\"#f1eda9\",\"#ffffbf\",\"#d9ef8b\",\"#a6d96a\",\"#66bd63\",\"#1a9850\",\"#238443\",\"#006837\",\"#004529\"]},\"band\":\"NDVI\",\"aggregationType\":[\"min\",\"max\",\"mean\",\"stdDev\"],\"period\":{\"id\":\"202606\",\"startDate\":\"2026-06-01T00:00:00.000Z\",\"endDate\":\"2026-06-30T23:59:59.000Z\",\"year\":2026,\"name\":\"June 2026\"},\"combinedLayerKey\":\"hPYl4ZPyAG0\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Vegetation index monthly",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Vegetation index monthly",
+                    "favorite": false,
+                    "id": "m0fRku3pXkV",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Malaria case count",
+                    "created": "2026-07-28T17:22:06.738",
+                    "lastUpdated": "2026-08-04T13:52:32.767",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_12_MONTHS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [
+                        {
+                            "programIndicator": {
+                                "id": "nFICjJluo74"
+                            },
+                            "dataDimensionItemType": "PROGRAM_INDICATOR"
+                        }
+                    ],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "thematic",
+                    "method": 2,
+                    "opacity": 0.9,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "thematicMapType": "BUBBLE",
+                    "config": "{\"combinedLayerKey\":\"QvS4H7Vs8q8\"}",
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_12_MONTHS",
+                                    "name": "LAST_12_MONTHS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {},
+                    "columns": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PROGRAM_INDICATOR",
+                                    "name": "Malaria case count",
+                                    "id": "nFICjJluo74"
+                                }
+                            ],
+                            "dimension": "dx"
+                        }
+                    ],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Malaria case count",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Malaria case count",
+                    "favorite": false,
+                    "id": "t2BgOqjbxex",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-07-28T17:22:06.747",
+                    "lastUpdated": "2026-08-04T13:52:32.767",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"fxaSF16QiSk\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"AVERAGE\"}},\"b8J74o7yHfE\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"AVERAGE\"}},\"eYNVmgR6Nhn\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"SUM\"}},\"YDibgdBY9R1\":{\"type\":\"orgUnit\",\"aggregation\":{\"min\":\"SUM\",\"max\":\"SUM\",\"mean\":\"SUM\",\"stdDev\":\"SUM\"}},\"j1UrAb9p79V\":{\"type\":\"orgUnit\",\"aggregation\":{\"min\":\"SUM\",\"max\":\"SUM\",\"mean\":\"SUM\",\"stdDev\":\"SUM\"}},\"T6OKo9ozNmt\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"SUM\"}},\"QvS4H7Vs8q8\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"SUM\"}},\"hPYl4ZPyAG0\":{\"type\":\"orgUnit\",\"aggregation\":{\"min\":\"AVERAGE\",\"max\":\"AVERAGE\",\"mean\":\"AVERAGE\",\"stdDev\":\"AVERAGE\"}}},\"combinedColumnConfig\":{\"visibleKeys\":[\"name\",\"hPYl4ZPyAG0_mean\",\"QvS4H7Vs8q8_rawValue\"],\"pinnedKeys\":[\"name\"],\"orderedKeys\":[\"name\",\"id\",\"level\",\"QvS4H7Vs8q8_rawValue\",\"hPYl4ZPyAG0_mean\",\"hPYl4ZPyAG0_min\",\"hPYl4ZPyAG0_max\",\"hPYl4ZPyAG0_stdDev\",\"QvS4H7Vs8q8_legend\"]},\"combinedLayerKey\":\"xbpCEhUzAvd\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {},
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "id": "LEVEL-2",
+                                    "name": "LEVEL-2"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {},
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "NCmk0MYalsX",
+                    "attributeValues": []
+                }
+            ],
+            "id": "rormF2g4e2v",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        },
+        {
+            "name": "#3735 - MCH Apgar Score (events) and Org Units",
+            "lastUpdated": "2026-08-04T12:34:25.264",
+            "basemap": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+            "mapViews": [
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-04T12:34:25.004",
+                    "lastUpdated": "2026-08-04T12:34:25.264",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "orgUnit",
+                    "opacity": 1,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedLayerKey\":\"qWv66KxleQY\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                },
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "CesZDxKOMvK",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Birth",
+                    "created": "2026-08-04T12:20:57.928",
+                    "lastUpdated": "2026-08-04T12:34:25.264",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [
+                        "LAST_5_YEARS"
+                    ],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "IpHINAT79UW",
+                        "name": "Child Programme"
+                    },
+                    "programStage": {
+                        "id": "A03MvHHogjR",
+                        "name": "Birth"
+                    },
+                    "layer": "event",
+                    "method": 2,
+                    "classes": 5,
+                    "colorScale": "#edf8fb,#b3cde3,#8c96c6,#8856a7,#810f7c",
+                    "opacity": 0.8,
+                    "hidden": false,
+                    "eventClustering": false,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"countEventsOutsideOrgUnits\":true,\"combinedLayerKey\":\"K11MjvCu0Y5\"}",
+                    "styleDataItem": {
+                        "id": "a3kGcGDCuk6",
+                        "valueType": "NUMBER"
+                    },
+                    "parentLevel": 0,
+                    "filters": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "PERIOD",
+                                    "id": "LAST_5_YEARS",
+                                    "name": "LAST_5_YEARS"
+                                }
+                            ],
+                            "dimension": "pe"
+                        }
+                    ],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Birth",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Birth",
+                    "favorite": false,
+                    "id": "fYJWgL7Tctq",
+                    "attributeValues": []
+                },
+                {
+                    "name": "Organisation units",
+                    "created": "2026-08-04T12:28:26.941",
+                    "lastUpdated": "2026-08-04T12:34:25.264",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "layer": "combinedTableRef",
+                    "hidden": true,
+                    "eventClustering": false,
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "config": "{\"combinedJoinConfig\":{\"K11MjvCu0Y5\":{\"type\":\"spatial\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\",\"value\":\"AVERAGE\"}},\"qWv66KxleQY\":{\"type\":\"orgUnit\",\"aggregation\":{\"count\":\"COUNT\"}}},\"combinedColumnConfig\":{\"visibleKeys\":[\"name\",\"orgUnitPath\",\"K11MjvCu0Y5_value\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"name\",\"level\",\"orgUnitPath\",\"qWv66KxleQY_count\",\"qWv66KxleQY_legend\",\"K11MjvCu0Y5_value\",\"K11MjvCu0Y5_legend\"]},\"combinedLayerKey\":\"yxLWK934KAM\"}",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                                },
+                                {
+                                    "id": "LEVEL-3",
+                                    "name": "LEVEL-3"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Organisation units",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "LL: ẫ - LU: Ǿ - GL: ψ - GU: Ξ - CL: ӂ - CU: Ѭ - H: פּ - N: ¼ - CL: £ - MO: ≠ - P: ¶ - CS: € - M:  ҉   - LA: ຂໍ້ - ET: መ - MY: နို - AR: يو - JA: す - KO: 인 - SC: 生 - TH: อ"
+                        }
+                    },
+                    "displayFormName": "Organisation units",
+                    "favorite": false,
+                    "id": "wxfGgIdMt2L",
+                    "attributeValues": []
+                }
+            ],
+            "id": "Ucnjhj4nka0",
+            "basemaps": [
+                {
+                    "id": "{\"id\":\"osmLight\",\"opacity\":1,\"hidden\":false}",
+                    "opacity": 1,
+                    "hidden": false
+                }
+            ]
+        }
+    ]
+}
