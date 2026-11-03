@@ -30,6 +30,10 @@ with three changes:
     that sent the legacy basemap JSON, store that whole JSON string as the
     basemap id.
 
+The tracked entities map also filters by enrollment date instead of last
+update: its focus areas with a geometry were last updated after the source
+map's end date, but enrolled before it.
+
 ## Running
 
 1. Set the server and an account that may create maps, for example in a
@@ -75,7 +79,7 @@ node snapshot.js
 | Organisation units layer - No style                   | `kkOpED9Ed4s` | `BJ6PDONq0UQ` | Chiefdom boundaries, not styled by a group set.                                                                                |
 | Organisation units layer - Area                       | `NK5RxqQdNKD` | `C7PIMo0NuNV` | District boundaries styled by the Area group set: group and colour columns.                                                    |
 | Earth engine layer - Population age groups            | `H41xCjRPqFG` | `FMgI8NLiFxj` | WorldPop Global2 population for two age groups by district, as sum and mean: one column per band and statistic.                |
-| Tracked entities layer                                | `NhDM6wSdwqM` | `ezJk7w1rFuN` | Malaria focus investigations in Sierra Leone: for the tracked entity data table, which is not in the first release.            |
+| Tracked entities layer                                | `NhDM6wSdwqM` | `ezJk7w1rFuN` | Malaria focus investigations in Sierra Leone by enrollment date: for the tracked entity data table, not in the first release.  |
 | Events layer - ~1k - Server cluster                   | `epic0lwfRSv` | `vzs97laj9ID` | Child Programme births in one district over the last 5 years, clustered, not styled.                                           |
 | Events layer - ~1k - Client cluster - MCH Apgar Score | `yvM3atGSniL` | `BspYL92n5pW` | Child Programme births in one district over the last 5 years, styled by the numeric MCH Apgar Score: legend and range columns. |
 | Events layer - ~10k - Server cluster                  | `D2QX6E8zzkc` | `yKWzn188DgM` | Child Programme births in Sierra Leone over the last 10 years, clustered, not styled.                                          |

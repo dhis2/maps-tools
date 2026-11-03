@@ -69,6 +69,30 @@ test('config keeps released settings and loses unreleased data table keys', () =
     ].forEach((key) => assert.ok(keys.has(key), key))
 })
 
+test('the tracked entities map filters by enrollment date, keeping its relationship setting', () => {
+    const index = SCENARIOS.findIndex(
+        ({ sourceId }) => sourceId === 'ezJk7w1rFuN'
+    )
+    const [view] = build()[index].mapViews
+    assert.deepEqual(JSON.parse(view.config), {
+        relationships: null,
+        periodType: 'program',
+    })
+})
+
+test('maps without a scenario config keep their layer config as saved', () => {
+    const index = SCENARIOS.findIndex(
+        ({ sourceId }) => sourceId === 'yYaagMvoVTE'
+    )
+    const source = snapshot.maps.find(({ id }) => id === 'yYaagMvoVTE')
+    const sourceConfig = JSON.parse(source.mapViews[0].config)
+    DROPPED_CONFIG_KEYS.forEach((key) => delete sourceConfig[key])
+    assert.deepEqual(
+        JSON.parse(build()[index].mapViews[0].config),
+        sourceConfig
+    )
+})
+
 test('layers only carry properties maps-app saves, without ids', () => {
     const allowed = new Set(LAYER_PROPERTIES)
     allViews(build()).forEach((view) =>

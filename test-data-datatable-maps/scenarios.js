@@ -63,7 +63,10 @@ const SCENARIOS = [
         sourceId: 'ezJk7w1rFuN',
         name: 'Tracked entities layer',
         description:
-            'Malaria focus investigations in Sierra Leone: for the tracked entity data table, which is not in the first release.',
+            'Malaria focus investigations in Sierra Leone by enrollment date: for the tracked entity data table, not in the first release.',
+        // Its focus areas with a geometry were last updated after the
+        // source map's end date, but enrolled before it
+        layerConfig: { periodType: 'program' },
     },
     {
         sourceId: 'vzs97laj9ID',

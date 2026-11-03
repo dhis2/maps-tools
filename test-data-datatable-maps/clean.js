@@ -104,14 +104,15 @@ const pick = (keys, object) =>
             .map((key) => [key, object[key]])
     )
 
-const cleanConfig = (config) => {
+const cleanConfig = (config, overrides) => {
     let parsed
     try {
-        parsed = JSON.parse(config)
+        parsed = JSON.parse(config ?? '{}')
     } catch {
         return config
     }
     DROPPED_CONFIG_KEYS.forEach((key) => delete parsed[key])
+    Object.assign(parsed, overrides)
     return Object.keys(parsed).length ? JSON.stringify(parsed) : undefined
 }
 
@@ -120,7 +121,7 @@ const cleanDimension = (dimension) => ({
     items: dimension.items.map((item) => pick(MODEL_PROPERTIES, item)),
 })
 
-const cleanLayer = (view) => {
+const cleanLayer = (view, configOverrides) => {
     const layer = pick(LAYER_PROPERTIES, view)
     MODELS.filter((key) => layer[key]).forEach((key) => {
         layer[key] = pick(MODEL_PROPERTIES, layer[key])
@@ -128,8 +129,8 @@ const cleanLayer = (view) => {
     if (layer.rows) {
         layer.rows = layer.rows.map(cleanDimension)
     }
-    if (layer.config) {
-        const config = cleanConfig(layer.config)
+    if (layer.config || configOverrides) {
+        const config = cleanConfig(layer.config, configOverrides)
         if (config === undefined) {
             delete layer.config
         } else {
@@ -139,8 +140,10 @@ const cleanLayer = (view) => {
     return layer
 }
 
-const cleanLayers = (mapViews) =>
-    mapViews.filter(({ layer }) => !DROPPED_LAYERS.has(layer)).map(cleanLayer)
+const cleanLayers = (mapViews, configOverrides) =>
+    mapViews
+        .filter(({ layer }) => !DROPPED_LAYERS.has(layer))
+        .map((view) => cleanLayer(view, configOverrides))
 
 // Some maps saved on 2.43 carry the legacy basemap JSON as the basemap id
 const parseBasemap = ({ basemaps, basemap }) => {
@@ -176,7 +179,7 @@ const buildMap = (source, scenario, { serverMinor }) => ({
     description: `${scenario.description} Copy of map ${scenario.sourceId} on maps-app-43-1, made by maps-tools test-data-datatable-maps.`,
     ...pick(['latitude', 'longitude', 'zoom'], source),
     ...getBasemapPayload(source, serverMinor),
-    mapViews: cleanLayers(source.mapViews),
+    mapViews: cleanLayers(source.mapViews, scenario.layerConfig),
 })
 
 const buildMaps = (snapshot, scenarios, options) =>
