@@ -24,7 +24,7 @@ values:
 "use:roads": {
     "type:way": {
         "key:highway": {
-            "cat:primary": [ "primary", "primary_link" ],
+            "cat:primary": ["primary", "primary_link"],
             ...
 ```
 
