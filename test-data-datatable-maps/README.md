@@ -65,7 +65,7 @@ node snapshot.js
 
 ## What it creates
 
-22 maps named "Data table test: ...", readable by everyone, on OSM Light:
+23 maps named "Data table test: ...", readable by everyone, on OSM Light:
 
 | Map                                                   | Id            | Copy of       | What it shows                                                                                                                     |
 | ----------------------------------------------------- | ------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -91,6 +91,7 @@ node snapshot.js
 | Malaria cases (aggregated) and NDVI                   | `vj3y1JThbti` | `rormF2g4e2v` | Malaria case count by district and the monthly vegetation index from Earth Engine: a thematic and an Earth Engine table.          |
 | MCH Apgar Score (events) and Org Units                | `pbrUoNO7bY2` | `Ucnjhj4nka0` | Chiefdoms of one district and births styled by MCH Apgar Score: an organisation unit and an event table.                          |
 | Thematic layers - Drill and layer order               | `OFjbKmUcffK` | `wHCYu1P6oPZ` | ANC 1st visit (pink) under ANC 2nd visit (green), both filled by district: after a drill, moving a layer changes which one shows. |
+| Events layer - No events                              | `DS4XR7xWOt9` | `RQGa7Jg7gnY` | Child Programme births in one district in 2000, when it has none: the table shows its no-data message.                            |
 
 Event counts depend on the server's data and change with relative periods.
 

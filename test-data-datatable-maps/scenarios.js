@@ -134,6 +134,12 @@ const SCENARIOS = [
         description:
             'ANC 1st visit (pink) under ANC 2nd visit (green), both filled by district: after a drill, moving a layer changes which one shows.',
     },
+    {
+        sourceId: 'RQGa7Jg7gnY',
+        name: 'Events layer - No events',
+        description:
+            'Child Programme births in one district in 2000, when it has none: the table shows its no-data message.',
+    },
 ]
 
 module.exports = { SCENARIOS }

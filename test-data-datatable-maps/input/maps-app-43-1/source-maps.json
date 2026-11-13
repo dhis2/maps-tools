@@ -1,7 +1,7 @@
 {
     "baseUrl": "https://dev.im.dhis2.org/maps-app-43-1",
     "version": "2.43.1",
-    "fetchedAt": "2026-11-13T10:01:07.585Z",
+    "fetchedAt": "2026-11-13T17:25:58.926Z",
     "maps": [
         {
             "name": "#3735 - Thematic layer - Single ",
@@ -82,6 +82,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -105,7 +106,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 1st visit",
                     "subscribed": false,
                     "metaData": {},
@@ -203,6 +203,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -226,7 +227,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 1st visit",
                     "subscribed": false,
                     "metaData": {},
@@ -324,6 +324,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -347,7 +348,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 1st visit",
                     "subscribed": false,
                     "metaData": {},
@@ -431,6 +431,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -454,7 +455,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 2nd visit",
                     "subscribed": false,
                     "metaData": {},
@@ -564,6 +564,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -587,7 +588,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 1st visit",
                     "subscribed": false,
                     "metaData": {},
@@ -697,6 +697,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -720,7 +721,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 1st visit",
                     "subscribed": false,
                     "metaData": {},
@@ -816,6 +816,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -839,7 +840,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 2nd visit",
                     "subscribed": false,
                     "metaData": {},
@@ -913,6 +913,7 @@
                     "config": "{\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\"]},\"combinedLayerKey\":\"hbMl0I5j5CQ\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -925,7 +926,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Facilities",
                     "subscribed": false,
                     "metaData": {},
@@ -983,6 +983,7 @@
                     "config": "{\"combinedJoinConfig\":{\"hbMl0I5j5CQ\":{\"type\":\"orgUnit\",\"aggregation\":{\"count\":\"COUNT\"}}},\"combinedLayerKey\":\"CrNBNtVSaAl\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -995,7 +996,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1072,6 +1072,7 @@
                     "config": "{\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"type\"]},\"combinedLayerKey\":\"hbMl0I5j5CQ\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1084,7 +1085,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Facilities",
                     "subscribed": false,
                     "metaData": {},
@@ -1142,6 +1142,7 @@
                     "config": "{\"combinedJoinConfig\":{\"hbMl0I5j5CQ\":{\"type\":\"orgUnit\",\"aggregation\":{\"count\":\"COUNT\"}}},\"combinedLayerKey\":\"CrNBNtVSaAl\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1154,7 +1155,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1229,6 +1229,7 @@
                     "config": "{\"combinedLayerKey\":\"hWVImSdRCv5\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1241,7 +1242,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1299,6 +1299,7 @@
                     "config": "{\"combinedLayerKey\":\"EIroTFpBeEy\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1311,7 +1312,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1389,6 +1389,7 @@
                     "config": "{\"unclassifiedLegend\":{\"color\":\"#CCCCCC\"},\"countFeaturesWithoutCoordinates\":true,\"combinedLayerKey\":\"hWVImSdRCv5\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1401,7 +1402,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1459,6 +1459,7 @@
                     "config": "{\"combinedLayerKey\":\"EIroTFpBeEy\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1471,7 +1472,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1546,6 +1546,7 @@
                     "config": "{\"id\":\"projects/wpgp-global2/assets/agesex_100m\",\"style\":{\"min\":0,\"max\":10,\"palette\":[\"#fee5d9\",\"#fcbba1\",\"#fc9272\",\"#fb6a4a\",\"#de2d26\",\"#a50f15\"]},\"band\":[\"m_00\",\"m_01\"],\"aggregationType\":[\"sum\",\"mean\"],\"period\":{\"id\":\"2026\",\"startDate\":\"2026-01-01T00:00:00.000Z\",\"endDate\":\"2026-12-31T23:59:59.000Z\",\"year\":2026,\"name\":\"2026\"},\"dataTableColumnConfig\":{\"visibleKeys\":[\"orgUnitOwn\",\"orgUnitPath\",\"sum\",\"m_00_sum\",\"m_01_sum\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"orgUnitOwn\",\"level\",\"orgUnitPath\",\"sum\",\"mean\",\"m_00_sum\",\"m_00_mean\",\"m_01_sum\",\"m_01_mean\",\"type\"]},\"combinedLayerKey\":\"tHxgJsKE5UC\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1558,7 +1559,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Population age groups WorldPop Global2",
                     "subscribed": false,
                     "metaData": {},
@@ -1616,6 +1616,7 @@
                     "config": "{\"combinedJoinConfig\":{\"tHxgJsKE5UC\":{\"type\":\"orgUnit\",\"aggregation\":{\"sum\":\"SUM\",\"mean\":\"SUM\",\"m_00_sum\":\"SUM\",\"m_00_mean\":\"SUM\",\"m_01_sum\":\"SUM\",\"m_01_mean\":\"SUM\"}}},\"combinedColumnConfig\":{\"visibleKeys\":[\"name\",\"tHxgJsKE5UC_mean\",\"tHxgJsKE5UC_m_00_mean\",\"tHxgJsKE5UC_m_01_mean\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"name\",\"level\",\"tHxgJsKE5UC_sum\",\"tHxgJsKE5UC_mean\",\"tHxgJsKE5UC_m_00_sum\",\"tHxgJsKE5UC_m_00_mean\",\"tHxgJsKE5UC_m_01_sum\",\"tHxgJsKE5UC_m_01_mean\"]},\"combinedLayerKey\":\"maRJKhaY6vy\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -1628,7 +1629,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -1717,6 +1717,9 @@
                     "config": "{\"relationships\":null}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -1730,9 +1733,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "ImspTQPwCqd": ""
-                    },
                     "displayName": "Malaria focus investigation",
                     "subscribed": false,
                     "metaData": {
@@ -1840,6 +1840,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -1853,9 +1856,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Birth",
                     "subscribed": false,
                     "metaData": {
@@ -1924,6 +1924,9 @@
                     "config": "{\"combinedJoinConfig\":{\"K11MjvCu0Y5\":{\"type\":\"orgUnit\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\",\"value\":\"AVERAGE\"}}},\"combinedLayerKey\":\"yxLWK934KAM\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -1941,9 +1944,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {
@@ -2055,6 +2055,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -2068,9 +2071,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Birth",
                     "subscribed": false,
                     "metaData": {
@@ -2139,6 +2139,9 @@
                     "config": "{\"combinedJoinConfig\":{\"K11MjvCu0Y5\":{\"type\":\"orgUnit\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\",\"value\":\"AVERAGE\"}}},\"combinedLayerKey\":\"yxLWK934KAM\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -2156,9 +2159,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {
@@ -2265,6 +2265,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -2278,9 +2281,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "ImspTQPwCqd": ""
-                    },
                     "displayName": "Birth",
                     "subscribed": false,
                     "metaData": {
@@ -2457,6 +2457,21 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "jUb8gELQApl": "ImspTQPwCqd",
+                        "TEQlaapDQoK": "ImspTQPwCqd",
+                        "eIQbndfxQMb": "ImspTQPwCqd",
+                        "Vth0fbpFcsO": "ImspTQPwCqd",
+                        "PMa2VCrupOd": "ImspTQPwCqd",
+                        "O6uvpzGd5pu": "ImspTQPwCqd",
+                        "bL4ooGhyHRQ": "ImspTQPwCqd",
+                        "kJq2mPyFEHo": "ImspTQPwCqd",
+                        "fdc6uOvgoji": "ImspTQPwCqd",
+                        "at6UHUQatSo": "ImspTQPwCqd",
+                        "lc3eMKXaEfw": "ImspTQPwCqd",
+                        "qhqAxPSTUXp": "ImspTQPwCqd",
+                        "jmIPBj66vD6": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -2530,21 +2545,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "jUb8gELQApl": "ImspTQPwCqd",
-                        "TEQlaapDQoK": "ImspTQPwCqd",
-                        "eIQbndfxQMb": "ImspTQPwCqd",
-                        "Vth0fbpFcsO": "ImspTQPwCqd",
-                        "PMa2VCrupOd": "ImspTQPwCqd",
-                        "O6uvpzGd5pu": "ImspTQPwCqd",
-                        "bL4ooGhyHRQ": "ImspTQPwCqd",
-                        "kJq2mPyFEHo": "ImspTQPwCqd",
-                        "fdc6uOvgoji": "ImspTQPwCqd",
-                        "at6UHUQatSo": "ImspTQPwCqd",
-                        "lc3eMKXaEfw": "ImspTQPwCqd",
-                        "qhqAxPSTUXp": "ImspTQPwCqd",
-                        "jmIPBj66vD6": "ImspTQPwCqd"
-                    },
                     "displayName": "Birth",
                     "subscribed": false,
                     "metaData": {
@@ -2721,6 +2721,21 @@
                     "config": "{\"combinedJoinConfig\":{\"PxgH6vB9p3f\":{\"type\":\"orgUnit\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\"}}},\"combinedLayerKey\":\"F2xWk73Ytmq\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {
+                        "jUb8gELQApl": "ImspTQPwCqd",
+                        "TEQlaapDQoK": "ImspTQPwCqd",
+                        "eIQbndfxQMb": "ImspTQPwCqd",
+                        "Vth0fbpFcsO": "ImspTQPwCqd",
+                        "PMa2VCrupOd": "ImspTQPwCqd",
+                        "O6uvpzGd5pu": "ImspTQPwCqd",
+                        "bL4ooGhyHRQ": "ImspTQPwCqd",
+                        "kJq2mPyFEHo": "ImspTQPwCqd",
+                        "fdc6uOvgoji": "ImspTQPwCqd",
+                        "at6UHUQatSo": "ImspTQPwCqd",
+                        "lc3eMKXaEfw": "ImspTQPwCqd",
+                        "qhqAxPSTUXp": "ImspTQPwCqd",
+                        "jmIPBj66vD6": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -2794,21 +2809,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "jUb8gELQApl": "ImspTQPwCqd",
-                        "TEQlaapDQoK": "ImspTQPwCqd",
-                        "eIQbndfxQMb": "ImspTQPwCqd",
-                        "Vth0fbpFcsO": "ImspTQPwCqd",
-                        "PMa2VCrupOd": "ImspTQPwCqd",
-                        "O6uvpzGd5pu": "ImspTQPwCqd",
-                        "bL4ooGhyHRQ": "ImspTQPwCqd",
-                        "kJq2mPyFEHo": "ImspTQPwCqd",
-                        "fdc6uOvgoji": "ImspTQPwCqd",
-                        "at6UHUQatSo": "ImspTQPwCqd",
-                        "lc3eMKXaEfw": "ImspTQPwCqd",
-                        "qhqAxPSTUXp": "ImspTQPwCqd",
-                        "jmIPBj66vD6": "ImspTQPwCqd"
-                    },
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {
@@ -2975,6 +2975,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -2988,9 +2991,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "ImspTQPwCqd": ""
-                    },
                     "displayName": "Inpatient morbidity and mortality",
                     "subscribed": false,
                     "metaData": {
@@ -3106,6 +3106,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -3119,9 +3122,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "ImspTQPwCqd": ""
-                    },
                     "displayName": "Inpatient morbidity and mortality",
                     "subscribed": false,
                     "metaData": {
@@ -3228,6 +3228,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -3241,9 +3244,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "ImspTQPwCqd": ""
-                    },
                     "displayName": "Malaria case registration",
                     "subscribed": false,
                     "metaData": {
@@ -3371,6 +3371,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "ImspTQPwCqd": ""
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -3384,9 +3387,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "ImspTQPwCqd": ""
-                    },
                     "displayName": "Malaria case registration",
                     "subscribed": false,
                     "metaData": {
@@ -3467,6 +3467,7 @@
                     "config": "{\"id\":\"MODIS/061/MOD13Q1/VI/MONTHLY\",\"style\":{\"min\":0,\"max\":0.8,\"palette\":[\"#f1eda9\",\"#ffffbf\",\"#d9ef8b\",\"#a6d96a\",\"#66bd63\",\"#1a9850\",\"#238443\",\"#006837\",\"#004529\"]},\"band\":\"NDVI\",\"aggregationType\":[\"min\",\"max\",\"mean\",\"stdDev\"],\"period\":{\"id\":\"202606\",\"startDate\":\"2026-06-01T00:00:00.000Z\",\"endDate\":\"2026-06-30T23:59:59.000Z\",\"year\":2026,\"name\":\"June 2026\"},\"combinedLayerKey\":\"hPYl4ZPyAG0\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -3479,7 +3480,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Vegetation index monthly",
                     "subscribed": false,
                     "metaData": {},
@@ -3560,6 +3560,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -3583,7 +3584,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Malaria case count",
                     "subscribed": false,
                     "metaData": {},
@@ -3641,6 +3641,7 @@
                     "config": "{\"combinedJoinConfig\":{\"fxaSF16QiSk\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"AVERAGE\"}},\"b8J74o7yHfE\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"AVERAGE\"}},\"eYNVmgR6Nhn\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"SUM\"}},\"YDibgdBY9R1\":{\"type\":\"orgUnit\",\"aggregation\":{\"min\":\"SUM\",\"max\":\"SUM\",\"mean\":\"SUM\",\"stdDev\":\"SUM\"}},\"j1UrAb9p79V\":{\"type\":\"orgUnit\",\"aggregation\":{\"min\":\"SUM\",\"max\":\"SUM\",\"mean\":\"SUM\",\"stdDev\":\"SUM\"}},\"T6OKo9ozNmt\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"SUM\"}},\"QvS4H7Vs8q8\":{\"type\":\"orgUnit\",\"aggregation\":{\"rawValue\":\"SUM\"}},\"hPYl4ZPyAG0\":{\"type\":\"orgUnit\",\"aggregation\":{\"min\":\"AVERAGE\",\"max\":\"AVERAGE\",\"mean\":\"AVERAGE\",\"stdDev\":\"AVERAGE\"}}},\"combinedColumnConfig\":{\"visibleKeys\":[\"name\",\"hPYl4ZPyAG0_mean\",\"QvS4H7Vs8q8_rawValue\"],\"pinnedKeys\":[\"name\"],\"orderedKeys\":[\"name\",\"id\",\"level\",\"QvS4H7Vs8q8_rawValue\",\"hPYl4ZPyAG0_mean\",\"hPYl4ZPyAG0_min\",\"hPYl4ZPyAG0_max\",\"hPYl4ZPyAG0_stdDev\",\"QvS4H7Vs8q8_legend\"]},\"combinedLayerKey\":\"xbpCEhUzAvd\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {},
                     "columns": [],
                     "rows": [
                         {
@@ -3653,7 +3654,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {},
@@ -3732,6 +3732,9 @@
                     "config": "{\"combinedLayerKey\":\"qWv66KxleQY\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -3749,9 +3752,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {
@@ -3850,6 +3850,9 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -3863,9 +3866,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Birth",
                     "subscribed": false,
                     "metaData": {
@@ -3934,6 +3934,9 @@
                     "config": "{\"combinedJoinConfig\":{\"K11MjvCu0Y5\":{\"type\":\"spatial\",\"aggregation\":{\"categoryDisplayType\":\"COUNT\",\"value\":\"AVERAGE\"}},\"qWv66KxleQY\":{\"type\":\"orgUnit\",\"aggregation\":{\"count\":\"COUNT\"}}},\"combinedColumnConfig\":{\"visibleKeys\":[\"name\",\"orgUnitPath\",\"K11MjvCu0Y5_value\"],\"pinnedKeys\":[],\"orderedKeys\":[\"id\",\"name\",\"level\",\"orgUnitPath\",\"qWv66KxleQY_count\",\"qWv66KxleQY_legend\",\"K11MjvCu0Y5_value\",\"K11MjvCu0Y5_legend\"]},\"combinedLayerKey\":\"yxLWK934KAM\"}",
                     "parentLevel": 0,
                     "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
                     "columns": [],
                     "rows": [
                         {
@@ -3951,9 +3954,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {
-                        "fdc6uOvgoji": "ImspTQPwCqd"
-                    },
                     "displayName": "Organisation units",
                     "subscribed": false,
                     "metaData": {
@@ -4058,6 +4058,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -4081,7 +4082,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 1st visit",
                     "subscribed": false,
                     "metaData": {},
@@ -4165,6 +4165,7 @@
                             "dimension": "pe"
                         }
                     ],
+                    "parentGraphMap": {},
                     "columns": [
                         {
                             "items": [
@@ -4188,7 +4189,6 @@
                             "dimension": "ou"
                         }
                     ],
-                    "parentGraphMap": {},
                     "displayName": "ANC 2nd visit",
                     "subscribed": false,
                     "metaData": {},
@@ -4199,6 +4199,109 @@
                 }
             ],
             "id": "wHCYu1P6oPZ",
+            "basemaps": []
+        },
+        {
+            "name": "#3838 - Event layer without events",
+            "lastUpdated": "2026-11-13T17:25:47.257",
+            "basemap": "osmLight",
+            "mapViews": [
+                {
+                    "name": "Birth",
+                    "created": "2026-11-13T17:25:47.071",
+                    "lastUpdated": "2026-11-13T17:25:47.258",
+                    "translations": [],
+                    "favorites": [],
+                    "sharing": {
+                        "users": {},
+                        "userGroups": {}
+                    },
+                    "regressionType": "NONE",
+                    "rawPeriods": [],
+                    "hideEmptyRows": false,
+                    "showHierarchy": false,
+                    "completedOnly": false,
+                    "skipRounding": false,
+                    "dataDimensionItems": [],
+                    "organisationUnits": [
+                        {
+                            "path": "/ImspTQPwCqd/fdc6uOvgoji",
+                            "id": "fdc6uOvgoji"
+                        }
+                    ],
+                    "dataElementGroupSetDimensions": [],
+                    "organisationUnitGroupSetDimensions": [],
+                    "categoryDimensions": [],
+                    "categoryOptionGroupSetDimensions": [],
+                    "attributeDimensions": [],
+                    "dataElementDimensions": [],
+                    "programIndicatorDimensions": [],
+                    "subscribers": [],
+                    "startDate": "2000-01-01T00:00:00.000",
+                    "endDate": "2000-12-31T00:00:00.000",
+                    "digitGroupSeparator": "SPACE",
+                    "hideEmptyRowItems": "NONE",
+                    "hideLegend": false,
+                    "noSpaceBetweenColumns": false,
+                    "cumulativeValues": false,
+                    "percentStackedValues": false,
+                    "showData": false,
+                    "colTotals": false,
+                    "rowTotals": false,
+                    "rowSubTotals": false,
+                    "colSubTotals": false,
+                    "hideTitle": false,
+                    "hideSubtitle": false,
+                    "showDimensionLabels": false,
+                    "interpretations": [],
+                    "program": {
+                        "id": "IpHINAT79UW",
+                        "name": "Child Programme"
+                    },
+                    "programStage": {
+                        "id": "A03MvHHogjR",
+                        "name": "Birth"
+                    },
+                    "layer": "event",
+                    "opacity": 0.8,
+                    "eventClustering": true,
+                    "eventCoordinateField": "ougeometry",
+                    "eventPointRadius": 0,
+                    "renderingStrategy": "SINGLE",
+                    "parentLevel": 0,
+                    "filters": [],
+                    "parentGraphMap": {
+                        "fdc6uOvgoji": "ImspTQPwCqd"
+                    },
+                    "columns": [],
+                    "rows": [
+                        {
+                            "items": [
+                                {
+                                    "dimensionItemType": "ORGANISATION_UNIT",
+                                    "id": "fdc6uOvgoji",
+                                    "name": "Bombali"
+                                }
+                            ],
+                            "dimension": "ou"
+                        }
+                    ],
+                    "displayName": "Birth",
+                    "subscribed": false,
+                    "metaData": {
+                        "fdc6uOvgoji": {
+                            "uid": "fdc6uOvgoji",
+                            "code": "OU_193190",
+                            "name": "Bombali"
+                        }
+                    },
+                    "displayFormName": "Birth",
+                    "favorite": false,
+                    "id": "P87ygcOqFUq",
+                    "attributeValues": []
+                }
+            ],
+            "id": "RQGa7Jg7gnY",
             "basemaps": []
         }
     ]
