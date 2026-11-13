@@ -1,5 +1,5 @@
 const { createClient } = require('../client.js')
-const { teamId, username } = require('../shared/users.js')
+const { USERNAME_PREFIX, teamId, username } = require('../shared/users.js')
 
 const buildContent = ({ ctx, posts, states }) =>
     posts.map((post) => ({
@@ -45,7 +45,8 @@ const share = (client, type, id, teams) =>
     })
 
 // Interpretations have server ids, so re-runs delete the ones the demo users
-// wrote on the map before writing them again
+// wrote on the map before writing them again. Only their author may delete
+// them, superusers included.
 const replaceInterpretations = async (
     client,
     userClient,
@@ -56,8 +57,10 @@ const replaceInterpretations = async (
         `/api/interpretations?filter=map.id:eq:${mapId}&fields=id,createdBy[username]&paging=false`
     )
     for (const { id, createdBy } of existing) {
-        if (createdBy?.username?.startsWith('show_')) {
-            await client.delete(`/api/interpretations/${id}`)
+        if (createdBy?.username?.startsWith(USERNAME_PREFIX)) {
+            await userClient(
+                createdBy.username.slice(USERNAME_PREFIX.length)
+            ).delete(`/api/interpretations/${id}`)
         }
     }
     for (const { author, text, comments = [] } of interpretations) {

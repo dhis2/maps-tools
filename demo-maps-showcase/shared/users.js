@@ -76,7 +76,8 @@ const PERSONAS = [
     { key: 'guest', title: 'Guest', teams: [], guest: true },
 ]
 
-const username = (key) => `show_${key}`
+const USERNAME_PREFIX = 'show_'
+const username = (key) => `${USERNAME_PREFIX}${key}`
 const userId = (key) => uid(`user:${key}`)
 const teamId = (team) => uid(`userGroup:${team}`)
 
@@ -138,6 +139,7 @@ module.exports = {
     loadPasswords,
     savePasswords,
     teamId,
+    USERNAME_PREFIX,
     username,
     usersMetadata,
 }

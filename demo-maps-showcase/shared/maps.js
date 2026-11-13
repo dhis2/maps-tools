@@ -103,10 +103,9 @@ const map = ({ key, post, title, description, layers }) => ({
     latitude: 8.5,
     longitude: -11.8,
     zoom: 7,
-    mapViews: layers.map((layer, i) => ({
-        id: uid(`map:${key}:layer:${i}`),
-        ...layer,
-    })),
+    // No ids: a PUT that keeps them fails, as the server inserts the new
+    // views before deleting the old ones
+    mapViews: layers,
 })
 
 const dashboard = ({ key, post, title, maps }) => ({
