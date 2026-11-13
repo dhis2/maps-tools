@@ -1,6 +1,5 @@
 // Post 10 · Map the data before you map the disease: reporting completeness
 // and timeliness of a monthly report, by district and by facility.
-const { code, dataSetSharing, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
     dashboard,
@@ -8,33 +7,29 @@ const {
     map,
     thematicLayer,
 } = require('../shared/maps.js')
+const { dataSet, dataSetId } = require('../shared/metadata.js')
 const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS, ROOT } = require('../shared/sierraLeone.js')
 const { addDays, isoDate, lastMonths } = require('../periods.js')
 const { randomFor } = require('../random.js')
 
-const DEFAULT_CATEGORY_COMBO = 'bjDvmb4bfuf'
 const MONTHS = 12
 const TIMELY_DAYS = 15
 
 // A data set of the tool's own, so its registrations can be planted without
 // deleting the demo's registrations for other data sets
-const dataSet = (facilities, importerId) => ({
-    id: uid('dataSet:HMIS_MONTHLY'),
-    code: code('DS_HMIS_MONTHLY'),
-    name: 'Monthly HMIS report',
-    shortName: 'Monthly HMIS report',
-    periodType: 'Monthly',
-    timelyDays: TIMELY_DAYS,
-    expiryDays: 0,
-    openFuturePeriods: 0,
-    categoryCombo: { id: DEFAULT_CATEGORY_COMBO },
-    dataSetElements: [],
-    organisationUnits: facilities.map(({ id }) => ({ id })),
-    sharing: dataSetSharing(importerId),
-})
+const DATA_SET = 'HMIS_MONTHLY'
+const DATA_SET_ID = dataSetId(DATA_SET)
 
-const DATA_SET_ID = uid('dataSet:HMIS_MONTHLY')
+const reportDataSet = (facilities, importerId) =>
+    dataSet({
+        key: DATA_SET,
+        name: 'Monthly HMIS report',
+        periodType: 'Monthly',
+        orgUnits: facilities,
+        importerId,
+        timelyDays: TIMELY_DAYS,
+    })
 
 // On-time reports arrive within 10 days, late ones up to 45 days after the
 // month ends
@@ -147,7 +142,7 @@ const post = {
 
     metadata: ({ importerId }, { facilities }) => ({
         legendSets: Object.values(legendSets),
-        dataSets: [dataSet(facilities, importerId)],
+        dataSets: [reportDataSet(facilities, importerId)],
     }),
 
     data: (ctx, state) => {

@@ -1,8 +1,8 @@
 // Post 1 · Where are the unvaccinated? Penta1 coverage (access) and
 // Penta1-Penta3 dropout (utilization) by district, in RED/REC categories.
-const { PUBLIC_READ, code, dataSetSharing, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
 const { dashboard, map, thematicLayer } = require('../shared/maps.js')
+const { dataSet, dataSetId, indicator } = require('../shared/metadata.js')
 const { facilitiesIn } = require('../shared/orgUnits.js')
 const { CLASS_SCALES, PALETTE } = require('../shared/palette.js')
 const {
@@ -21,8 +21,6 @@ const FIXED_UNDER_1 = 'Prlt0C1RF0s'
 const OUTREACH_UNDER_1 = 'V6L425pT3A0'
 const PENTA1_COVERAGE = 'i7WSgSJpnfu'
 const PENTA_DROPOUT = 'EdN7qlmI5FS'
-const NUMBER_FACTOR_1 = 'JkWynlWMjJR'
-const DEFAULT_CATEGORY_COMBO = 'bjDvmb4bfuf'
 
 const MONTHS = 24
 const FIXED_SHARE = 0.7
@@ -94,36 +92,28 @@ const legendSets = {
 // Penta values sit in the default one, and the importer refuses that for
 // Child Health. Importing through a data set with the default combo
 // overwrites the demo's values instead of adding to them.
-const importDataSet = (facilities, importerId) => ({
-    id: uid('dataSet:EPI_IMPORT'),
-    code: code('DS_EPI_IMPORT'),
-    name: 'Showcase: EPI doses (synthetic data import)',
-    shortName: 'Showcase: EPI import',
-    periodType: 'Monthly',
-    categoryCombo: { id: DEFAULT_CATEGORY_COMBO },
-    dataSetElements: [PENTA1, PENTA3].map((id) => ({
-        dataElement: { id },
-    })),
-    organisationUnits: facilities.map(({ id }) => ({ id })),
-    sharing: dataSetSharing(importerId),
-})
+const IMPORT_DATA_SET = 'EPI_IMPORT'
 
-const missedIndicator = {
-    id: uid('indicator:EPI_MISSED_PENTA1'),
-    code: code('EPI_MISSED_PENTA1'),
+const importDataSet = (facilities, importerId) =>
+    dataSet({
+        key: IMPORT_DATA_SET,
+        name: 'Showcase: EPI doses (synthetic data import)',
+        periodType: 'Monthly',
+        orgUnits: facilities,
+        dataElements: [PENTA1, PENTA3],
+        importerId,
+    })
+
+const missedIndicator = indicator({
+    key: 'EPI_MISSED_PENTA1',
     name: 'Children who missed Penta1',
-    shortName: 'Children who missed Penta1',
-    decimals: 0,
+    type: 'number',
+    numerator: `#{${POPULATION_UNDER_1}}-(#{${PENTA1}.${FIXED_UNDER_1}}+#{${PENTA1}.${OUTREACH_UNDER_1}})`,
+    denominator: '1',
     description:
         'Surviving infants (total population under 1 year) minus Penta1 doses given under 1 year.',
-    indicatorType: { id: NUMBER_FACTOR_1 },
-    numerator: `#{${POPULATION_UNDER_1}}-(#{${PENTA1}.${FIXED_UNDER_1}}+#{${PENTA1}.${OUTREACH_UNDER_1}})`,
-    numeratorDescription: 'Surviving infants minus Penta1 doses',
-    denominator: '1',
-    denominatorDescription: 'One',
-    annualized: false,
-    sharing: PUBLIC_READ,
-}
+    decimals: 0,
+})
 
 const prepare = async ({ client, orgUnits }) => {
     const { organisationUnits } = await client.get(
@@ -329,7 +319,7 @@ const post = {
     }),
 
     data: (ctx, state) => ({
-        dataSet: uid('dataSet:EPI_IMPORT'),
+        dataSet: dataSetId(IMPORT_DATA_SET),
         dataValues: generate(ctx, state).doses.flatMap(
             ({ orgUnit, period, penta1, penta3 }) => [
                 ...splitLocation(PENTA1, orgUnit, period, penta1),
