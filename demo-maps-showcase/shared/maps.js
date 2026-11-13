@@ -2,6 +2,7 @@
 // src/util/favorites.js). mapViews go bottom layer first.
 const { DISTRICTS } = require('./sierraLeone.js')
 const { SYNTHETIC_LABEL, code, uid } = require('./ids.js')
+const { CLASS_SCALES } = require('./palette.js')
 
 const BASEMAP = 'osmLight'
 
@@ -29,14 +30,21 @@ const labelProps = (labels) =>
         : {}
 
 // A legend set, or equal-count classes over colorScale for counts
-const classification = (legendSet, colorScale) =>
-    legendSet
-        ? { method: 1, legendSet: { id: legendSet } }
-        : {
-              method: 3,
-              classes: colorScale.split(',').length,
-              colorScale,
-          }
+const classification = (legendSet, colorScale) => {
+    if (legendSet) {
+        return { method: 1, legendSet: { id: legendSet } }
+    }
+    if (!Object.values(CLASS_SCALES).includes(colorScale)) {
+        throw new Error(
+            `Color scale ${colorScale} is not in CLASS_SCALES (shared/palette.js)`
+        )
+    }
+    return {
+        method: 3,
+        classes: colorScale.split(',').length,
+        colorScale,
+    }
+}
 
 // dataItem: { id, dimensionItemType }; periods: relative or fixed period ids
 const thematicLayer = ({

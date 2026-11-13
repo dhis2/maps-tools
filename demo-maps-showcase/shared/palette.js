@@ -9,4 +9,10 @@ const PALETTE = {
     noData: '#bdbdbd',
 }
 
-module.exports = { PALETTE }
+// Classes without a legend set must use a ColorBrewer palette maps-app offers
+// (colorScales in its src/util/colors.js), or its Style tab crashes
+const CLASS_SCALES = {
+    reds3: '#fee0d2,#fc9272,#de2d26',
+}
+
+module.exports = { CLASS_SCALES, PALETTE }

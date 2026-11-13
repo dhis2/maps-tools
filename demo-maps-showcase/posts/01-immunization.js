@@ -4,7 +4,7 @@ const { PUBLIC_READ, code, dataSetSharing, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
 const { dashboard, map, thematicLayer } = require('../shared/maps.js')
 const { facilitiesIn } = require('../shared/orgUnits.js')
-const { PALETTE } = require('../shared/palette.js')
+const { CLASS_SCALES, PALETTE } = require('../shared/palette.js')
 const {
     DEFAULT_COC,
     DISTRICTS,
@@ -391,7 +391,7 @@ const post = {
                     },
                     periods: ['LAST_12_MONTHS'],
                     level: 2,
-                    colorScale: `#fee090,${PALETTE.watch},${PALETTE.act}`,
+                    colorScale: CLASS_SCALES.reds3,
                     bubble: true,
                     hidden: true,
                 }),
