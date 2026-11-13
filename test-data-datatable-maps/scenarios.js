@@ -128,6 +128,12 @@ const SCENARIOS = [
         description:
             'Chiefdoms of one district and births styled by MCH Apgar Score: an organisation unit and an event table.',
     },
+    {
+        sourceId: 'wHCYu1P6oPZ',
+        name: 'Thematic layers - Drill and layer order',
+        description:
+            'ANC 1st visit (pink) under ANC 2nd visit (green), both filled by district: after a drill, moving a layer changes which one shows.',
+    },
 ]
 
 module.exports = { SCENARIOS }
