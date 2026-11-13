@@ -13,7 +13,7 @@ Plain Node (18 or newer), no dependencies, no install step.
 | Post | Title                                   | Maps                                                       | Data                                                                  |
 | ---- | --------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------- |
 | 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles) | 24 months of Penta1 and Penta3 doses under 1 year, for every facility |
-| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility | 12 months of reports of the "Showcase: monthly HMIS report" data set  |
+| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility | 12 months of reports of the "Monthly HMIS report" data set            |
 
 The patterns each post's data shows, and that `verify.js` checks:
 

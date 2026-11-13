@@ -39,6 +39,30 @@ test('Tonkolili reports complete but late, Koinadugu is red', () => {
     assert.ok(kenema.onTime >= 80, JSON.stringify(kenema))
 })
 
+test('in Bo, the red facility stands out among facilities on time', () => {
+    const { months, registrations } = post.generate({ runDate }, { facilities })
+    const window = months.slice(-7, -1)
+    const onTime = (facilityId) =>
+        registrations.filter(
+            (r) =>
+                r.organisationUnit === facilityId &&
+                window.some(
+                    ({ id, end }) =>
+                        id === r.period &&
+                        (new Date(r.date) - end) / 86400000 <= 15
+                )
+        ).length / window.length
+    const [red, ...others] = facilities.filter(
+        (f) => f.districtId === DISTRICTS.bo
+    )
+    const blue = others.filter(({ id }) => onTime(id) >= 0.9)
+    assert.ok(onTime(red.id) < 0.75)
+    assert.ok(
+        blue.length >= others.length * 0.8,
+        `${blue.length} of ${others.length}`
+    )
+})
+
 test('no report is dated after the run date', () => {
     const { registrations } = post.generate({ runDate }, { facilities })
     assert.ok(registrations.every(({ date }) => new Date(date) <= runDate))

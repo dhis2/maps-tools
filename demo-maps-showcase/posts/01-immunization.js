@@ -75,15 +75,17 @@ const legendSets = {
     dropout: legendSet({
         key: 'PENTA_DROPOUT',
         name: 'Showcase: Penta1 to Penta3 dropout',
+        // Bubbles are sized over the legend set's range, so it stays close to
+        // the dropout values met in practice
         legends: [
             {
                 name: 'Below 0%: data check',
-                start: -1000,
+                start: -50,
                 end: 0,
                 color: PALETTE.check,
             },
             { name: '0 to 9.9%', start: 0, end: 10, color: PALETTE.target },
-            { name: '10% and above', start: 10, end: 100, color: PALETTE.act },
+            { name: '10% and above', start: 10, end: 50, color: PALETTE.act },
         ],
     }),
 }
@@ -109,8 +111,9 @@ const importDataSet = (facilities, importerId) => ({
 const missedIndicator = {
     id: uid('indicator:EPI_MISSED_PENTA1'),
     code: code('EPI_MISSED_PENTA1'),
-    name: 'Showcase: children who missed Penta1',
-    shortName: 'Showcase: missed Penta1',
+    name: 'Children who missed Penta1',
+    shortName: 'Children who missed Penta1',
+    decimals: 0,
     description:
         'Surviving infants (total population under 1 year) minus Penta1 doses given under 1 year.',
     indicatorType: { id: NUMBER_FACTOR_1 },
@@ -363,7 +366,6 @@ const post = {
                     periods: ['LAST_12_MONTHS'],
                     level: 2,
                     legendSet: legendSets.coverage.id,
-                    labels: '{name}',
                 }),
                 thematicLayer({
                     name: 'Penta1 to Penta3 dropout',
@@ -375,8 +377,11 @@ const post = {
                     level: 2,
                     legendSet: legendSets.dropout.id,
                     bubble: true,
-                    radiusLow: 8,
-                    radiusHigh: 12,
+                    radiusLow: 5,
+                    radiusHigh: 20,
+                    // Labels of a bubble layer sit below the bubble, where
+                    // they stay readable
+                    labels: '{name}',
                 }),
                 thematicLayer({
                     name: 'Children who missed Penta1',
@@ -459,7 +464,9 @@ const post = {
                             ? `Not as planned: ${wrong
                                   .map(
                                       ([ou, e]) =>
-                                          `${ctx.districtName(ou)} (planned category ${
+                                          `${ctx.districtName(
+                                              ou
+                                          )} (planned category ${
                                               e.category
                                           }, got ${JSON.stringify(values[ou])})`
                                   )

@@ -22,8 +22,8 @@ const TIMELY_DAYS = 15
 const dataSet = (facilities, importerId) => ({
     id: uid('dataSet:HMIS_MONTHLY'),
     code: code('DS_HMIS_MONTHLY'),
-    name: 'Showcase: monthly HMIS report',
-    shortName: 'Showcase: monthly HMIS',
+    name: 'Monthly HMIS report',
+    shortName: 'Monthly HMIS report',
     periodType: 'Monthly',
     timelyDays: TIMELY_DAYS,
     expiryDays: 0,
@@ -36,22 +36,34 @@ const dataSet = (facilities, importerId) => ({
 
 const DATA_SET_ID = uid('dataSet:HMIS_MONTHLY')
 
-// Share of months reported, and share of reports sent after the deadline
-const DEFAULT_PROFILE = { reported: 0.97, late: 0.05 }
 // On-time reports arrive within 10 days, late ones up to 45 days after the
 // month ends
 const ON_TIME_DAYS = 10
 const LATEST_DAYS = 45
-const PROFILES = {
+
+// Facilities keep their reporting habits from month to month: share of
+// months reported, and share of reports sent after the deadline
+const HABITS = {
+    reliable: { reported: 0.998, late: 0.005 },
+    sometimesLate: { reported: 0.95, late: 0.3 },
+    lateReporter: { reported: 0.97, late: 0.75 },
+    struggling: { reported: 0.55, late: 0.35 },
+}
+
+// Share of each district's facilities with each habit
+const DEFAULT_MIX = { reliable: 0.92, sometimesLate: 0.08 }
+const MIXES = {
     // Complete but late: reports arrive, after the monthly review
-    tonkolili: { reported: 0.96, late: 0.65 },
-    kambia: { reported: 0.83, late: 0.15 },
+    tonkolili: { lateReporter: 0.8, sometimesLate: 0.2 },
+    kambia: { reliable: 0.3, sometimesLate: 0.5, struggling: 0.2 },
     // A whole red district: a system problem
-    koinadugu: { reported: 0.6, late: 0.3 },
+    koinadugu: { struggling: 0.8, sometimesLate: 0.2 },
+    // Green, so its one red facility stands out
+    bo: { reliable: 1 },
 }
 // One red facility inside a green district: a supervision visit
 const RED_FACILITY_DISTRICT = 'bo'
-const RED_FACILITY_PROFILE = { reported: 0.25, late: 0.5 }
+const RED_FACILITY_HABIT = { reported: 0.25, late: 0.5 }
 
 const districtKey = (districtId) =>
     Object.keys(DISTRICTS).find((key) => DISTRICTS[key] === districtId)
@@ -59,16 +71,26 @@ const districtKey = (districtId) =>
 const redFacility = (facilities) =>
     facilities.find((f) => f.districtId === DISTRICTS[RED_FACILITY_DISTRICT])
 
+const habitOf = (facility) => {
+    const mix = MIXES[districtKey(facility.districtId)] ?? DEFAULT_MIX
+    const draw = randomFor('post10-habit', facility.id).next()
+    let cumulative = 0
+    const entries = Object.entries(mix)
+    const [habit] =
+        entries.find(([, share]) => {
+            cumulative += share
+            return draw < cumulative
+        }) ?? entries.at(-1)
+    return HABITS[habit]
+}
+
 const generate = ({ runDate }, { facilities }) => {
     const months = lastMonths(runDate, MONTHS)
     const red = redFacility(facilities)
     const registrations = []
     facilities.forEach((facility) => {
         const profile =
-            facility.id === red?.id
-                ? RED_FACILITY_PROFILE
-                : (PROFILES[districtKey(facility.districtId)] ??
-                  DEFAULT_PROFILE)
+            facility.id === red?.id ? RED_FACILITY_HABIT : habitOf(facility)
         months.forEach((month) => {
             const random = randomFor('post10', facility.id, month.id)
             if (!random.chance(profile.reported)) {
@@ -174,9 +196,6 @@ const post = {
                     periods: ['LAST_6_MONTHS'],
                     level: 4,
                     legendSet: legendSets.reporting.id,
-                    bubble: true,
-                    radiusLow: 4,
-                    radiusHigh: 4,
                 }),
             ],
         })
@@ -202,7 +221,9 @@ const post = {
                 {
                     map: timeliness.id,
                     author: 'hmis_officer',
-                    text: `${red.name} reported only a few of the last six months, while the rest of ${ctx.districtName(
+                    text: `${
+                        red.name
+                    } reported only a few of the last six months, while the rest of ${ctx.districtName(
                         DISTRICTS[RED_FACILITY_DISTRICT]
                     )} is on time. @show_facility_incharge can we schedule a supervision visit this month? ${tonkolili} reports are complete but mostly after the deadline, and ${koinadugu} is red across the district: connectivity or staffing, to raise at the review meeting. (Synthetic data)`,
                     comments: [
@@ -248,7 +269,9 @@ const post = {
                         k.REPORTING_RATE < 75
                     return {
                         ok,
-                        detail: `Tonkolili ${JSON.stringify(t)}, Koinadugu ${JSON.stringify(k)}`,
+                        detail: `Tonkolili ${JSON.stringify(
+                            t
+                        )}, Koinadugu ${JSON.stringify(k)}`,
                     }
                 },
             },
@@ -270,4 +293,4 @@ const post = {
     },
 }
 
-module.exports = { ...post, PROFILES, generate }
+module.exports = { ...post, generate }
