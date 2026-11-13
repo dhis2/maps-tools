@@ -48,4 +48,21 @@ const importMetadata = async (client, metadata) => {
     return body.stats
 }
 
-module.exports = { buildMetadata, importMetadata }
+// Instance settings some posts depend on, as { key: value }
+const buildSystemSettings = ({ posts }) =>
+    Object.assign({}, ...posts.map((post) => post.systemSettings || {}))
+
+const applySystemSettings = async (client, settings) => {
+    for (const [key, value] of Object.entries(settings)) {
+        await client.post(
+            `/api/systemSettings/${key}?value=${encodeURIComponent(value)}`
+        )
+    }
+}
+
+module.exports = {
+    applySystemSettings,
+    buildMetadata,
+    buildSystemSettings,
+    importMetadata,
+}

@@ -8,7 +8,12 @@ const { loadPasswords, savePasswords } = require('./shared/users.js')
 const { runAnalytics } = require('./steps/analytics.js')
 const { buildContent, saveContent } = require('./steps/content.js')
 const { buildData, importData } = require('./steps/data.js')
-const { buildMetadata, importMetadata } = require('./steps/metadata.js')
+const {
+    applySystemSettings,
+    buildMetadata,
+    buildSystemSettings,
+    importMetadata,
+} = require('./steps/metadata.js')
 
 const writeOutput = (name, data) => {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true })
@@ -23,6 +28,7 @@ const main = async () => {
     const has = (step) => config.steps.includes(step)
 
     const metadata = has('metadata') ? buildMetadata(loaded, passwords) : null
+    const systemSettings = has('metadata') ? buildSystemSettings(loaded) : null
     const data = has('data') ? buildData(loaded) : null
     const content = has('content') ? buildContent(loaded) : null
 
@@ -32,12 +38,15 @@ const main = async () => {
             users: metadata.users.map(({ password, ...user }) => user),
         }
         writeOutput('payload.json', {
+            systemSettings,
             metadata: withoutPasswords,
             data,
             content,
         })
         console.log(
-            `Dry run for posts ${config.posts.join(', ')}: wrote output/payload.json, nothing saved`
+            `Dry run for posts ${config.posts.join(
+                ', '
+            )}: wrote output/payload.json, nothing saved`
         )
         return
     }
@@ -52,6 +61,10 @@ const main = async () => {
         steps: config.steps,
     }
 
+    if (systemSettings) {
+        await applySystemSettings(client, systemSettings)
+        summary.systemSettings = systemSettings
+    }
     if (metadata) {
         summary.metadata = await importMetadata(client, metadata)
         console.log(`Metadata: ${JSON.stringify(summary.metadata)}`)
