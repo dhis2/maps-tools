@@ -45,7 +45,7 @@ const LATEST_DAYS = 45
 // months reported, and share of reports sent after the deadline
 const HABITS = {
     reliable: { reported: 0.998, late: 0.005 },
-    sometimesLate: { reported: 0.95, late: 0.3 },
+    sometimesLate: { reported: 0.97, late: 0.12 },
     lateReporter: { reported: 0.97, late: 0.75 },
     struggling: { reported: 0.55, late: 0.35 },
 }

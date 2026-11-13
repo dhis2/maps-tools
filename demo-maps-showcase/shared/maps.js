@@ -59,8 +59,9 @@ const thematicLayer = ({
     labels,
     hidden = false,
     opacity = 0.9,
+    // Points are sized by value on choropleths too, so these keep one size
     radiusLow = 5,
-    radiusHigh = 20,
+    radiusHigh = bubble ? 20 : radiusLow,
 }) => ({
     layer: 'thematic',
     name,
@@ -74,7 +75,8 @@ const thematicLayer = ({
     ],
     ...classification(legendSet, colorScale),
     thematicMapType: bubble ? 'BUBBLE' : 'CHOROPLETH',
-    ...(bubble ? { radiusLow, radiusHigh } : {}),
+    radiusLow,
+    radiusHigh,
     renderingStrategy,
     noDataColor: '#BDBDBD',
     opacity,

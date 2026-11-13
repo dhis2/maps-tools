@@ -100,6 +100,14 @@ they empty out as months pass. Once a month, after the 1st:
     This deletes the interpretations the demo users wrote on the maps and
     writes them again.
 
+## Seeing new data in the browser
+
+Browsers keep analytics answers for as long as the instance's cache strategy
+(System Settings > Server > Cache strategy) allows: two weeks on play. After
+new data or new names, a map can show the old values and names until then.
+To check a map right away, open it in a private window, or reload it with
+"Disable cache" ticked in the browser's developer tools (Network tab).
+
 ## Effect on existing content
 
 -   Post 1 overwrites the demo database's Penta1 and Penta3 doses under 1 year
