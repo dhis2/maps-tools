@@ -10,17 +10,19 @@ Plain Node (18 or newer), no dependencies, no install step.
 
 ## Posts
 
-| Post | Title                                   | Maps                                                       | Data                                                                  |
-| ---- | --------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------- |
-| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles) | 24 months of Penta1 and Penta3 doses under 1 year, for every facility |
-| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility | 12 months of reports of the "Monthly HMIS report" data set            |
+| Post | Title                                   | Maps                                                                                                         | Data                                                                                           |
+| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                   | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                          |
+| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate |
+| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                   | 12 months of reports of the "Monthly HMIS report" data set                                     |
 
 The patterns each post's data shows, and that `verify.js` checks:
 
-| Post | Pattern                                                                                                          |
-| ---- | ---------------------------------------------------------------------------------------------------------------- |
-| 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout |
-| 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green           |
+| Post | Pattern                                                                                                                  |
+| ---- | ------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout         |
+| 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round |
+| 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                   |
 
 ## Running
 
@@ -60,6 +62,25 @@ Options, for both scripts:
 Every object has a fixed id and a `SHOW_` code, so re-running updates in
 place.
 
+## Earth Engine values
+
+Some posts import values computed from Earth Engine datasets, the same ones
+maps-app shows. `snapshot.js` computes them once and writes them to
+`input/sierra-leone/`, which is committed; the posts read them from there, so
+building the demo needs no Earth Engine access.
+
+| File                       | What it holds                                                                         | Posts |
+| -------------------------- | ------------------------------------------------------------------------------------- | ----- |
+| `worldpop-school-age.json` | WorldPop Global2 children aged 5 to 14, both sexes, summed per chiefdom, 2020 to 2030 | 6     |
+
+To compute them again, for example when a file needs more years (reads only;
+it uses the Earth Engine access token of the instance in `DHIS2_BASE_URL`):
+
+```bash
+node snapshot.js
+node snapshot.js --only=worldpop-school-age
+```
+
 ## Demo users
 
 Each persona of the posts has a user, `show_<persona>` (for example
@@ -92,8 +113,10 @@ they empty out as months pass. Once a month, after the 1st:
     ```bash
     node verify.js
     ```
-4. Only if a check fails, or the interpretation texts should quote the new
-   values, rewrite the maps and interpretations:
+4. In January, and whenever a check fails or the interpretation texts should
+   quote the new values, rewrite the maps and interpretations. Some maps
+   show fixed years (Post 6's rounds, Earth Engine layers), which move
+   forward only with this step:
     ```bash
     node index.js --steps=content
     ```

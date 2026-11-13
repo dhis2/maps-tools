@@ -84,6 +84,38 @@ const thematicLayer = ({
     ...labelProps(labels),
 })
 
+// A yearly Earth Engine layer, aggregated to the org units of a level. The
+// dataset, bands and style follow maps-app's src/constants/earthEngineLayers.
+const earthEngineLayer = ({
+    name,
+    datasetId,
+    bands,
+    year,
+    style,
+    aggregations = ['sum'],
+    level,
+    opacity = 0.9,
+}) => ({
+    layer: 'earthEngine',
+    name,
+    rows: orgUnitRows(level),
+    config: JSON.stringify({
+        id: datasetId,
+        style,
+        band: bands,
+        aggregationType: aggregations,
+        period: {
+            id: String(year),
+            startDate: `${year}-01-01T00:00:00.000Z`,
+            endDate: `${year}-12-31T23:59:59.000Z`,
+            year,
+            name: String(year),
+        },
+    }),
+    opacity,
+    hidden: false,
+})
+
 const facilityLayer = ({ name, groupSet, hidden = false }) => ({
     layer: 'facility',
     name,
@@ -133,4 +165,11 @@ const dashboard = ({ key, post, title, maps }) => ({
     })),
 })
 
-module.exports = { boundaryLayer, dashboard, facilityLayer, map, thematicLayer }
+module.exports = {
+    boundaryLayer,
+    dashboard,
+    earthEngineLayer,
+    facilityLayer,
+    map,
+    thematicLayer,
+}

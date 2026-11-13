@@ -2,10 +2,10 @@ const POLL_MS = 15000
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// Aggregate posts only need the aggregate tables; the last 3 years cover
+// Aggregate posts only need the aggregate tables; the last 4 years cover
 // every period the posts show
 const ANALYTICS_PATH =
-    '/api/resourceTables/analytics?lastYears=3&skipEvents=true&skipEnrollment=true&skipTrackedEntities=true'
+    '/api/resourceTables/analytics?lastYears=4&skipEvents=true&skipEnrollment=true&skipTrackedEntities=true'
 
 const runAnalytics = async (client) => {
     const started = await client.post(ANALYTICS_PATH)
