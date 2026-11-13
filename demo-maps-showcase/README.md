@@ -1,7 +1,7 @@
 # Maps app showcase: demo data
 
-Builds the demo content for the "DHIS2 Maps App Showcase" series of
-Community of Practice posts: for each post, the metadata it needs, synthetic
+Builds the demo content for the [DHIS2 Maps App Showcase](showcase-posts.md)
+series of Community of Practice posts: for each post, the metadata it needs, synthetic
 data that shows the post's patterns, the saved maps, a dashboard, demo users
 and their interpretations. `verify.js` then checks through analytics that each
 pattern is on the map.
