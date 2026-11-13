@@ -1,5 +1,6 @@
 // A small Sierra Leone-shaped hierarchy for offline tests: 12 facilities per
-// district, one of them without a population value
+// district in 2 chiefdoms, one of them without a population value, all with
+// a point
 const { DISTRICTS } = require('../shared/sierraLeone.js')
 const { randomFor } = require('../random.js')
 
@@ -9,7 +10,16 @@ const fakeFacilities = () =>
             id: `${districtId.slice(0, 8)}${String(i).padStart(3, '0')}`,
             name: `Facility ${districtId} ${i}`,
             districtId,
+            chiefdomId: `${districtId.slice(0, 9)}c${i % 2}`,
         }))
+    )
+
+const fakePoints = (facilities) =>
+    Object.fromEntries(
+        facilities.map(({ id }) => {
+            const random = randomFor('point', id)
+            return [id, [random.between(-13, -10.5), random.between(7, 10)]]
+        })
     )
 
 const fakePopulation = (facilities, years) =>
@@ -27,4 +37,4 @@ const fakePopulation = (facilities, years) =>
             ])
     )
 
-module.exports = { fakeFacilities, fakePopulation }
+module.exports = { fakeFacilities, fakePoints, fakePopulation }

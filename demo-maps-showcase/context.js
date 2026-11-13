@@ -6,6 +6,7 @@ const OUTPUT_DIR = path.join(__dirname, 'output')
 const POSTS = [
     require('./posts/01-immunization.js'),
     require('./posts/06-ntd.js'),
+    require('./posts/08-supply-chain.js'),
     require('./posts/10-data-quality.js'),
 ]
 
