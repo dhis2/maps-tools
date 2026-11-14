@@ -14,11 +14,13 @@ const main = async () => {
     const results = []
     for (const post of posts) {
         for (const check of post.checks(ctx, states.get(post))) {
-            const { rows = [] } = await client.get(check.path)
-            const { ok, detail } = check.evaluate(rows)
+            const body = await client.get(check.path)
+            const { ok, detail } = check.evaluate(body.rows ?? [], body)
             results.push({ post: post.number, check: check.name, ok, detail })
             console.log(
-                `${ok ? 'OK  ' : 'FAIL'} Post ${post.number}: ${check.name}. ${detail}`
+                `${ok ? 'OK  ' : 'FAIL'} Post ${post.number}: ${
+                    check.name
+                }. ${detail}`
             )
         }
     }

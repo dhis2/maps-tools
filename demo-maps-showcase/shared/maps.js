@@ -94,23 +94,35 @@ const earthEngineLayer = ({
     style,
     aggregations = ['sum'],
     level,
+    orgUnits,
     opacity = 0.9,
 }) => ({
     layer: 'earthEngine',
     name,
-    rows: orgUnitRows(level),
+    rows: orgUnits
+        ? [
+              dimension(
+                  'ou',
+                  orgUnits.map((id) => ({ id }))
+              ),
+          ]
+        : orgUnitRows(level),
     config: JSON.stringify({
         id: datasetId,
         style,
         band: bands,
         aggregationType: aggregations,
-        period: {
-            id: String(year),
-            startDate: `${year}-01-01T00:00:00.000Z`,
-            endDate: `${year}-12-31T23:59:59.000Z`,
-            year,
-            name: String(year),
-        },
+        ...(year
+            ? {
+                  period: {
+                      id: String(year),
+                      startDate: `${year}-01-01T00:00:00.000Z`,
+                      endDate: `${year}-12-31T23:59:59.000Z`,
+                      year,
+                      name: String(year),
+                  },
+              }
+            : {}),
     }),
     opacity,
     hidden: false,
@@ -135,16 +147,109 @@ const boundaryLayer = ({ name, level, color = '#333333', labels }) => ({
     ...labelProps(labels),
 })
 
-const map = ({ key, post, title, description, layers }) => ({
+// filters: [{ dataElement, filter }], for example 'IN:POSITIVE'
+const eventLayer = ({
+    name,
+    programId,
+    stageId,
+    periods,
+    orgUnits = Object.values(DISTRICTS),
+    filters = [],
+    styleDataItem,
+    color = '#333333',
+    radius = 6,
+    areaRadius,
+    clustering = false,
+    hidden = false,
+}) => ({
+    layer: 'event',
+    name,
+    program: { id: programId },
+    programStage: { id: stageId },
+    columns: filters.map(({ dataElement, filter }) => ({
+        dimension: dataElement,
+        filter,
+    })),
+    rows: [
+        dimension(
+            'ou',
+            orgUnits.map((id) => ({ id }))
+        ),
+    ],
+    filters: [
+        dimension(
+            'pe',
+            periods.map((id) => ({ id }))
+        ),
+    ],
+    eventClustering: clustering,
+    eventPointColor: color,
+    eventPointRadius: radius,
+    ...(areaRadius ? { areaRadius } : {}),
+    ...(styleDataItem ? { styleDataItem } : {}),
+    opacity: 0.9,
+    hidden,
+})
+
+// Tracked entities enrolled from 2020 to 2030: the layer only takes fixed
+// dates, and the tool removes records a re-run no longer generates
+const trackedEntityLayer = ({
+    name,
+    programId,
+    programStatus,
+    color,
+    radius = 5,
+    relationship,
+    hidden = false,
+}) => ({
+    layer: 'trackedEntity',
+    name,
+    program: { id: programId },
+    trackedEntityType: { id: 'nEenWmSyUEp' },
+    programStatus,
+    rows: [
+        dimension(
+            'ou',
+            Object.values(DISTRICTS).map((id) => ({ id }))
+        ),
+    ],
+    organisationUnitSelectionMode: 'DESCENDANTS',
+    startDate: '2020-01-01',
+    endDate: '2030-12-31',
+    eventPointColor: color,
+    eventPointRadius: radius,
+    config: JSON.stringify({
+        periodType: 'program',
+        relationships: relationship
+            ? {
+                  type: relationship.typeId,
+                  pointColor: relationship.pointColor,
+                  pointRadius: relationship.pointRadius ?? radius,
+                  lineColor: relationship.lineColor,
+              }
+            : null,
+    }),
+    opacity: 1,
+    hidden,
+})
+
+const DEFAULT_VIEW = { latitude: 8.5, longitude: -11.8, zoom: 7 }
+
+const map = ({
+    key,
+    post,
+    title,
+    description,
+    layers,
+    view = DEFAULT_VIEW,
+}) => ({
     id: uid(`map:${key}`),
     code: code(`MAP_${key.toUpperCase()}`),
     name: `Post ${post} · ${title} (${SYNTHETIC_LABEL})`,
     description: `${description} ${SYNTHETIC_LABEL}, DHIS2 demo.`,
     basemap: BASEMAP,
     basemaps: [{ id: BASEMAP, opacity: 1, hidden: false }],
-    latitude: 8.5,
-    longitude: -11.8,
-    zoom: 7,
+    ...view,
     // No ids: a PUT that keeps them fails, as the server inserts the new
     // views before deleting the old ones
     mapViews: layers,
@@ -169,7 +274,9 @@ module.exports = {
     boundaryLayer,
     dashboard,
     earthEngineLayer,
+    eventLayer,
     facilityLayer,
     map,
     thematicLayer,
+    trackedEntityLayer,
 }

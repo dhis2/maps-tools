@@ -2,13 +2,15 @@ const POLL_MS = 15000
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// Aggregate posts only need the aggregate tables; the last 4 years cover
-// every period the posts show
-const ANALYTICS_PATH =
-    '/api/resourceTables/analytics?lastYears=4&skipEvents=true&skipEnrollment=true&skipTrackedEntities=true'
+// The last 4 years cover every period the posts show. Event and enrollment
+// tables only when a selected post maps events or program indicators.
+const analyticsPath = (withEvents) =>
+    `/api/resourceTables/analytics?lastYears=4&skipTrackedEntities=true${
+        withEvents ? '' : '&skipEvents=true&skipEnrollment=true'
+    }`
 
-const runAnalytics = async (client) => {
-    const started = await client.post(ANALYTICS_PATH)
+const runAnalytics = async (client, { withEvents }) => {
+    const started = await client.post(analyticsPath(withEvents))
     const endpoint = started.response.relativeNotifierEndpoint
     const startedAt = Date.now()
     for (;;) {
