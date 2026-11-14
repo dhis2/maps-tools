@@ -8,6 +8,7 @@ const POSTS = [
     require('./posts/06-ntd.js'),
     require('./posts/08-supply-chain.js'),
     require('./posts/10-data-quality.js'),
+    require('./posts/11-nutrition.js'),
 ]
 
 const POST_NUMBERS = POSTS.map(({ number }) => number)

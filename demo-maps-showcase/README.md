@@ -10,12 +10,13 @@ Plain Node (18 or newer), no dependencies, no install step.
 
 ## Posts
 
-| Post | Title                                   | Maps                                                                                                         | Data                                                                                           |
-| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                   | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                          |
-| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate |
-| 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                | 15 months of stock on hand, consumption and average monthly consumption for every facility     |
-| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                   | 12 months of reports of the "Monthly HMIS report" data set                                     |
+| Post | Title                                   | Maps                                                                                                         | Data                                                                                                                         |
+| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                   | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                        |
+| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                               |
+| 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                | 15 months of stock on hand, consumption and average monthly consumption for every facility                                   |
+| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                   | 12 months of reports of the "Monthly HMIS report" data set                                                                   |
+| 11   | Watching the lean season                | SAM admission rate as a timeline; OTP cure rate by district with exits per OTP site                          | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, and children 6-59 months for every facility |
 
 The patterns each post's data shows, and that `verify.js` checks:
 
@@ -25,6 +26,7 @@ The patterns each post's data shows, and that `verify.js` checks:
 | 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round                                       |
 | 8    | In Kenema, a stocked-out facility a few km from an overstocked one; a Kailahun chiefdom low after missed deliveries; a few facilities not reporting last month |
 | 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                                                         |
+| 11   | Admissions peak in June in the north and in August in the south-west; Kambia below 75% cure with a busy site; a Pujehun site with very few children            |
 
 ## Running
 

@@ -24,7 +24,10 @@ const importChunks = async (client, path, key, items, header = {}) => {
         const summary = result.response || result
         if (summary.status === 'ERROR') {
             throw new Error(
-                `${path} failed: ${JSON.stringify(summary.conflicts).slice(0, 1000)}`
+                `${path} failed: ${JSON.stringify(summary.conflicts).slice(
+                    0,
+                    1000
+                )}`
             )
         }
         total = sumCounts(total, summary.importCount || {})
@@ -68,6 +71,7 @@ const importData = async (client, data) => {
         post,
         dataSet,
         dataValues = [],
+        dataValueSets = [{ dataSet, dataValues }],
         completeDataSetRegistrations = [],
         registrationWindow,
     } of data) {
@@ -79,13 +83,19 @@ const importData = async (client, data) => {
                 completeDataSetRegistrations
             )
         }
-        if (dataValues.length) {
-            result.dataValues = await importChunks(
+        // One import per data set: the importer looks for a single data set
+        // for the whole payload
+        for (const set of dataValueSets.filter((s) => s.dataValues.length)) {
+            const counts = await importChunks(
                 client,
                 '/api/dataValueSets?importStrategy=CREATE_AND_UPDATE',
                 'dataValues',
-                dataValues,
-                dataSet ? { dataSet } : {}
+                set.dataValues,
+                set.dataSet ? { dataSet: set.dataSet } : {}
+            )
+            result.dataValues = sumCounts(
+                result.dataValues || { imported: 0, updated: 0, ignored: 0 },
+                counts
             )
         }
         if (completeDataSetRegistrations.length) {
