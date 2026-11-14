@@ -9,8 +9,10 @@ const { runAnalytics } = require('./steps/analytics.js')
 const { buildContent, saveContent } = require('./steps/content.js')
 const { buildData, importData } = require('./steps/data.js')
 const {
+    applyOrgUnitAttributeValues,
     applySystemSettings,
     buildMetadata,
+    buildOrgUnitAttributeValues,
     buildSystemSettings,
     importMetadata,
 } = require('./steps/metadata.js')
@@ -29,6 +31,9 @@ const main = async () => {
 
     const metadata = has('metadata') ? buildMetadata(loaded, passwords) : null
     const systemSettings = has('metadata') ? buildSystemSettings(loaded) : null
+    const orgUnitAttributeValues = has('metadata')
+        ? buildOrgUnitAttributeValues(loaded)
+        : null
     const data = has('data') ? buildData(loaded) : null
     const content = has('content') ? buildContent(loaded) : null
 
@@ -39,6 +44,7 @@ const main = async () => {
         }
         writeOutput('payload.json', {
             systemSettings,
+            orgUnitAttributeValues,
             metadata: withoutPasswords,
             data,
             content,
@@ -68,6 +74,12 @@ const main = async () => {
     if (metadata) {
         summary.metadata = await importMetadata(client, metadata)
         console.log(`Metadata: ${JSON.stringify(summary.metadata)}`)
+    }
+    if (orgUnitAttributeValues) {
+        summary.orgUnitAttributeValues = await applyOrgUnitAttributeValues(
+            client,
+            orgUnitAttributeValues
+        )
     }
     if (data) {
         summary.data = await importData(client, data)

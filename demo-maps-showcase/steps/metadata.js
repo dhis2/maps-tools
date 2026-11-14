@@ -60,9 +60,41 @@ const applySystemSettings = async (client, settings) => {
     }
 }
 
+// Attribute values the posts set on existing org units, as
+// [{ orgUnit, attribute, value }]
+const buildOrgUnitAttributeValues = ({ ctx, posts, states }) =>
+    posts.flatMap((post) =>
+        post.orgUnitAttributeValues
+            ? post.orgUnitAttributeValues(ctx, states.get(post))
+            : []
+    )
+
+// Org units belong to the database, so only the tool's attribute values are
+// changed and the others kept; a metadata import would replace them all
+const applyOrgUnitAttributeValues = async (client, values) => {
+    for (const { orgUnit, attribute, value } of values) {
+        const { attributeValues = [] } = await client.get(
+            `/api/organisationUnits/${orgUnit}?fields=attributeValues[value,attribute[id]]`
+        )
+        const others = attributeValues.filter(
+            (av) => av.attribute.id !== attribute
+        )
+        await client.patch(`/api/organisationUnits/${orgUnit}`, [
+            {
+                op: 'add',
+                path: '/attributeValues',
+                value: [...others, { attribute: { id: attribute }, value }],
+            },
+        ])
+    }
+    return values.length
+}
+
 module.exports = {
+    applyOrgUnitAttributeValues,
     applySystemSettings,
     buildMetadata,
+    buildOrgUnitAttributeValues,
     buildSystemSettings,
     importMetadata,
 }

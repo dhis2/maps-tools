@@ -45,6 +45,8 @@ const createClient = ({ baseUrl, username, password }) => {
         post: (path, body) => request('POST', path, body),
         postText: (path, text) => request('POST', path, text, 'text/plain'),
         put: (path, body) => request('PUT', path, body),
+        patch: (path, operations) =>
+            request('PATCH', path, operations, 'application/json-patch+json'),
         delete: (path) => request('DELETE', path),
     }
 }
