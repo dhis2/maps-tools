@@ -10,19 +10,21 @@ Plain Node (18 or newer), no dependencies, no install step.
 
 ## Posts
 
-| Post | Title                                   | Maps                                                                                                         | Data                                                                                                                         |
-| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                   | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                        |
-| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                               |
-| 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                | 15 months of stock on hand, consumption and average monthly consumption for every facility                                   |
-| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                   | 12 months of reports of the "Monthly HMIS report" data set                                                                   |
-| 11   | Watching the lean season                | SAM admission rate as a timeline; OTP cure rate by district with exits per OTP site                          | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, and children 6-59 months for every facility |
+| Post | Title                                   | Maps                                                                                                                           | Data                                                                                                                                                |
+| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                                     | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                                               |
+| 5    | Two hours to a C-section                | WorldPop Global2 population, share of each district within two hours of EmONC, EmONC facilities with their two-hour catchments | 12 months of basic signal functions and caesarean sections for hospitals and health centres; WorldPop population inside the catchments per district |
+| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop                   | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                                                      |
+| 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                                  | 15 months of stock on hand, consumption and average monthly consumption for every facility                                                          |
+| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                                     | 12 months of reports of the "Monthly HMIS report" data set                                                                                          |
+| 11   | Watching the lean season                | SAM admission rate as a timeline; OTP cure rate by district with exits per OTP site                                            | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, and children 6-59 months for every facility                        |
 
 The patterns each post's data shows, and that `verify.js` checks:
 
 | Post | Pattern                                                                                                                                                        |
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout                                               |
+| 5    | Koinadugu, with no basic EmONC facility, far below 50%; most districts above the EPMM 60% target; every EmONC facility performs all 7 basic signal functions   |
 | 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round                                       |
 | 8    | In Kenema, a stocked-out facility a few km from an overstocked one; a Kailahun chiefdom low after missed deliveries; a few facilities not reporting last month |
 | 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                                                         |
@@ -73,9 +75,10 @@ maps-app shows. `snapshot.js` computes them once and writes them to
 `input/sierra-leone/`, which is committed; the posts read them from there, so
 building the demo needs no Earth Engine access.
 
-| File                       | What it holds                                                                         | Posts |
-| -------------------------- | ------------------------------------------------------------------------------------- | ----- |
-| `worldpop-school-age.json` | WorldPop Global2 children aged 5 to 14, both sexes, summed per chiefdom, 2020 to 2030 | 6     |
+| File                       | What it holds                                                                                                                                                          | Posts |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| `worldpop-school-age.json` | WorldPop Global2 children aged 5 to 14, both sexes, summed per chiefdom, 2020 to 2030                                                                                  | 6     |
+| `emonc-coverage.json`      | The EmONC facilities Post 5 picks, and WorldPop Global2 population per district, 2020 to 2030: in total and inside their two-hour catchments, each person counted once | 5     |
 
 To compute them again, for example when a file needs more years (reads only;
 it uses the Earth Engine access token of the instance in `DHIS2_BASE_URL`):
@@ -83,6 +86,7 @@ it uses the Earth Engine access token of the instance in `DHIS2_BASE_URL`):
 ```bash
 node snapshot.js
 node snapshot.js --only=worldpop-school-age
+node snapshot.js --only=emonc-coverage
 ```
 
 ## Demo users
@@ -148,6 +152,9 @@ To check a map right away, open it in a private window, or reload it with
     elements now belong to two data sets, an import of them that doesn't name
     its data set fails with "found multiple sets". Data entry is not
     affected.
+-   Post 5 sets the attribute "Two-hour catchment (synthetic)" on its EmONC
+    facilities. Their other attribute values, such as the demo's "Catchment
+    area", are kept.
 -   Post 8 turns on the system setting "Include zero data values in analytics
     tables" (`keyIncludeZeroValuesInAnalytics`). Without it, stored zeros stay
     out of analytics even for data elements where zero is significant, and

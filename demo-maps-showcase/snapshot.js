@@ -8,11 +8,14 @@ const { getConfig } = require('./config.js')
 const { POST_NUMBERS } = require('./context.js')
 const { ROOT, DISTRICT_IDS } = require('./shared/sierraLeone.js')
 const ee = require('./shared/earthEngine.js')
+const { loadOrgUnits } = require('./shared/orgUnits.js')
+const maternal = require('./posts/05-maternal.js')
 
 const INPUT_DIR = path.join(__dirname, 'input', 'sierra-leone')
 
 const WORLDPOP_AGE_SEX = 'projects/wpgp-global2/assets/agesex_100m'
 const SCHOOL_AGE_BANDS = ['f_05', 'f_10', 'm_05', 'm_10']
+const WORLDPOP_TOTAL = 'projects/sat-io/open-datasets/WORLDPOP/pop'
 const WORLDPOP_YEARS = Array.from({ length: 11 }, (_, i) => 2020 + i)
 
 const loadChiefdomGeometries = async (client) => {
@@ -56,8 +59,63 @@ const worldPopSchoolAge = async (client) => {
     }
 }
 
+const loadDistrictGeometries = async (client) => {
+    const { organisationUnits } = await client.get(
+        `/api/organisationUnits?filter=id:in:[${[...DISTRICT_IDS].join(
+            ','
+        )}]&fields=id,geometry&paging=false`
+    )
+    return organisationUnits.map(({ id, geometry }) => ({ id, geometry }))
+}
+
+// WorldPop Global2 population per district and year, in total and inside the
+// two-hour catchments of the EmONC facilities Post 5 picks. Overlapping
+// catchments count each person once.
+const emoncCoverage = async (client) => {
+    const orgUnits = await loadOrgUnits(client, new Date())
+    const inputs = await maternal.loadEmoncInputs(client, orgUnits)
+    const facilities = maternal.selectEmonc(inputs)
+    const catchments = facilities.map((facility) => ({
+        id: facility.id,
+        geometry: maternal.catchmentOf(facility, inputs.points),
+    }))
+    const districts = await loadDistrictGeometries(client)
+    const values = {}
+    for (const year of WORLDPOP_YEARS) {
+        const token = await ee.getToken(client)
+        const image = ee.yearImage(WORLDPOP_TOTAL, String(year), ['population'])
+        const [total, within2h] = await Promise.all([
+            ee.sumInFeatures({ token, image, features: districts, scale: 100 }),
+            ee.sumInFeatures({
+                token,
+                image: ee.clipToFeatures(image, catchments),
+                features: districts,
+                scale: 100,
+            }),
+        ])
+        values[year] = Object.fromEntries(
+            districts.map(({ id }) => [
+                id,
+                {
+                    total: Math.round(total[id]),
+                    within2h: Math.round(within2h[id] ?? 0),
+                },
+            ])
+        )
+        console.log(`EmONC coverage ${year}: ${districts.length} districts`)
+    }
+    return {
+        source: WORLDPOP_TOTAL,
+        reach: maternal.REACH_KM,
+        reducer: 'sum at 100 m',
+        facilities,
+        values,
+    }
+}
+
 const SNAPSHOTS = {
     'worldpop-school-age': worldPopSchoolAge,
+    'emonc-coverage': emoncCoverage,
 }
 
 const main = async () => {

@@ -28,6 +28,24 @@ const yearImage = (collectionId, year, bands) =>
         bandSelectors: constant(bands),
     })
 
+// The image with pixels outside the features masked
+const clipToFeatures = (image, features) =>
+    fn('Image.clipToCollection', {
+        input: image,
+        collection: fn('Collection', {
+            features: {
+                arrayValue: {
+                    values: features.map(({ id, geometry: geom }) =>
+                        fn('Feature', {
+                            geometry: geometry(geom),
+                            metadata: constant({ id }),
+                        })
+                    ),
+                },
+            },
+        }),
+    })
+
 // Adds up the bands into one band named "sum"
 const sumBands = (image) =>
     fn('Image.rename', {
@@ -92,4 +110,10 @@ const sumInFeatures = async ({ token, image, features, scale }) => {
     )
 }
 
-module.exports = { getToken, sumBands, sumInFeatures, yearImage }
+module.exports = {
+    clipToFeatures,
+    getToken,
+    sumBands,
+    sumInFeatures,
+    yearImage,
+}
