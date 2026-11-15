@@ -152,10 +152,56 @@ const importTracker = async (client, tracker) => {
     ]
     for (const [key, items = []] of steps) {
         for (const chunk of chunks(items, TRACKER_CHUNK)) {
-            add(await postTracker(client, TRACKER_IMPORT, { [key]: chunk }))
+            const payload = { [key]: chunk }
+            const result = await postTracker(client, TRACKER_IMPORT, payload)
+                .then((s) => ({ stats: s }))
+                .catch((err) => ({ err }))
+            if (!result.err) {
+                add(result.stats)
+            } else if (key === 'events' && isEventIdCollision(result.err)) {
+                const retry = await importEventsOneByOne(client, chunk)
+                add(retry.stats)
+                stats.eventIdCollisions =
+                    (stats.eventIdCollisions ?? 0) + retry.collisions
+            } else {
+                throw result.err
+            }
         }
     }
     return stats
+}
+
+// On 2.43.2 play, creating single events can fail on an internal id that
+// already exists (singleevent_pkey); each failed request uses up one id per
+// event, so retrying one event at a time gets past the taken ids
+const isEventIdCollision = (err) => /singleevent_pkey/.test(err.message)
+const MAX_RETRIES_PER_EVENT = 50
+
+const importEventsOneByOne = async (client, events) => {
+    const stats = { created: 0, updated: 0 }
+    let collisions = 0
+    for (const event of events) {
+        for (let attempt = 0; ; attempt++) {
+            const result = await postTracker(client, TRACKER_IMPORT, {
+                events: [event],
+            })
+                .then((s) => ({ stats: s }))
+                .catch((err) => ({ err }))
+            if (!result.err) {
+                stats.created += result.stats.created ?? 0
+                stats.updated += result.stats.updated ?? 0
+                break
+            }
+            if (
+                !isEventIdCollision(result.err) ||
+                attempt === MAX_RETRIES_PER_EVENT
+            ) {
+                throw result.err
+            }
+            collisions++
+        }
+    }
+    return { stats, collisions }
 }
 
 const importData = async (client, data) => {
