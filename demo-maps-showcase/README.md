@@ -10,25 +10,31 @@ Plain Node (18 or newer), no dependencies, no install step.
 
 ## Posts
 
-| Post | Title                                   | Maps                                                                                                                           | Data                                                                                                                                                |
-| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                                     | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                                               |
-| 5    | Two hours to a C-section                | WorldPop Global2 population, share of each district within two hours of EmONC, EmONC facilities with their two-hour catchments | 12 months of basic signal functions and caesarean sections for hospitals and health centres; WorldPop population inside the catchments per district |
-| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop                   | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                                                      |
-| 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                                  | 15 months of stock on hand, consumption and average monthly consumption for every facility                                                          |
-| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                                     | 12 months of reports of the "Monthly HMIS report" data set                                                                                          |
-| 11   | Watching the lean season                | SAM admission rate as a timeline; OTP cure rate by district with exits per OTP site                                            | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, and children 6-59 months for every facility                        |
+| Post | Title                                   | Maps                                                                                                                             | Data                                                                                                                                                |
+| ---- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                                       | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                                               |
+| 3    | Drawing the ring around cholera         | Suspected cases in the last 7 days by chiefdom, building footprints, recent cases, and 150 m rings around RDT-positive cases     | About 330 cholera case reports over 6 weeks in an event program, with household points                                                              |
+| 4    | Who hasn't been seen today?             | Contacts seen at daily visits by chiefdom, contacts under follow-up and completed, cases with lines to their contacts, new cases | 20 Ebola cases and 300 contacts in two tracker programs linked by a relationship type, with daily follow-up visits                                  |
+| 5    | Two hours to a C-section                | WorldPop Global2 population, share of each district within two hours of EmONC, EmONC facilities with their two-hour catchments   | 12 months of basic signal functions and caesarean sections for hospitals and health centres; WorldPop population inside the catchments per district |
+| 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop                     | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                                                      |
+| 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                                    | 15 months of stock on hand, consumption and average monthly consumption for every facility                                                          |
+| 9    | One bite, two sectors                   | Dog vaccination coverage by district, dog bites by risk of the biting animal, animal rabies investigations by result             | A year of dog bites and animal investigations in two event programs, and last year's dog vaccination campaign                                       |
+| 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                                       | 12 months of reports of the "Monthly HMIS report" data set                                                                                          |
+| 11   | Watching the lean season                | SAM admission rate as a timeline; OTP cure rate by district with exits per OTP site                                              | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, and children 6-59 months for every facility                        |
 
 The patterns each post's data shows, and that `verify.js` checks:
 
-| Post | Pattern                                                                                                                                                        |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout                                               |
-| 5    | Koinadugu, with no basic EmONC facility, far below 50%; most districts above the EPMM 60% target; every EmONC facility performs all 7 basic signal functions   |
-| 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round                                       |
-| 8    | In Kenema, a stocked-out facility a few km from an overstocked one; a Kailahun chiefdom low after missed deliveries; a few facilities not reporting last month |
-| 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                                                         |
-| 11   | Admissions peak in June in the north and in August in the south-west; Kambia below 75% cure with a busy site; a Pujehun site with very few children            |
+| Post | Pattern                                                                                                                                                                                     |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout                                                                            |
+| 3    | Overlapping rings in a Western Area chiefdom; a new focus of two RDT-positive cases in Port Loko; a Kambia wave with no case in the last 7 days; about 30% of cases without coordinates     |
+| 4    | One health area below 90% of contacts seen, the others above 95%; contacts under follow-up and completed; three new cases that were known contacts and two in Kono that were not            |
+| 5    | Koinadugu, with no basic EmONC facility, far below 50%; most districts above the EPMM 60% target; every EmONC facility performs all 7 basic signal functions                                |
+| 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round                                                                    |
+| 8    | In Kenema, a stocked-out facility a few km from an overstocked one; a Kailahun chiefdom low after missed deliveries; a few facilities not reporting last month                              |
+| 9    | Suspect bites with no animal investigated in a Bombali chiefdom; positive dogs with no bite reported in a Tonkolili chiefdom; both in Port Loko, the one district below 70% dog vaccination |
+| 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                                                                                      |
+| 11   | Admissions peak in June in the north and in August in the south-west; Kambia below 75% cure with a busy site; a Pujehun site with very few children                                         |
 
 ## Running
 
@@ -114,9 +120,9 @@ they empty out as months pass. Once a month, after the 1st:
     node index.js --steps=data,analytics
     ```
     This overwrites the data values for the whole window, adds the new
-    month, and removes reports of the tool's own data sets that the new run
-    no longer generates. Metadata, maps and interpretations are left as they
-    are.
+    month, and removes reports, events and tracked entities of the tool's own
+    data sets and programs that the new run no longer generates. Metadata,
+    maps and interpretations are left as they are.
 3. Check that every pattern still shows:
     ```bash
     node verify.js
@@ -130,6 +136,14 @@ they empty out as months pass. Once a month, after the 1st:
     ```
     This deletes the interpretations the demo users wrote on the maps and
     writes them again.
+
+Posts 3 and 4 show outbreaks of the last days ("last 7 days"), counted back
+from the date the data was generated. A week after a run their maps are
+empty, so they need a daily run:
+
+```bash
+node index.js --posts=3,4 --steps=data,analytics
+```
 
 ## Seeing new data in the browser
 
