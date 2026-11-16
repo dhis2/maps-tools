@@ -9,7 +9,6 @@ const {
     thematicLayer,
 } = require('../shared/maps.js')
 const { dataSet, dataSetId } = require('../shared/metadata.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS, ROOT } = require('../shared/sierraLeone.js')
 const { teamId } = require('../shared/users.js')
 const { addDays, isoDate, lastMonths } = require('../periods.js')
@@ -118,15 +117,12 @@ const legendSets = {
     reporting: legendSet({
         key: 'REPORTING_RATE',
         name: 'Showcase: reporting rate (75% and 90%)',
+        // ColorBrewer Purples, darkest where reports are missing
         legends: [
-            { name: 'Below 75%', start: 0, end: 75, color: PALETTE.act },
-            { name: '75 to 89%', start: 75, end: 90, color: PALETTE.watch },
-            {
-                name: '90% and above',
-                start: 90,
-                end: 100,
-                color: PALETTE.target,
-            },
+            // Light enough for black value labels
+            { name: 'Below 75%', start: 0, end: 75, color: '#807dba' },
+            { name: '75 to 89%', start: 75, end: 90, color: '#bcbddc' },
+            { name: '90% and above', start: 90, end: 100, color: '#f2f0f7' },
         ],
     }),
 }
@@ -192,6 +188,7 @@ const post = {
                     legendSet: legendSets.reporting.id,
                     renderingStrategy: 'SPLIT_BY_PERIOD',
                     labels: '{value}',
+                    labelColor: '#000000',
                 }),
             ],
         })
@@ -238,7 +235,7 @@ const post = {
                         red.name
                     } reported only a few of the last six months, while the rest of ${ctx.districtName(
                         DISTRICTS[RED_FACILITY_DISTRICT]
-                    )} is on time. @show_facility_incharge can we schedule a supervision visit this month? ${tonkolili} reports are complete but mostly after the deadline, and ${koinadugu} is red across the district: connectivity or staffing, to raise at the review meeting. (Synthetic data)`,
+                    )} is on time. @show_facility_incharge can we schedule a supervision visit this month? ${tonkolili} reports are complete but mostly after the deadline, and ${koinadugu} is red across the district: connectivity or staffing, to raise at the review meeting.`,
                     comments: [
                         {
                             author: 'facility_incharge',

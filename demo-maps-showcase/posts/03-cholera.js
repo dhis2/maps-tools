@@ -3,13 +3,12 @@
 const { loadFacilityPoints } = require('../shared/geometry.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
-    earthEngineLayer,
     eventLayer,
     map,
     thematicLayer,
 } = require('../shared/maps.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DISTRICTS } = require('../shared/sierraLeone.js')
 const {
     id,
@@ -18,6 +17,8 @@ const {
     point,
     program,
     programIndicator,
+    styleByNumber,
+    styleByOptions,
     trackerDataElement,
 } = require('../shared/tracker.js')
 const { addDays, isoDate } = require('../periods.js')
@@ -25,9 +26,12 @@ const { randomFor } = require('../random.js')
 
 const PROGRAM = 'CHOLERA_CASES'
 const STAGE = 'CHOLERA_CASE_REPORT'
-const DE = { rdt: 'CHOLERA_RDT_RESULT', outcome: 'CHOLERA_OUTCOME' }
+const DE = {
+    rdt: 'CHOLERA_RDT_RESULT',
+    outcome: 'CHOLERA_OUTCOME',
+    onset: 'CHOLERA_DAYS_SINCE_ONSET',
+}
 const PI = 'CHOLERA_SUSPECTED_CASES'
-const BUILDINGS = 'GOOGLE/Research/open-buildings/v3/polygons'
 
 const OUTBREAK_DAYS = 42
 const WITHOUT_COORDINATES = 0.3
@@ -38,16 +42,16 @@ const options = {
         key: 'CHOLERA_RDT',
         name: 'Cholera RDT result',
         options: [
-            { code: 'POSITIVE', name: 'Positive', color: PALETTE.act },
-            { code: 'NEGATIVE', name: 'Negative', color: PALETTE.target },
-            { code: 'NOT_DONE', name: 'Not done', color: PALETTE.noData },
+            { code: 'POSITIVE', name: 'Positive', color: '#e31a1c' },
+            { code: 'NEGATIVE', name: 'Negative', color: '#1f78b4' },
+            { code: 'NOT_DONE', name: 'Not done', color: '#969696' },
         ],
     }),
     outcome: optionSet({
         key: 'CHOLERA_OUTCOME',
         name: 'Cholera outcome',
         options: [
-            { code: 'ALIVE', name: 'Alive', color: PALETTE.watch },
+            { code: 'ALIVE', name: 'Alive', color: '#e31a1c' },
             { code: 'DEAD', name: 'Dead', color: '#000000' },
         ],
     }),
@@ -108,14 +112,36 @@ const rdtResult = (random) => {
     return random.chance(0.6) ? 'NEGATIVE' : 'NOT_DONE'
 }
 
+// Most cases come within a day of symptom onset; those who die came late
+const daysSinceOnset = (random, outcome) => {
+    if (outcome === 'DEAD') {
+        return random.int(4, 7)
+    }
+    if (random.chance(0.7)) {
+        return random.int(0, 1)
+    }
+    return random.chance(0.67) ? random.int(2, 3) : random.int(4, 6)
+}
+
 // Households of the urban cluster sit around one point
-const SPREAD_KM = { cluster: 0.6, earlier: 3, focus: 0.3 }
+const SPREAD_KM = { cluster: 0.4, earlier: 3, focus: 0.3 }
+
+// The facility nearest the middle of the place's facilities comes first: the
+// urban cluster sits around it, away from the coast
+const centralFirst = (facilities, points) => {
+    const mean = (i) =>
+        facilities.reduce((s, f) => s + points[f.id][i], 0) / facilities.length
+    const middle = [mean(0), mean(1)]
+    const distance = (f) =>
+        Math.hypot(points[f.id][0] - middle[0], points[f.id][1] - middle[1])
+    return [...facilities].sort((a, b) => distance(a) - distance(b))
+}
 
 const generate = ({ runDate }, { facilities, points }) => {
     const places = pickPlaces(facilities, points)
     const events = []
     Object.entries(WAVES).forEach(([place, casesOn]) => {
-        const { facilities: placeFacilities } = places[place]
+        const placeFacilities = centralFirst(places[place].facilities, points)
         const centre = points[placeFacilities[0].id]
         for (let daysAgo = OUTBREAK_DAYS; daysAgo >= 0; daysAgo--) {
             const date = addDays(runDate, -daysAgo)
@@ -134,6 +160,7 @@ const generate = ({ runDate }, { facilities, points }) => {
                 const rdt = place === 'focus' ? 'POSITIVE' : rdtResult(r)
                 const hasCoordinates =
                     place === 'focus' || !r.chance(WITHOUT_COORDINATES)
+                const outcome = r.chance(0.02) ? 'DEAD' : 'ALIVE'
                 events.push({
                     event: id('event', `post3:${seed}`),
                     program: id('program', PROGRAM),
@@ -146,7 +173,11 @@ const generate = ({ runDate }, { facilities, points }) => {
                         { dataElement: id('dataElement', DE.rdt), value: rdt },
                         {
                             dataElement: id('dataElement', DE.outcome),
-                            value: r.chance(0.02) ? 'DEAD' : 'ALIVE',
+                            value: outcome,
+                        },
+                        {
+                            dataElement: id('dataElement', DE.onset),
+                            value: String(daysSinceOnset(r, outcome)),
                         },
                     ],
                 })
@@ -160,14 +191,22 @@ const legendSets = {
     suspected: legendSet({
         key: 'CHOLERA_SUSPECTED_7D',
         name: 'Showcase: suspected cholera cases in 7 days (GTFCC)',
+        // ColorBrewer YlOrRd
         legends: [
-            { name: '1 case', start: 1, end: 2, color: PALETTE.watch },
-            {
-                name: '2 or more: suspected outbreak',
-                start: 2,
-                end: 10000,
-                color: PALETTE.act,
-            },
+            { name: '1 case', start: 1, end: 2, color: '#fd8d3c' },
+            { name: '2 to 9: outbreak', start: 2, end: 10, color: '#e31a1c' },
+            { name: '10 or more', start: 10, end: 10000, color: '#800026' },
+        ],
+    }),
+    onset: legendSet({
+        key: 'CHOLERA_DAYS_SINCE_ONSET',
+        // Event layer legends show this name
+        name: 'Days from symptom onset to consultation',
+        // Blue for early, purple for late: apart from the red rings
+        legends: [
+            { name: '0 to 1 day', start: 0, end: 2, color: '#2c7bb6' },
+            { name: '2 to 3 days', start: 2, end: 4, color: '#fdae61' },
+            { name: '4 days or more', start: 4, end: 100, color: '#7b3294' },
         ],
     }),
 }
@@ -199,6 +238,11 @@ const post = {
                         name: 'Cholera outcome',
                         optionSetKey: 'CHOLERA_OUTCOME',
                     }),
+                    trackerDataElement({
+                        key: DE.onset,
+                        name: 'Days from symptom onset to consultation',
+                        valueType: 'INTEGER_ZERO_OR_POSITIVE',
+                    }),
                 ],
                 programIndicators: [
                     programIndicator({
@@ -217,8 +261,9 @@ const post = {
                 stages: [
                     {
                         key: STAGE,
-                        name: 'Case report',
-                        dataElements: [DE.rdt, DE.outcome],
+                        // Event layer legends show the stage name
+                        name: 'Suspected cholera case',
+                        dataElements: [DE.rdt, DE.outcome, DE.onset],
                     },
                 ],
             })
@@ -235,17 +280,72 @@ const post = {
         const { places } = generate(ctx, state)
         const chiefdomName = (chiefdomId) =>
             state.chiefdoms.find((c) => c.id === chiefdomId)?.name
-        const [lon, lat] = state.points[places.cluster.facilities[0].id]
         const programId = id('program', PROGRAM)
         const stageId = id('programStage', STAGE)
+        // Every layer selects the cluster's chiefdom only, so the map opens on
+        // its streets
+        const cluster = [places.cluster.chiefdomId]
         const rings = map({
             key: 'post03_rings',
             post: 3,
             title: 'Drawing the ring around cholera',
-            description:
-                'Suspected cholera cases in the last 7 days by chiefdom, recent cases, and 150 m rings around RDT-positive cases of the last 7 days.',
-            view: { latitude: lat, longitude: lon, zoom: 14 },
+            description: `Households of suspected cholera cases in ${chiefdomName(
+                places.cluster.chiefdomId
+            )}: cases of the last 14 days by days from symptom onset to consultation, and 150 m rings around the RDT-positive ones of the last 7 days.`,
+            basemap: 'openStreetMap',
+            // Cases on top, so the rings don't tint their colours
             layers: [
+                eventLayer({
+                    name: 'Active rings, RDT positive',
+                    programId,
+                    stageId,
+                    periods: ['LAST_7_DAYS'],
+                    orgUnits: cluster,
+                    filters: [
+                        {
+                            dataElement: id('dataElement', DE.rdt),
+                            filter: 'IN:POSITIVE',
+                        },
+                    ],
+                    styleDataItem: styleByOptions(DE.outcome, options.outcome),
+                    radius: 3,
+                    areaRadius: RING_METRES,
+                }),
+                eventLayer({
+                    name: 'Suspected cases, last 14 days',
+                    programId,
+                    stageId,
+                    periods: ['LAST_14_DAYS'],
+                    orgUnits: cluster,
+                    styleDataItem: styleByNumber(
+                        DE.onset,
+                        'INTEGER_ZERO_OR_POSITIVE'
+                    ),
+                    legendSet: legendSets.onset.id,
+                    radius: 5,
+                }),
+            ],
+        })
+        // The districts of the cluster, the new focus and the earlier wave
+        const area = [
+            ...new Set(
+                Object.values(places).map(
+                    ({ facilities }) => facilities[0].districtId
+                )
+            ),
+        ]
+        const country = map({
+            key: 'post03_chiefdoms',
+            post: 3,
+            title: 'Suspected cholera cases by chiefdom, last 7 days',
+            description:
+                'Suspected cholera cases of the last 7 days by chiefdom: two or more in a chiefdom meet the GTFCC definition of a suspected outbreak.',
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [...area, 'LEVEL-3'],
+                    color: '#bdbdbd',
+                }),
                 thematicLayer({
                     name: 'Suspected cholera cases, last 7 days',
                     dataItem: {
@@ -253,53 +353,55 @@ const post = {
                         dimensionItemType: 'PROGRAM_INDICATOR',
                     },
                     periods: ['LAST_7_DAYS'],
-                    level: 3,
+                    orgUnits: [...area, 'LEVEL-3'],
                     legendSet: legendSets.suspected.id,
-                    opacity: 0.5,
+                    labels: '{name}',
                 }),
-                earthEngineLayer({
-                    name: 'Building footprints',
-                    datasetId: BUILDINGS,
-                    style: { color: '#FFA500', strokeWidth: 1 },
-                    aggregations: ['count'],
-                    orgUnits: [places.cluster.chiefdomId],
-                }),
-                eventLayer({
-                    name: 'Recent cases',
-                    programId,
-                    stageId,
-                    periods: ['LAST_14_DAYS'],
-                    color: '#969696',
-                    radius: 4,
-                }),
-                eventLayer({
-                    name: 'Active rings',
-                    programId,
-                    stageId,
-                    periods: ['LAST_7_DAYS'],
-                    filters: [
-                        {
-                            dataElement: id('dataElement', DE.rdt),
-                            filter: 'IN:POSITIVE',
-                        },
-                    ],
-                    styleDataItem: {
-                        id: id('dataElement', DE.outcome),
-                        valueType: 'TEXT',
-                        optionSet: { id: id('optionSet', 'CHOLERA_OUTCOME') },
-                    },
-                    areaRadius: RING_METRES,
+                boundaryLayer({
+                    name: 'Districts',
+                    orgUnits: area,
+                    color: '#252525',
+                    labels: '{name}',
                 }),
             ],
         })
+        const grouped = map({
+            key: 'post03_grouped',
+            post: 3,
+            title: 'Suspected cholera cases, last 60 days, grouped',
+            description:
+                'Suspected cholera cases of the last 60 days, grouped where they are close: each group shows its share of RDT results.',
+            layers: [
+                eventLayer({
+                    name: 'Suspected cases by RDT result',
+                    programId,
+                    stageId,
+                    periods: ['LAST_60_DAYS'],
+                    orgUnits: area,
+                    styleDataItem: styleByOptions(DE.rdt, options.rdt),
+                    clustering: true,
+                }),
+                boundaryLayer({
+                    name: 'Districts',
+                    orgUnits: area,
+                    color: '#252525',
+                    labels: '{name}',
+                }),
+            ],
+        })
+        // From the overview to the streets of the cluster
+        const maps = [country, grouped, rings]
         return {
-            maps: [{ map: rings, teams: ['surveillance'] }],
+            maps: maps.map((m) => ({
+                map: m,
+                teams: ['surveillance'],
+            })),
             dashboards: [
                 dashboard({
                     key: 'post03',
                     post: 3,
                     title: 'Cholera response',
-                    maps: [rings],
+                    maps,
                 }),
             ],
             interpretations: [
@@ -312,7 +414,7 @@ const post = {
                         places.focus.chiefdomId
                     )} has two RDT-positive cases and no earlier ones, a new focus and today's first team. ${chiefdomName(
                         places.earlier.chiefdomId
-                    )} has had no case for a week. About a third of the cases have no household coordinates; @show_tracing_supervisor please start from the facility line lists for those. (Synthetic data)`,
+                    )} has had no case for a week. About a third of the cases have no household coordinates; @show_tracing_supervisor please start from the facility line lists for those.`,
                     comments: [
                         {
                             author: 'tracing_supervisor',
@@ -332,7 +434,29 @@ const post = {
         const programId = id('program', PROGRAM)
         const start = isoDate(addDays(ctx.runDate, -OUTBREAK_DAYS))
         const end = isoDate(ctx.runDate)
+        const stageId = id('programStage', STAGE)
         return [
+            {
+                name: 'Most cases come within a day of symptom onset',
+                path: `/api/analytics/events/aggregate/${programId}?stage=${stageId}&dimension=${stageId}.${id(
+                    'dataElement',
+                    DE.onset
+                )}&filter=ou:${Object.values(DISTRICTS).join(
+                    ';'
+                )}&filter=pe:LAST_60_DAYS`,
+                evaluate: (rows, { headers }) => {
+                    const days = headers.findIndex((h) => h.name !== 'value')
+                    const value = headers.findIndex((h) => h.name === 'value')
+                    const total = rows.reduce((s, r) => s + Number(r[value]), 0)
+                    const early = rows
+                        .filter((r) => Number(r[days]) <= 1)
+                        .reduce((s, r) => s + Number(r[value]), 0)
+                    return {
+                        ok: total > 0 && early / total >= 0.5,
+                        detail: `${early} of ${total} cases within a day of onset`,
+                    }
+                },
+            },
             {
                 name: 'The cluster is red, the new focus has cases, the earlier wave has stopped',
                 path: `/api/analytics?dimension=dx:${pi}&dimension=ou:${places.cluster.chiefdomId};${places.focus.chiefdomId};${places.earlier.chiefdomId}&filter=pe:LAST_7_DAYS&skipMeta=true`,

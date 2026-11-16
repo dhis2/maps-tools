@@ -1,7 +1,7 @@
 // Builds maps in the format maps-app saves (validLayerProperties in maps-app's
 // src/util/favorites.js). mapViews go bottom layer first.
 const { DISTRICTS } = require('./sierraLeone.js')
-const { SYNTHETIC_LABEL, code, uid } = require('./ids.js')
+const { DEMO_LABEL, DEMO_NOTICE, code, uid } = require('./ids.js')
 const { CLASS_SCALES } = require('./palette.js')
 
 const BASEMAP = 'osmLight'
@@ -17,22 +17,38 @@ const orgUnitRows = (level) => [
     ]),
 ]
 
-const labelProps = (labels) =>
+const labelProps = (labels, color = '#333333') =>
     labels
         ? {
               labels: true,
               labelTemplate: labels,
               labelFontSize: '11px',
-              labelFontColor: '#333333',
+              labelFontColor: color,
               labelFontStyle: 'normal',
               labelFontWeight: 'normal',
           }
         : {}
 
+const orgUnitDimension = (orgUnits, level) =>
+    orgUnits
+        ? [
+              dimension(
+                  'ou',
+                  orgUnits.map((id) => ({ id }))
+              ),
+          ]
+        : orgUnitRows(level)
+
 // A legend set, or equal-count classes over colorScale for counts
-const classification = (legendSet, colorScale) => {
+const classification = (legendSet, colorScale, color) => {
     if (legendSet) {
         return { method: 1, legendSet: { id: legendSet } }
+    }
+    // Counts as bubbles in one colour: the legend shows sizes and values. A
+    // legend set on bubbles drops values outside its classes, and its legend
+    // shows sizes without the class colours.
+    if (color) {
+        return { method: 10, colorScale: color }
     }
     if (!Object.values(CLASS_SCALES).includes(colorScale)) {
         throw new Error(
@@ -54,6 +70,7 @@ const thematicLayer = ({
     level,
     legendSet,
     colorScale,
+    color,
     bubble = false,
     renderingStrategy = 'SINGLE',
     labels,
@@ -64,33 +81,29 @@ const thematicLayer = ({
     radiusHigh = bubble ? 20 : radiusLow,
     // Instead of a level: org unit ids, LEVEL- or OU_GROUP- items
     orgUnits,
+    // Without it, org units without data are left out of the map and legend
+    noDataColor,
+    labelColor,
 }) => ({
     layer: 'thematic',
     name,
     columns: [dimension('dx', [dataItem])],
-    rows: orgUnits
-        ? [
-              dimension(
-                  'ou',
-                  orgUnits.map((id) => ({ id }))
-              ),
-          ]
-        : orgUnitRows(level),
+    rows: orgUnitDimension(orgUnits, level),
     filters: [
         dimension(
             'pe',
             periods.map((id) => ({ id }))
         ),
     ],
-    ...classification(legendSet, colorScale),
+    ...classification(legendSet, colorScale, color),
     thematicMapType: bubble ? 'BUBBLE' : 'CHOROPLETH',
     radiusLow,
     radiusHigh,
     renderingStrategy,
-    noDataColor: '#BDBDBD',
+    ...(noDataColor ? { noDataColor } : {}),
     opacity,
     hidden,
-    ...labelProps(labels),
+    ...labelProps(labels, labelColor),
 })
 
 const MONTH_NAMES = [
@@ -182,12 +195,18 @@ const healthFacilitiesGroup = (facilities) => ({
     sharing: { public: 'r-------', external: false },
 })
 
-const facilityLayer = ({ name, groupSet, hidden = false }) => ({
+// districts: ids of the districts to show, all by default
+const facilityLayer = ({
+    name,
+    groupSet,
+    districts = Object.values(DISTRICTS),
+    hidden = false,
+}) => ({
     layer: 'facility',
     name,
     rows: [
         dimension('ou', [
-            ...Object.values(DISTRICTS).map((id) => ({ id })),
+            ...districts.map((id) => ({ id })),
             { id: `OU_GROUP-${HEALTH_FACILITIES_GROUP}` },
         ]),
     ],
@@ -196,17 +215,26 @@ const facilityLayer = ({ name, groupSet, hidden = false }) => ({
     hidden,
 })
 
-const boundaryLayer = ({ name, level, color = '#333333', labels }) => ({
+const boundaryLayer = ({
+    name,
+    level,
+    orgUnits,
+    color = '#333333',
+    labels,
+    labelColor = color,
+}) => ({
     layer: 'orgUnit',
     name,
-    rows: orgUnitRows(level),
+    rows: orgUnitDimension(orgUnits, level),
     organisationUnitColor: color,
     opacity: 1,
     hidden: false,
-    ...labelProps(labels),
+    ...labelProps(labels, labelColor),
 })
 
-// filters: [{ dataElement, filter }], for example 'IN:POSITIVE'
+// filters: [{ dataElement, filter }], for example 'IN:POSITIVE'. With
+// clustering and a styleDataItem, groups show as donuts of the style colours.
+// legendSet: for a styleDataItem of a number data element.
 const eventLayer = ({
     name,
     programId,
@@ -215,6 +243,7 @@ const eventLayer = ({
     orgUnits = Object.values(DISTRICTS),
     filters = [],
     styleDataItem,
+    legendSet,
     color = '#333333',
     radius = 6,
     areaRadius,
@@ -246,6 +275,7 @@ const eventLayer = ({
     eventPointRadius: radius,
     ...(areaRadius ? { areaRadius } : {}),
     ...(styleDataItem ? { styleDataItem } : {}),
+    ...(legendSet ? { method: 1, legendSet: { id: legendSet } } : {}),
     opacity: 0.9,
     hidden,
 })
@@ -259,6 +289,7 @@ const trackedEntityLayer = ({
     color,
     radius = 5,
     relationship,
+    orgUnits = Object.values(DISTRICTS),
     hidden = false,
 }) => ({
     layer: 'trackedEntity',
@@ -269,7 +300,7 @@ const trackedEntityLayer = ({
     rows: [
         dimension(
             'ou',
-            Object.values(DISTRICTS).map((id) => ({ id }))
+            orgUnits.map((id) => ({ id }))
         ),
     ],
     organisationUnitSelectionMode: 'DESCENDANTS',
@@ -294,39 +325,52 @@ const trackedEntityLayer = ({
 
 const DEFAULT_VIEW = { latitude: 8.5, longitude: -11.8, zoom: 7 }
 
-const map = ({
-    key,
-    post,
-    title,
-    description,
-    layers,
-    view = DEFAULT_VIEW,
-}) => ({
+// Post numbers with a leading zero, so names sort in post order
+const postNumber = (post) => String(post).padStart(2, '0')
+
+// maps-app opens a map fitted to its layers; the saved centre and zoom only
+// apply to a map without layers. basemap: an id of maps-app's
+// src/constants/basemaps.js
+const map = ({ key, post, title, description, layers, basemap = BASEMAP }) => ({
     id: uid(`map:${key}`),
     code: code(`MAP_${key.toUpperCase()}`),
-    name: `Post ${post} · ${title} (${SYNTHETIC_LABEL})`,
-    description: `${description} ${SYNTHETIC_LABEL}, DHIS2 demo.`,
-    basemap: BASEMAP,
-    basemaps: [{ id: BASEMAP, opacity: 1, hidden: false }],
-    ...view,
+    name: `Post ${postNumber(post)} · ${title} · ${DEMO_LABEL}`,
+    description: `${DEMO_NOTICE} ${description}`,
+    basemap,
+    basemaps: [{ id: basemap, opacity: 1, hidden: false }],
+    ...DEFAULT_VIEW,
     // No ids: a PUT that keeps them fails, as the server inserts the new
     // views before deleting the old ones
     mapViews: layers,
 })
 
+const NOTICE_HEIGHT = 3
+
+// The notice comes first, over the full width; maps follow two per row
 const dashboard = ({ key, post, title, maps }) => ({
     id: uid(`dashboard:${key}`),
     code: code(`DASHBOARD_${key.toUpperCase()}`),
-    name: `Showcase ${post} · ${title} (${SYNTHETIC_LABEL})`,
-    dashboardItems: maps.map((m, i) => ({
-        id: uid(`dashboard:${key}:item:${i}`),
-        type: 'MAP',
-        map: { id: m.id },
-        x: (i % 2) * 30,
-        y: Math.floor(i / 2) * 20,
-        width: 30,
-        height: 20,
-    })),
+    name: `Showcase ${postNumber(post)} · ${title} · ${DEMO_LABEL}`,
+    dashboardItems: [
+        {
+            id: uid(`dashboard:${key}:notice`),
+            type: 'TEXT',
+            text: `**${DEMO_NOTICE}**`,
+            x: 0,
+            y: 0,
+            width: 60,
+            height: NOTICE_HEIGHT,
+        },
+        ...maps.map((m, i) => ({
+            id: uid(`dashboard:${key}:item:${i}`),
+            type: 'MAP',
+            map: { id: m.id },
+            x: (i % 2) * 30,
+            y: NOTICE_HEIGHT + Math.floor(i / 2) * 20,
+            width: 30,
+            height: 20,
+        })),
+    ],
 })
 
 module.exports = {

@@ -1,4 +1,5 @@
 const { createClient } = require('../client.js')
+const { DEMO_LABEL } = require('../shared/ids.js')
 const { USERNAME_PREFIX, teamId, username } = require('../shared/users.js')
 
 const buildContent = ({ ctx, posts, states }) =>
@@ -65,7 +66,10 @@ const replaceInterpretations = async (
     }
     for (const { author, text, comments = [] } of interpretations) {
         const authorClient = userClient(author)
-        await authorClient.postText(`/api/interpretations/map/${mapId}`, text)
+        await authorClient.postText(
+            `/api/interpretations/map/${mapId}`,
+            `${text} (${DEMO_LABEL})`
+        )
         const { interpretations: created } = await client.get(
             `/api/interpretations?filter=map.id:eq:${mapId}&filter=createdBy.username:eq:${username(
                 author

@@ -1,7 +1,7 @@
 // Post 4 · Who hasn't been seen today? Ebola cases and their contacts in two
 // tracker programs, linked by a relationship type, with daily follow-up.
 const { loadFacilityPoints } = require('../shared/geometry.js')
-const { PUBLIC_READ, code } = require('../shared/ids.js')
+const { indicator } = require('../shared/metadata.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
     dashboard,
@@ -10,7 +10,6 @@ const {
     thematicLayer,
     trackedEntityLayer,
 } = require('../shared/maps.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DISTRICTS } = require('../shared/sierraLeone.js')
 const {
     PERSON,
@@ -21,6 +20,7 @@ const {
     program,
     programIndicator,
     relationshipType,
+    styleByOptions,
     trackerDataElement,
 } = require('../shared/tracker.js')
 const { addDays, isoDate } = require('../periods.js')
@@ -43,6 +43,9 @@ const CASE_COUNT = 20
 const CONTACTS_PER_CASE = 15
 const FOLLOW_UP_DAYS = 21
 const OUTBREAK_DISTRICTS = ['kenema', 'kailahun']
+// The map shows the outbreak districts and Kono, where two cases came from
+// outside known chains
+const AREA = [...OUTBREAK_DISTRICTS, 'kono'].map((key) => DISTRICTS[key])
 // Daily visits that find the contact, by health area
 const SEEN = 0.975
 const SEEN_LOW = 0.8
@@ -56,16 +59,16 @@ const options = {
         key: 'EBOLA_CLASSIFICATION',
         name: 'Ebola case classification',
         options: [
-            { code: 'CONFIRMED', name: 'Confirmed', color: PALETTE.act },
-            { code: 'PROBABLE', name: 'Probable', color: PALETTE.watch },
+            { code: 'CONFIRMED', name: 'Confirmed', color: '#e31a1c' },
+            { code: 'PROBABLE', name: 'Probable', color: '#fd8d3c' },
         ],
     }),
     seen: optionSet({
         key: 'EBOLA_CONTACT_SEEN',
         name: 'Contact seen at visit',
         options: [
-            { code: 'SEEN', name: 'Seen', color: PALETTE.target },
-            { code: 'NOT_SEEN', name: 'Not seen', color: PALETTE.act },
+            { code: 'SEEN', name: 'Seen', color: '#2171b5' },
+            { code: 'NOT_SEEN', name: 'Not seen', color: '#e31a1c' },
         ],
     }),
 }
@@ -314,40 +317,31 @@ const legendSets = {
     followUp: legendSet({
         key: 'CONTACT_FOLLOW_UP',
         name: 'Showcase: contacts seen at daily visits (95% target)',
+        // ColorBrewer RdPu, darkest where contacts are missed
         legends: [
-            { name: 'Below 90%', start: 0, end: 90, color: PALETTE.act },
-            { name: '90 to 95%', start: 90, end: 95, color: PALETTE.watch },
-            {
-                name: 'Above 95%',
-                start: 95,
-                end: 100,
-                color: PALETTE.target,
-            },
+            { name: 'Below 90%', start: 0, end: 90, color: '#ae017e' },
+            { name: '90 to 95%', start: 90, end: 95, color: '#f768a1' },
+            { name: 'Above 95%', start: 95, end: 100, color: '#fde0dd' },
         ],
     }),
 }
 
-const followUpIndicator = {
-    id: id('indicator', FOLLOW_UP_INDICATOR),
-    code: code(FOLLOW_UP_INDICATOR),
+const followUpIndicator = indicator({
+    key: FOLLOW_UP_INDICATOR,
     name: 'Contacts seen at daily follow-up visits',
-    shortName: 'Contacts seen at daily visits',
+    type: 'percent',
+    numerator: `I{${id('programIndicator', PI.seen)}}`,
+    denominator: `I{${id('programIndicator', PI.visits)}}`,
     description:
         'Daily follow-up visits that found the contact over all daily follow-up visits.',
-    indicatorType: { id: 'bWuNrMHEoZ0' },
-    numerator: `I{${id('programIndicator', PI.seen)}}`,
-    numeratorDescription: 'Visits that found the contact',
-    denominator: `I{${id('programIndicator', PI.visits)}}`,
-    denominatorDescription: 'Follow-up visits',
-    annualized: false,
     decimals: 0,
-    sharing: PUBLIC_READ,
-}
+})
 
 const post = {
     number: 4,
     title: "Who hasn't been seen today?",
     eventAnalytics: true,
+    trackedEntityAnalytics: true,
 
     prepare: async ({ client, orgUnits }) => ({
         facilities: orgUnits.facilities,
@@ -463,7 +457,6 @@ const post = {
             title: "Who hasn't been seen today?",
             description:
                 'Contacts seen at daily visits in the last 7 days by chiefdom, contacts under follow-up and completed, cases with their contacts, and new cases.',
-            view: { latitude: 8.0, longitude: -11.0, zoom: 9 },
             layers: [
                 thematicLayer({
                     name: 'Contacts seen at daily visits, last 7 days',
@@ -472,50 +465,50 @@ const post = {
                         dimensionItemType: 'INDICATOR',
                     },
                     periods: ['LAST_7_DAYS'],
-                    level: 3,
+                    orgUnits: [...AREA, 'LEVEL-3'],
                     legendSet: legendSets.followUp.id,
-                    opacity: 0.6,
+                    opacity: 0.7,
                 }),
                 trackedEntityLayer({
                     name: 'Contacts, follow-up completed',
                     programId: id('program', CONTACTS),
                     programStatus: 'COMPLETED',
+                    orgUnits: AREA,
                     color: '#969696',
-                    radius: 4,
+                    radius: 3,
                 }),
                 trackedEntityLayer({
                     name: 'Contacts under follow-up',
                     programId: id('program', CONTACTS),
                     programStatus: 'ACTIVE',
-                    color: PALETTE.target,
+                    orgUnits: AREA,
+                    color: '#2171b5',
                     radius: 4,
                 }),
                 trackedEntityLayer({
                     name: 'Cases and their contacts',
                     programId: id('program', CASES),
+                    orgUnits: AREA,
                     color: '#000000',
                     radius: 6,
                     relationship: {
                         typeId: id('relationshipType', RELATIONSHIP),
-                        pointColor: PALETTE.target,
-                        pointRadius: 4,
-                        lineColor: '#555555',
+                        pointColor: '#2171b5',
+                        pointRadius: 3,
+                        lineColor: '#252525',
                     },
-                    hidden: true,
                 }),
                 eventLayer({
                     name: 'New cases',
                     programId: id('program', CASES),
                     stageId: id('programStage', INVESTIGATION),
                     periods: ['LAST_30_DAYS'],
-                    radius: 9,
-                    styleDataItem: {
-                        id: id('dataElement', DE.classification),
-                        valueType: 'TEXT',
-                        optionSet: {
-                            id: id('optionSet', 'EBOLA_CLASSIFICATION'),
-                        },
-                    },
+                    orgUnits: AREA,
+                    radius: 8,
+                    styleDataItem: styleByOptions(
+                        DE.classification,
+                        options.classification
+                    ),
                 }),
             ],
         })
@@ -544,7 +537,7 @@ const post = {
                         unknown.length
                     } cases near ${
                         unknown[0].facility.name
-                    } were not, so they came from outside known chains. @show_surveillance_lead please send an investigation team there. (Synthetic data)`,
+                    } were not, so they came from outside known chains. @show_surveillance_lead please send an investigation team there.`,
                     comments: [
                         {
                             author: 'surveillance_lead',

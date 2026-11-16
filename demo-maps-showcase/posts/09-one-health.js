@@ -6,6 +6,7 @@ const path = require('node:path')
 const { loadFacilityPoints } = require('../shared/geometry.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
     eventLayer,
     map,
@@ -19,7 +20,6 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const {
     id,
@@ -27,6 +27,8 @@ const {
     optionSet,
     point,
     program,
+    styleByBoolean,
+    styleByOptions,
     trackerDataElement,
 } = require('../shared/tracker.js')
 const { addDays, isoDate } = require('../periods.js')
@@ -38,6 +40,7 @@ const ANIMALS = 'RABIES_ANIMALS'
 const ANIMAL_STAGE = 'RABIES_ANIMAL_INVESTIGATION'
 const DE = {
     risk: 'RABIES_BITING_ANIMAL_RISK',
+    pep: 'RABIES_PEP_STARTED',
     result: 'RABIES_ANIMAL_TEST_RESULT',
     vaccinated: 'RABIES_DOGS_VACCINATED',
     dogs: 'RABIES_DOG_POPULATION',
@@ -74,16 +77,16 @@ const options = {
         key: 'RABIES_RISK',
         name: 'Biting animal risk assessment',
         options: [
-            { code: 'SUSPECT', name: 'Suspect rabid', color: PALETTE.act },
-            { code: 'HEALTHY', name: 'Healthy', color: PALETTE.target },
-            { code: 'UNKNOWN', name: 'Unknown', color: PALETTE.noData },
+            { code: 'SUSPECT', name: 'Suspect rabid', color: '#e31a1c' },
+            { code: 'HEALTHY', name: 'Healthy', color: '#1f78b4' },
+            { code: 'UNKNOWN', name: 'Unknown', color: '#bdbdbd' },
         ],
     }),
     result: optionSet({
         key: 'RABIES_RESULT',
         name: 'Animal rabies test result',
         options: [
-            { code: 'POSITIVE', name: 'Positive', color: PALETTE.check },
+            { code: 'POSITIVE', name: 'Positive', color: '#6a3d9a' },
             { code: 'NEGATIVE', name: 'Negative', color: '#91bfdb' },
             { code: 'NOT_TESTED', name: 'Not tested', color: '#636363' },
         ],
@@ -100,6 +103,8 @@ const STORY_DISTRICTS = {
     hotspot: 'portLoko',
 }
 const LOW_COVERAGE_DISTRICT = 'portLoko'
+// The map shows the three districts of the stories
+const AREA = Object.values(STORY_DISTRICTS).map((key) => DISTRICTS[key])
 
 const pickChiefdoms = (facilities, points) =>
     Object.fromEntries(
@@ -143,6 +148,13 @@ const riskOf = (random) => {
     return random.chance(0.7) ? 'HEALTHY' : 'UNKNOWN'
 }
 
+// Share of bites where post-exposure prophylaxis started: PEP is short in the
+// hotspot
+const PEP_SHARE = { SUSPECT: 0.8, HEALTHY: 0.4, UNKNOWN: 0.5, hotspot: 0.25 }
+
+const pepStarted = (key, share) =>
+    String(randomFor('post9-pep', key).chance(share))
+
 const event = (
     programKey,
     stageKey,
@@ -160,7 +172,22 @@ const event = (
     status: 'COMPLETED',
     occurredAt: isoDate(date),
     geometry: point(location),
-    dataValues: [{ dataElement: id('dataElement', de), value }],
+    dataValues: [
+        { dataElement: id('dataElement', de), value },
+        ...(programKey === BITES
+            ? [
+                  {
+                      dataElement: id('dataElement', DE.pep),
+                      value: pepStarted(
+                          key,
+                          key.startsWith('hotspot')
+                              ? PEP_SHARE.hotspot
+                              : PEP_SHARE[value]
+                      ),
+                  },
+              ]
+            : []),
+    ],
 })
 
 const generate = ({ runDate }, { facilities, points }) => {
@@ -295,14 +322,11 @@ const legendSets = {
     coverage: legendSet({
         key: 'DOG_VACCINATION_70',
         name: 'Showcase: dog vaccination coverage (WHO 70%)',
+        // ColorBrewer Greens, pale where too few dogs are vaccinated
         legends: [
-            { name: 'Below 70%', start: 0, end: 70, color: PALETTE.act },
-            {
-                name: '70% and above',
-                start: 70,
-                end: 100,
-                color: PALETTE.target,
-            },
+            { name: 'Below 70%', start: 0, end: 70, color: '#edf8e9' },
+            { name: '70 to 79%', start: 70, end: 80, color: '#74c476' },
+            { name: '80% and above', start: 80, end: 100, color: '#238b45' },
         ],
     }),
 }
@@ -330,6 +354,11 @@ const post = {
                         key: DE.risk,
                         name: 'Biting animal risk assessment',
                         optionSetKey: 'RABIES_RISK',
+                    }),
+                    trackerDataElement({
+                        key: DE.pep,
+                        name: 'Post-exposure prophylaxis started',
+                        valueType: 'BOOLEAN',
                     }),
                     trackerDataElement({
                         key: DE.result,
@@ -382,7 +411,7 @@ const post = {
                     {
                         key: BITE_STAGE,
                         name: 'Bite assessment',
-                        dataElements: [DE.risk],
+                        dataElements: [DE.risk, DE.pep],
                     },
                 ],
             }),
@@ -447,7 +476,7 @@ const post = {
             post: 9,
             title: 'One bite, two sectors',
             description:
-                'Dog vaccination coverage of the last campaign by district, dog bites by risk of the biting animal, and animal rabies investigations by test result, last 3 months.',
+                'Dog vaccination coverage of the last campaign by district, dog bites grouped by risk of the biting animal, and 5 km zones around rabid dogs, last 3 months.',
             layers: [
                 thematicLayer({
                     name: 'Dog vaccination coverage',
@@ -456,44 +485,96 @@ const post = {
                         dimensionItemType: 'INDICATOR',
                     },
                     periods: ['LAST_YEAR'],
-                    level: 2,
+                    orgUnits: AREA,
                     legendSet: legendSets.coverage.id,
-                    opacity: 0.5,
+                    opacity: 0.8,
+                    labels: '{name}\n{value}',
+                }),
+                eventLayer({
+                    name: 'Rabid dogs, 5 km zone',
+                    programId: id('program', ANIMALS),
+                    stageId: id('programStage', ANIMAL_STAGE),
+                    periods: ['LAST_3_MONTHS'],
+                    orgUnits: AREA,
+                    filters: [
+                        {
+                            dataElement: id('dataElement', DE.result),
+                            filter: 'IN:POSITIVE',
+                        },
+                    ],
+                    color: '#6a3d9a',
+                    radius: 3,
+                    areaRadius: 5000,
                 }),
                 eventLayer({
                     name: 'Dog bites',
                     programId: id('program', BITES),
                     stageId: id('programStage', BITE_STAGE),
                     periods: ['LAST_3_MONTHS'],
-                    styleDataItem: {
-                        id: id('dataElement', DE.risk),
-                        valueType: 'TEXT',
-                        optionSet: { id: id('optionSet', 'RABIES_RISK') },
-                    },
+                    orgUnits: AREA,
+                    styleDataItem: styleByOptions(DE.risk, options.risk),
                     radius: 5,
-                }),
-                eventLayer({
-                    name: 'Animal investigations',
-                    programId: id('program', ANIMALS),
-                    stageId: id('programStage', ANIMAL_STAGE),
-                    periods: ['LAST_3_MONTHS'],
-                    styleDataItem: {
-                        id: id('dataElement', DE.result),
-                        valueType: 'TEXT',
-                        optionSet: { id: id('optionSet', 'RABIES_RESULT') },
-                    },
-                    radius: 8,
+                    clustering: true,
                 }),
             ],
         })
+        const hotspot = [stories.hotspot.chiefdomId]
+        const pep = map({
+            key: 'post09_pep',
+            post: 9,
+            title: `Bitten, but no vaccine? ${chiefdomName(
+                stories.hotspot.chiefdomId
+            )}`,
+            description: `Dog bites in ${chiefdomName(
+                stories.hotspot.chiefdomId
+            )} by whether post-exposure prophylaxis started, and 5 km zones around rabid dogs, last 3 months.`,
+            basemap: 'openStreetMap',
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdom',
+                    orgUnits: hotspot,
+                    color: '#252525',
+                    labels: '{name}',
+                }),
+                eventLayer({
+                    name: 'Rabid dogs, 5 km zone',
+                    programId: id('program', ANIMALS),
+                    stageId: id('programStage', ANIMAL_STAGE),
+                    periods: ['LAST_3_MONTHS'],
+                    orgUnits: hotspot,
+                    filters: [
+                        {
+                            dataElement: id('dataElement', DE.result),
+                            filter: 'IN:POSITIVE',
+                        },
+                    ],
+                    color: '#6a3d9a',
+                    radius: 3,
+                    areaRadius: 5000,
+                }),
+                eventLayer({
+                    name: 'Dog bites by PEP started',
+                    programId: id('program', BITES),
+                    stageId: id('programStage', BITE_STAGE),
+                    periods: ['LAST_3_MONTHS'],
+                    orgUnits: hotspot,
+                    styleDataItem: styleByBoolean(DE.pep, {
+                        yes: '#1a9641',
+                        no: '#d7191c',
+                    }),
+                    radius: 7,
+                }),
+            ],
+        })
+        const maps = [rabies, pep]
         return {
-            maps: [{ map: rabies, teams: ['oneHealth'] }],
+            maps: maps.map((m) => ({ map: m, teams: ['oneHealth'] })),
             dashboards: [
                 dashboard({
                     key: 'post09',
                     post: 9,
                     title: 'One Health, rabies',
-                    maps: [rabies],
+                    maps,
                 }),
             ],
             interpretations: [
@@ -506,7 +587,7 @@ const post = {
                         stories.unreported.chiefdomId
                     )} we found positive dogs, but no bites were reported: @show_surveillance_lead can the health facilities there check access to post-exposure prophylaxis? ${state.districtName(
                         DISTRICTS[LOW_COVERAGE_DISTRICT]
-                    )} has both and is below 70% dog vaccination: the committee proposes it for the next campaign. (Synthetic data)`,
+                    )} has both and is below 70% dog vaccination: the committee proposes it for the next campaign.`,
                     comments: [
                         {
                             author: 'surveillance_lead',
@@ -588,6 +669,20 @@ const post = {
                         )}, hotspot ${positive(
                             'hotspot'
                         )}, uninvestigated ${positive('uninvestigated')}`,
+                    }
+                },
+            },
+            {
+                name: 'PEP started for fewer than half of the bites in the hotspot',
+                // Yes/no values come back as 1 and 0
+                path: count(BITES, BITE_STAGE, DE.pep),
+                evaluate: (rows, body) => {
+                    const v = byChiefdom(rows, body)[stories.hotspot.chiefdomId]
+                    const yes = v?.['1'] ?? 0
+                    const no = v?.['0'] ?? 0
+                    return {
+                        ok: no > yes,
+                        detail: `hotspot: PEP started ${yes}, not started ${no}`,
                     }
                 },
             },

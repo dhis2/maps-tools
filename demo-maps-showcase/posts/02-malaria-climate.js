@@ -18,12 +18,11 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { PALETTE } = require('../shared/palette.js')
 const {
     districtPopulation,
     populationId,
     populationMetadata,
-    populationValueSet,
+    populationValueSets,
 } = require('../shared/population.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { lastMonths } = require('../periods.js')
@@ -125,25 +124,13 @@ const legendSets = {
     incidence: legendSet({
         key: 'MALARIA_INCIDENCE_MONTHLY',
         name: 'Showcase: confirmed malaria cases per 1,000 per month',
+        // ColorBrewer YlOrRd
         legends: [
-            { name: 'Below 5', start: 0, end: 5, color: PALETTE.target },
-            { name: '5 to 14.9', start: 5, end: 15, color: PALETTE.watch },
-            { name: '15 and above', start: 15, end: 1000, color: PALETTE.act },
-        ],
-    }),
-    rain: legendSet({
-        key: 'MONTHLY_RAINFALL',
-        name: 'Showcase: monthly rainfall (mm)',
-        legends: [
-            { name: 'Below 100 mm', start: 0, end: 100, color: '#c6dbef' },
-            { name: '100 to 249 mm', start: 100, end: 250, color: '#6baed6' },
-            { name: '250 to 399 mm', start: 250, end: 400, color: '#2171b5' },
-            {
-                name: '400 mm and above',
-                start: 400,
-                end: 5000,
-                color: '#08306b',
-            },
+            { name: 'Below 3', start: 0, end: 3, color: '#ffffb2' },
+            { name: '3 to 5.9', start: 3, end: 6, color: '#fecc5c' },
+            { name: '6 to 9.9', start: 6, end: 10, color: '#fd8d3c' },
+            { name: '10 to 14.9', start: 10, end: 15, color: '#f03b20' },
+            { name: '15 and above', start: 15, end: 1000, color: '#bd0026' },
         ],
     }),
 }
@@ -169,11 +156,13 @@ const post = {
                     key: DE.rain,
                     name: 'Precipitation (CHIRPS)',
                     aggregationType: 'AVERAGE',
+                    real: true,
                 }),
                 dataElement({
                     key: DE.temperature,
                     name: 'Air temperature (ERA5-Land)',
                     aggregationType: 'AVERAGE',
+                    real: true,
                 }),
                 ...population.dataElements,
             ],
@@ -238,7 +227,7 @@ const post = {
                         ]
                     ),
                 },
-                populationValueSet(),
+                ...populationValueSets(),
             ],
         }
     },
@@ -255,6 +244,7 @@ const post = {
             post: 2,
             title: `Rain, July ${year}`,
             description: `CHIRPS rainfall and ERA5-Land air temperature in July ${year} by district, from Earth Engine.`,
+            basemap: 'osmDark',
             layers: [
                 earthEngineLayer({
                     name: 'Precipitation monthly (CHIRPS)',
@@ -276,6 +266,7 @@ const post = {
                 boundaryLayer({
                     name: 'Districts',
                     level: 2,
+                    color: '#ffffff',
                     labels: '{name}',
                 }),
             ],
@@ -285,13 +276,13 @@ const post = {
             post: 2,
             title: `Confirmed malaria cases, July to September ${year}`,
             description:
-                'Confirmed malaria cases per 1,000 population by district, one panel per month.',
+                'Confirmed malaria cases per 1,000 population by chiefdom, one panel per month.',
             layers: [
                 thematicLayer({
                     name: 'Confirmed malaria cases per 1,000 population',
                     dataItem: incidenceItem,
                     periods: season,
-                    level: 2,
+                    level: 3,
                     legendSet: legendSets.incidence.id,
                     renderingStrategy: 'SPLIT_BY_PERIOD',
                 }),
@@ -302,13 +293,13 @@ const post = {
             post: 2,
             title: `Rain and malaria cases, July to September ${year}`,
             description:
-                'Confirmed malaria cases per 1,000 population (fill) and CHIRPS rainfall imported as data (bubbles) by district, one panel per month.',
+                'Confirmed malaria cases per 1,000 population by chiefdom (fill) and CHIRPS rainfall imported as data by district (bubbles), one panel per month.',
             layers: [
                 thematicLayer({
                     name: 'Confirmed malaria cases per 1,000 population',
                     dataItem: incidenceItem,
                     periods: season,
-                    level: 2,
+                    level: 3,
                     legendSet: legendSets.incidence.id,
                     renderingStrategy: 'SPLIT_BY_PERIOD',
                 }),
@@ -320,11 +311,12 @@ const post = {
                     },
                     periods: season,
                     level: 2,
-                    legendSet: legendSets.rain.id,
+                    color: '#2171b5',
                     renderingStrategy: 'SPLIT_BY_PERIOD',
                     bubble: true,
                     radiusLow: 4,
                     radiusHigh: 16,
+                    opacity: 1,
                 }),
             ],
         })
@@ -346,7 +338,7 @@ const post = {
                 {
                     map: bothMap.id,
                     author: 'surveillance_lead',
-                    text: `Cases follow the rain by one to two months almost everywhere: the wettest districts in July are the darkest in August and September. ${irrigated} is the exception: cases are high in the dry months too. Irrigation around the sugar estate? @show_hmis_officer can we check testing and net distribution there before we change the chemoprevention calendar? (Synthetic data)`,
+                    text: `Cases follow the rain by one to two months almost everywhere: the wettest districts in July are the darkest in August and September. ${irrigated} is the exception: cases are high in the dry months too. Irrigation around the sugar estate? @show_hmis_officer can we check testing and net distribution there before we change the chemoprevention calendar?`,
                     comments: [
                         {
                             author: 'hmis_officer',

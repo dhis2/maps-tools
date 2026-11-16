@@ -18,7 +18,6 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { randomFor } = require('../random.js')
 
@@ -111,39 +110,27 @@ const legendSets = {
     coverage: legendSet({
         key: 'MDA_COVERAGE_75',
         name: 'Showcase: MDA coverage, 75% threshold',
+        // ColorBrewer YlGn, purple for figures to check
         legends: [
-            { name: 'Below 75%', start: 0, end: 75, color: PALETTE.act },
-            { name: '75 to 100%', start: 75, end: 100, color: PALETTE.target },
+            { name: 'Below 65%', start: 0, end: 65, color: '#ffffcc' },
+            { name: '65 to 74%', start: 65, end: 75, color: '#c2e699' },
+            { name: '75 to 100%', start: 75, end: 100, color: '#31a354' },
             {
-                name: 'Above 100%: check the denominator',
+                name: 'Above 100% (check)',
                 start: 100,
                 end: 1000,
-                color: PALETTE.check,
+                color: '#7a0177',
             },
         ],
     }),
     ratio: legendSet({
         key: 'DENOMINATOR_RATIO',
         name: 'Showcase: official denominator over WorldPop',
+        // ColorBrewer BrBG, diverging around agreement
         legends: [
-            {
-                name: 'Below 0.8: official denominator low',
-                start: 0,
-                end: 0.8,
-                color: PALETTE.check,
-            },
-            {
-                name: '0.8 to 1.2: consistent',
-                start: 0.8,
-                end: 1.2,
-                color: PALETTE.target,
-            },
-            {
-                name: 'Above 1.2: official denominator high',
-                start: 1.2,
-                end: 10,
-                color: PALETTE.watch,
-            },
+            { name: 'Below 0.8 (low)', start: 0, end: 0.8, color: '#a6611a' },
+            { name: '0.8 to 1.2', start: 0.8, end: 1.2, color: '#f5f5f5' },
+            { name: 'Above 1.2 (high)', start: 1.2, end: 10, color: '#018571' },
         ],
     }),
 }
@@ -174,6 +161,7 @@ const post = {
                 key: DE.worldPop,
                 name: 'School-age children 5-14 years (WorldPop Global2)',
                 aggregationType: 'AVERAGE_SUM_ORG_UNIT',
+                real: true,
             }),
             dataElement({
                 key: DE.treated,
@@ -268,25 +256,26 @@ const post = {
                     year: lastYear,
                     style: {
                         min: 0,
-                        max: 10,
+                        max: 6,
+                        // ColorBrewer Purples
                         palette: [
-                            '#fee5d9',
-                            '#fcbba1',
-                            '#fc9272',
-                            '#fb6a4a',
-                            '#de2d26',
-                            '#a50f15',
+                            '#f2f0f7',
+                            '#cbc9e2',
+                            '#9e9ac8',
+                            '#756bb1',
+                            '#54278f',
                         ],
                     },
                     level: 3,
                 }),
+                // Light enough to see where children live through it
                 thematicLayer({
                     name: 'School-age denominator over WorldPop',
                     dataItem: dataItem(IND.ratio),
                     periods: ['LAST_YEAR'],
                     level: 3,
                     legendSet: legendSets.ratio.id,
-                    opacity: 0.8,
+                    opacity: 0.55,
                 }),
             ],
         })
@@ -325,7 +314,7 @@ const post = {
                         high.name
                     } looks red, but its estimate is ${ratioOf(
                         high.id
-                    )} of WorldPop's. @show_hmis_officer can we check both against the school enrolment lists before the Joint Application Package? (Synthetic data)`,
+                    )} of WorldPop's. @show_hmis_officer can we check both against the school enrolment lists before the Joint Application Package?`,
                     comments: [
                         {
                             author: 'hmis_officer',

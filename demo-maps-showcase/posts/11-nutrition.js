@@ -2,9 +2,11 @@
 // on a timeline, and how outpatient therapeutic programme (OTP) sites keep up.
 const { PUBLIC_READ, code, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
+const { loadFacilityPoints } = require('../shared/geometry.js')
 const {
+    boundaryLayer,
     dashboard,
-    facilityLayer,
+    eventLayer,
     map,
     thematicLayer,
 } = require('../shared/maps.js')
@@ -16,13 +18,20 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { CLASS_SCALES, PALETTE } = require('../shared/palette.js')
 const {
     DEFAULT_COC,
     DISTRICTS,
     POPULATION_UNDER_1,
 } = require('../shared/sierraLeone.js')
-const { lastMonths } = require('../periods.js')
+const {
+    id,
+    mergeParts,
+    point,
+    program,
+    styleByNumber,
+    trackerDataElement,
+} = require('../shared/tracker.js')
+const { addDays, isoDate, lastMonths } = require('../periods.js')
 const { randomFor } = require('../random.js')
 
 const MONTHS = 24
@@ -69,6 +78,11 @@ const IND = {
     cureRate: 'NUT_OTP_CURE_RATE',
     exits: 'NUT_OTP_EXITS',
 }
+const SCREENING = 'NUT_MUAC_SCREENING'
+const SCREENING_STAGE = 'NUT_MUAC_SCREENING_VISIT'
+const MUAC = 'NUT_MUAC_MM'
+const SCREENING_DAYS = 30
+const SCREENINGS_PER_FACILITY = 6
 const MONTHLY_DATA_SET = 'NUT_OTP_MONTHLY'
 const POPULATION_DATA_SET = 'NUT_POPULATION_YEARLY'
 const OTP_GROUP = uid('orgUnitGroup:OTP_SITE')
@@ -177,27 +191,121 @@ const generate = ({ runDate }, { facilities, population }) => {
     return { months, sites, planted, populationRows, otpRows }
 }
 
+// A point within about `km` of a centre
+const near = (random, [lon, lat], km) => {
+    const angle = random.between(0, 2 * Math.PI)
+    const distance = km * Math.sqrt(random.next())
+    return [
+        lon + (distance * Math.cos(angle)) / 109,
+        lat + (distance * Math.sin(angle)) / 110.6,
+    ]
+}
+
+// MUAC in mm: about 7% SAM and 18% MAM in the lean season, twice as many SAM
+// children around the busy OTP site
+const muac = (random, nearBusySite) => {
+    const p = random.next()
+    const sam = nearBusySite ? 0.15 : 0.07
+    if (p < sam) {
+        return random.int(100, 114)
+    }
+    return p < sam + 0.18 ? random.int(115, 124) : random.int(125, 160)
+}
+
+// Some facilities of the demo database have coordinates far from their
+// district: those more than 25 km from the district's median point
+const MAX_KM_FROM_MEDIAN = 25
+
+const median = (values) => {
+    const sorted = [...values].sort((a, b) => a - b)
+    return sorted[Math.floor(sorted.length / 2)]
+}
+
+const nearTheirDistrict = (facilities, points) => {
+    const lon = median(facilities.map((f) => points[f.id][0]))
+    const lat = median(facilities.map((f) => points[f.id][1]))
+    return facilities.filter(
+        (f) =>
+            Math.hypot(
+                (points[f.id][0] - lon) * 109,
+                (points[f.id][1] - lat) * 110.6
+            ) <= MAX_KM_FROM_MEDIAN
+    )
+}
+
+// Community screening around the facilities of the low-cure district, last
+// 30 days
+const generateScreening = ({ runDate }, { facilities, points }, planted) =>
+    nearTheirDistrict(
+        facilities.filter(
+            (f) => f.districtId === DISTRICTS[LOW_CURE_DISTRICT] && points[f.id]
+        ),
+        points
+    ).flatMap((facility) =>
+        Array.from({ length: SCREENINGS_PER_FACILITY }, (_, n) => {
+            const r = randomFor('post11-muac', facility.id, n)
+            const nearBusySite =
+                facility.chiefdomId === planted.busy?.chiefdomId
+            return {
+                event: id('event', `post11:${facility.id}:${n}`),
+                program: id('program', SCREENING),
+                programStage: id('programStage', SCREENING_STAGE),
+                orgUnit: facility.id,
+                status: 'COMPLETED',
+                occurredAt: isoDate(
+                    addDays(runDate, -r.int(1, SCREENING_DAYS))
+                ),
+                geometry: point(near(r, points[facility.id], 3)),
+                dataValues: [
+                    {
+                        dataElement: id('dataElement', MUAC),
+                        value: String(muac(r, nearBusySite)),
+                    },
+                ],
+            }
+        })
+    )
+
 const legendSets = {
+    muac: legendSet({
+        key: 'MUAC_MM',
+        // Event layer legends show this name
+        name: 'MUAC, children 6-59 months (mm)',
+        // ColorBrewer RdYlGn, as on MUAC tapes
+        legends: [
+            { name: 'Below 115 mm: SAM', start: 0, end: 115, color: '#d7191c' },
+            {
+                name: '115 to 124 mm: MAM',
+                start: 115,
+                end: 125,
+                color: '#fdae61',
+            },
+            {
+                name: '125 mm and above',
+                start: 125,
+                end: 300,
+                color: '#1a9641',
+            },
+        ],
+    }),
     admissions: legendSet({
         key: 'SAM_ADMISSION_RATE',
         name: 'Showcase: SAM admissions per 1,000 children 6-59 months',
+        // ColorBrewer Oranges
         legends: [
-            { name: 'Below 1.5', start: 0, end: 1.5, color: PALETTE.target },
-            { name: '1.5 to 2.9', start: 1.5, end: 3, color: PALETTE.watch },
-            { name: '3 and above', start: 3, end: 100, color: PALETTE.act },
+            { name: 'Below 1', start: 0, end: 1, color: '#feedde' },
+            { name: '1 to 1.9', start: 1, end: 2, color: '#fdbe85' },
+            { name: '2 to 2.9', start: 2, end: 3, color: '#fd8d3c' },
+            { name: '3 and above', start: 3, end: 100, color: '#d94701' },
         ],
     }),
     cure: legendSet({
         key: 'OTP_CURE_RATE',
         name: 'Showcase: OTP cure rate (Sphere 75%)',
+        // ColorBrewer BrBG
         legends: [
-            { name: 'Below 75%', start: 0, end: 75, color: PALETTE.act },
-            {
-                name: '75% and above',
-                start: 75,
-                end: 100,
-                color: PALETTE.target,
-            },
+            { name: 'Below 75%', start: 0, end: 75, color: '#d8b365' },
+            { name: '75% and above', start: 75, end: 100, color: '#5ab4ac' },
         ],
     }),
 }
@@ -214,6 +322,7 @@ const exitsExpression = `#{${dataElementId(DE.cured)}}+#{${dataElementId(
 const post = {
     number: 11,
     title: 'Watching the lean season',
+    eventAnalytics: true,
 
     prepare: async ({ client, orgUnits }) => {
         const { dataValues = [] } = await client.get(
@@ -230,15 +339,40 @@ const post = {
         })
         return {
             facilities: orgUnits.facilities,
-            districtName: (id) =>
-                orgUnits.districts.find((d) => d.id === id)?.name,
+            chiefdoms: orgUnits.chiefdoms,
+            districtName: (ou) =>
+                orgUnits.districts.find((d) => d.id === ou)?.name,
             population,
+            points: await loadFacilityPoints(client),
         }
     },
 
     metadata: ({ importerId, runDate }, state) => {
         const { sites } = generate({ runDate }, state)
-        return {
+        const screening = mergeParts(
+            {
+                dataElements: [
+                    trackerDataElement({
+                        key: MUAC,
+                        name: 'MUAC (mm)',
+                        valueType: 'INTEGER_POSITIVE',
+                    }),
+                ],
+            },
+            program({
+                key: SCREENING,
+                name: 'Nutrition screening (MUAC)',
+                orgUnits: state.facilities,
+                stages: [
+                    {
+                        key: SCREENING_STAGE,
+                        name: 'MUAC screening',
+                        dataElements: [MUAC],
+                    },
+                ],
+            })
+        )
+        return mergeParts(screening, {
             organisationUnitGroups: [
                 {
                     id: OTP_GROUP,
@@ -319,11 +453,11 @@ const post = {
                     decimals: 0,
                 }),
             ],
-        }
+        })
     },
 
     data: (ctx, state) => {
-        const { populationRows, otpRows } = generate(ctx, state)
+        const { populationRows, otpRows, planted } = generate(ctx, state)
         const value = (key, orgUnit, period, v) => ({
             dataElement: dataElementId(key),
             orgUnit,
@@ -358,6 +492,10 @@ const post = {
                     ),
                 },
             ],
+            tracker: {
+                programs: [id('program', SCREENING)],
+                events: generateScreening(ctx, state, planted),
+            },
         }
     },
 
@@ -368,15 +506,21 @@ const post = {
             post: 11,
             title: 'SAM admissions, last 12 months',
             description:
-                'New SAM admissions per 1,000 children 6-59 months by district, month by month.',
+                'New SAM admissions per 1,000 children 6-59 months by chiefdom, month by month.',
             layers: [
                 thematicLayer({
                     name: 'SAM admissions per 1,000 children 6-59 months',
                     dataItem: dataItem(IND.admissionRate),
                     periods: ['LAST_12_MONTHS'],
-                    level: 2,
+                    level: 3,
                     legendSet: legendSets.admissions.id,
                     renderingStrategy: 'TIMELINE',
+                }),
+                boundaryLayer({
+                    name: 'Districts',
+                    level: 2,
+                    color: '#252525',
+                    labels: '{name}',
                 }),
             ],
         })
@@ -393,43 +537,62 @@ const post = {
                     periods: ['LAST_QUARTER'],
                     level: 2,
                     legendSet: legendSets.cure.id,
+                    labels: '{name}',
                 }),
-                facilityLayer({ name: 'Facilities' }),
-                {
-                    ...thematicLayer({
-                        name: 'OTP exits',
-                        dataItem: dataItem(IND.exits),
-                        periods: ['LAST_QUARTER'],
-                        level: 4,
-                        colorScale: CLASS_SCALES.reds3,
-                        bubble: true,
-                    }),
-                    rows: [
-                        {
-                            dimension: 'ou',
-                            items: [
-                                ...Object.values(DISTRICTS).map((id) => ({
-                                    id,
-                                })),
-                                { id: `OU_GROUP-${OTP_GROUP}` },
-                            ],
-                        },
+                thematicLayer({
+                    name: 'OTP exits',
+                    dataItem: dataItem(IND.exits),
+                    periods: ['LAST_QUARTER'],
+                    orgUnits: [
+                        ...Object.values(DISTRICTS),
+                        `OU_GROUP-${OTP_GROUP}`,
                     ],
-                },
+                    color: '#e7298a',
+                    bubble: true,
+                    radiusLow: 3,
+                    radiusHigh: 16,
+                    opacity: 1,
+                }),
             ],
         })
         const districtName = state.districtName
-        return {
-            maps: [
-                { map: timeline, teams: ['nutrition'] },
-                { map: treatment, teams: ['nutrition'] },
+        const lowCure = DISTRICTS[LOW_CURE_DISTRICT]
+        const screening = map({
+            key: 'post11_screening',
+            post: 11,
+            title: `MUAC screening in ${districtName(lowCure)}, last 30 days`,
+            description: `Children 6-59 months screened in the community in ${districtName(
+                lowCure
+            )}, by mid-upper arm circumference (MUAC): below 115 mm is severe acute malnutrition.`,
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [lowCure, 'LEVEL-3'],
+                    color: '#252525',
+                    labels: '{name}',
+                }),
+                eventLayer({
+                    name: 'MUAC screening',
+                    programId: id('program', SCREENING),
+                    stageId: id('programStage', SCREENING_STAGE),
+                    periods: ['LAST_30_DAYS'],
+                    orgUnits: [lowCure],
+                    styleDataItem: styleByNumber(MUAC, 'INTEGER_POSITIVE'),
+                    legendSet: legendSets.muac.id,
+                    radius: 5,
+                }),
             ],
+        })
+        // The country wave, then treatment, then the screening close-up
+        const maps = [timeline, treatment, screening]
+        return {
+            maps: maps.map((m) => ({ map: m, teams: ['nutrition'] })),
             dashboards: [
                 dashboard({
                     key: 'post11',
                     post: 11,
                     title: 'Nutrition, lean season',
-                    maps: [timeline, treatment],
+                    maps,
                 }),
             ],
             interpretations: [
@@ -446,7 +609,7 @@ const post = {
                         planted.busy.name
                     } discharged the most children there. @show_district_pharmacist was RUTF short at ${
                         planted.busy.name
-                    } this quarter? (Synthetic data)`,
+                    } this quarter?`,
                     comments: [
                         {
                             author: 'district_pharmacist',
@@ -511,6 +674,42 @@ const post = {
                         }: ${
                             tinyExits ?? 0
                         } exits; district cure ${districtCure}%`,
+                    }
+                },
+            },
+            {
+                name: 'More SAM children screened around the busy site than in its district',
+                path: `/api/analytics/events/aggregate/${id(
+                    'program',
+                    SCREENING
+                )}?stage=${id('programStage', SCREENING_STAGE)}&dimension=${id(
+                    'programStage',
+                    SCREENING_STAGE
+                )}.${id('dataElement', MUAC)}&dimension=ou:${
+                    planted.busy.chiefdomId
+                };${DISTRICTS[LOW_CURE_DISTRICT]}&filter=pe:LAST_30_DAYS`,
+                evaluate: (rows, { headers }) => {
+                    const ou = headers.findIndex((h) => h.name === 'ou')
+                    const value = headers.findIndex((h) => h.name === 'value')
+                    const mm = headers.findIndex(
+                        (h) => h.name !== 'ou' && h.name !== 'value'
+                    )
+                    const samShare = (orgUnit) => {
+                        const own = rows.filter((row) => row[ou] === orgUnit)
+                        const total = own.reduce(
+                            (s, r) => s + Number(r[value]),
+                            0
+                        )
+                        const sam = own
+                            .filter((r) => Number(r[mm]) < 115)
+                            .reduce((s, r) => s + Number(r[value]), 0)
+                        return total ? Math.round((100 * sam) / total) : 0
+                    }
+                    const site = samShare(planted.busy.chiefdomId)
+                    const district = samShare(DISTRICTS[LOW_CURE_DISTRICT])
+                    return {
+                        ok: site > district,
+                        detail: `SAM ${site}% around ${planted.busy.name}, ${district}% in the district`,
                     }
                 },
             },

@@ -12,17 +12,17 @@ Plain Node (18 or newer), no dependencies, no install step.
 
 | Post | Title                                   | Maps                                                                                                                                                                                   | Data                                                                                                                                                             |
 | ---- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Where are the unvaccinated?             | Penta1 coverage (fill), Penta1 to Penta3 dropout (bubbles)                                                                                                                             | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                                                            |
+| 1    | Where are the unvaccinated?             | RED/REC category by district; Penta1 coverage by chiefdom                                                                                                                              | 24 months of Penta1 and Penta3 doses under 1 year, for every facility                                                                                            |
 | 2    | Rain today, malaria next month          | CHIRPS rainfall and ERA5-Land temperature from Earth Engine for July; confirmed malaria cases per 1,000 split July to September; rainfall imported as data with cases on one split map | 36 months of confirmed malaria cases for every facility, generated from CHIRPS rainfall one to two months earlier; monthly rainfall and temperature per district |
-| 3    | Drawing the ring around cholera         | Suspected cases in the last 7 days by chiefdom, building footprints, recent cases, and 150 m rings around RDT-positive cases                                                           | About 330 cholera case reports over 6 weeks in an event program, with household points                                                                           |
+| 3    | Drawing the ring around cholera         | Suspected cases in the last 7 days by chiefdom; cases of the last 60 days grouped, with their RDT results; in one Western Area chiefdom, cases by days from symptom onset and 150 m rings around RDT-positive cases | About 330 cholera case reports over 6 weeks in an event program, with household points and days from symptom onset to consultation                    |
 | 4    | Who hasn't been seen today?             | Contacts seen at daily visits by chiefdom, contacts under follow-up and completed, cases with lines to their contacts, new cases                                                       | 20 Ebola cases and 300 contacts in two tracker programs linked by a relationship type, with daily follow-up visits                                               |
 | 5    | Two hours to a C-section                | WorldPop Global2 population, share of each district within two hours of EmONC, EmONC facilities with their two-hour catchments                                                         | 12 months of basic signal functions and caesarean sections for hospitals and health centres; WorldPop population inside the catchments per district              |
 | 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop                                                                           | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                                                                   |
 | 7    | Every school on the map                 | Adjusted gender parity index by district with pupil-teacher ratio by school, one map each for primary and junior secondary; pupil-teacher ratio split by census year                   | Two annual school censuses (enrolment by sex, teachers, classrooms, latrines) for about 190 schools, and school-age population by sex                            |
 | 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                                                                                          | 15 months of stock on hand, consumption and average monthly consumption for every facility                                                                       |
-| 9    | One bite, two sectors                   | Dog vaccination coverage by district, dog bites by risk of the biting animal, animal rabies investigations by result                                                                   | A year of dog bites and animal investigations in two event programs, and last year's dog vaccination campaign                                                    |
+| 9    | One bite, two sectors                   | Dog vaccination coverage by district, dog bites grouped by risk of the biting animal, 5 km zones around rabid dogs; in the Port Loko hotspot, bites by whether post-exposure prophylaxis started | A year of dog bites and animal investigations in two event programs, and last year's dog vaccination campaign                                         |
 | 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                                                                                             | 12 months of reports of the "Monthly HMIS report" data set                                                                                                       |
-| 11   | Watching the lean season                | SAM admission rate as a timeline; OTP cure rate by district with exits per OTP site                                                                                                    | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, and children 6-59 months for every facility                                     |
+| 11   | Watching the lean season                | SAM admission rate by chiefdom as a timeline; OTP cure rate by district with exits per OTP site; MUAC screening in Kambia                                                              | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, children 6-59 months for every facility, and 30 days of MUAC screening in an event program |
 | 12   | Green fields, empty granaries?          | Rainfall since April as % of the 1991-2020 normal, MODIS vegetation for August of this season and a reference year, landcover, food insecure households                                | Season rainfall and its normal per district; 26 bi-weeks of household food assessments per district                                                              |
 
 The patterns each post's data shows, and that `verify.js` checks:
@@ -31,15 +31,15 @@ The patterns each post's data shows, and that `verify.js` checks:
 | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout                                                                            |
 | 2    | Cases peak one to two months after the rain in at least 10 districts; Tonkolili, irrigated, peaks in the dry season                                                                         |
-| 3    | Overlapping rings in a Western Area chiefdom; a new focus of two RDT-positive cases in Port Loko; a Kambia wave with no case in the last 7 days; about 30% of cases without coordinates     |
+| 3    | Overlapping rings in a Western Area chiefdom; a new focus of two RDT-positive cases in Port Loko; a Kambia wave with no case in the last 7 days; about 30% of cases without coordinates; most cases within a day of symptom onset |
 | 4    | One health area below 90% of contacts seen, the others above 95%; contacts under follow-up and completed; three new cases that were known contacts and two in Kono that were not            |
 | 5    | Koinadugu, with no basic EmONC facility, far below 50%; most districts above the EPMM 60% target; every EmONC facility performs all 7 basic signal functions                                |
 | 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round                                                                    |
 | 7    | One Bo primary school above 60 pupils per teacher among schools within the norm of 40; parity in primary; girls behind in Kailahun's and boys in Bo's junior secondary schools              |
 | 8    | In Kenema, a stocked-out facility a few km from an overstocked one; a Kailahun chiefdom low after missed deliveries; a few facilities not reporting last month                              |
-| 9    | Suspect bites with no animal investigated in a Bombali chiefdom; positive dogs with no bite reported in a Tonkolili chiefdom; both in Port Loko, the one district below 70% dog vaccination |
+| 9    | Suspect bites with no animal investigated in a Bombali chiefdom; positive dogs with no bite reported in a Tonkolili chiefdom; both in Port Loko, the one district below 70% dog vaccination, where post-exposure prophylaxis started for fewer than half of the bites |
 | 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                                                                                      |
-| 11   | Admissions peak in June in the north and in August in the south-west; Kambia below 75% cure with a busy site; a Pujehun site with very few children                                         |
+| 11   | Admissions peak in June in the north and in August in the south-west; Kambia below 75% cure with a busy site; a Pujehun site with very few children; more SAM children screened around the busy site |
 | 12   | The driest district below 75% of normal rain with food insecurity rising; a district with normal rain and many food insecure households                                                     |
 
 ## Running
@@ -97,6 +97,7 @@ building the demo needs no Earth Engine access.
 | File                       | What it holds                                                                                                                                                                                       | Posts       |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | `worldpop-school-age.json` | WorldPop Global2 children aged 5 to 14, both sexes, summed per chiefdom, 2020 to 2030                                                                                                               | 6           |
+| `worldpop-totals.json`     | WorldPop Global2 total population summed per chiefdom, 2020 to 2030, imported as the population of each chiefdom                                                                                   | 2, 5        |
 | `emonc-coverage.json`      | The EmONC facilities Post 5 picks, and WorldPop Global2 population per district, 2020 to 2030: in total and inside their two-hour catchments, each person counted once                              | 2, 5, 9, 12 |
 | `climate-districts.json`   | Monthly CHIRPS rainfall (mm) and ERA5-Land air temperature (°C) per district from January 2022 to the last month Earth Engine has published, and the CHIRPS 1991-2020 normal of each calendar month | 2, 12       |
 
@@ -106,6 +107,7 @@ it uses the Earth Engine access token of the instance in `DHIS2_BASE_URL`):
 ```bash
 node snapshot.js
 node snapshot.js --only=worldpop-school-age
+node snapshot.js --only=worldpop-totals
 node snapshot.js --only=emonc-coverage
 node snapshot.js --only=climate-districts
 ```
@@ -122,7 +124,10 @@ the map always shows a dry district. The real values stay in the climate file.
 Each persona of the posts has a user, `show_<persona>` (for example
 `show_epi_officer`, `show_hmis_officer`, `show_facility_incharge`), with the
 demo database's "M and E Officer" role and Sierra Leone as org unit.
-`show_guest` has the "Guest" role, for a public read-only login.
+`show_guest` has the "Guest" role, for a public read-only login. Every demo
+user also gets the tool's "Showcase map reader" role, which may read event
+analytics: without it, event and tracked entity layers answer "You don't have
+access to this layer data".
 
 Passwords are made on the first run and kept in `output/users.json`, which
 later runs reuse. Delete that file to get new passwords on the next run.

@@ -5,7 +5,16 @@ const { deterministicUid } = require('../uid.js')
 const uid = (seed) => deterministicUid(`demo-maps-showcase:${seed}`)
 
 const CODE_PREFIX = 'SHOW_'
-const SYNTHETIC_LABEL = 'Synthetic data'
+
+// Every map, dashboard and download says the data is invented, in words
+// readers outside DHIS2 understand
+const DEMO_LABEL = 'DEMO DATA, NOT REAL'
+const DEMO_NOTICE =
+    'DEMO DATA, NOT REAL. Invented for a DHIS2 Maps demo: no real cases, outbreaks or performance.'
+// Added to the names of the tool's data items, so legends, pop-ups and data
+// tables say it too
+const DEMO_SUFFIX = ' (demo data)'
+const demoName = (name) => `${name}${DEMO_SUFFIX}`
 
 const code = (suffix) => `${CODE_PREFIX}${suffix}`
 
@@ -20,9 +29,11 @@ const dataSetSharing = (importerId) => ({
 
 module.exports = {
     CODE_PREFIX,
+    DEMO_LABEL,
+    DEMO_NOTICE,
     PUBLIC_READ,
-    dataSetSharing,
-    SYNTHETIC_LABEL,
     code,
+    dataSetSharing,
+    demoName,
     uid,
 }

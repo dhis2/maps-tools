@@ -16,7 +16,6 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { lastMonths } = require('../periods.js')
 const { randomFor } = require('../random.js')
@@ -176,25 +175,26 @@ const legendSets = {
     monthsOfStock: legendSet({
         key: 'MONTHS_OF_STOCK',
         name: 'Showcase: months of stock (min 2, max 4)',
+        // ColorBrewer RdYlBu: red when empty, blue when too full
         legends: [
-            { name: 'Stockout', start: 0, end: 0.01, color: PALETTE.act },
+            { name: 'Stockout', start: 0, end: 0.01, color: '#d73027' },
             {
-                name: 'Below 2 months: understock',
+                name: 'Under 2 months',
                 start: 0.01,
                 end: MIN_MONTHS,
-                color: PALETTE.watch,
+                color: '#fc8d59',
             },
             {
                 name: '2 to 4 months',
                 start: MIN_MONTHS,
                 end: MAX_MONTHS,
-                color: PALETTE.target,
+                color: '#abd9e9',
             },
             {
-                name: 'Above 4 months: overstock',
+                name: 'Over 4 months',
                 start: MAX_MONTHS,
                 end: 100,
-                color: PALETTE.check,
+                color: '#4575b4',
             },
         ],
     }),
@@ -208,14 +208,21 @@ const monthsOfStockExpression = (product) => ({
     denominator: `#{${dataElementId(amcKey(product))}}`,
 })
 
-const productMap = (product) =>
+// district: a district key to zoom on, or none for the whole country
+const productMap = (product, district) =>
     map({
         key: `post08_${product.toLowerCase()}`,
         post: 8,
-        title: `${PRODUCTS[product].name}, months of stock`,
+        title: `${PRODUCTS[product].name}, months of stock${
+            district ? ` in ${district.name}` : ''
+        }`,
         description: `Months of stock of ${PRODUCTS[product].name} by facility last month: stock on hand over average monthly consumption.`,
+        basemap: district ? 'openStreetMap' : 'osmLight',
         layers: [
-            facilityLayer({ name: 'Facilities' }),
+            facilityLayer({
+                name: 'Facilities',
+                ...(district ? { districts: [district.id] } : {}),
+            }),
             thematicLayer({
                 name: `${PRODUCTS[product].name} months of stock`,
                 dataItem: {
@@ -223,8 +230,12 @@ const productMap = (product) =>
                     dimensionItemType: 'INDICATOR',
                 },
                 periods: ['LAST_MONTH'],
-                level: 4,
+                orgUnits: [
+                    ...(district ? [district.id] : Object.values(DISTRICTS)),
+                    'LEVEL-4',
+                ],
                 legendSet: legendSets.monthsOfStock.id,
+                radiusLow: district ? 7 : 5,
             }),
         ],
     })
@@ -314,7 +325,15 @@ const post = {
 
     content: (ctx, state) => {
         const { pair, cluster } = generate(ctx, state)
-        const maps = Object.keys(PRODUCTS).map((product) => productMap(product))
+        // The tracer product zooms on the district with the transfer pair; the
+        // second product shows the whole country
+        const maps = [
+            productMap(PLANTED_PRODUCT, {
+                id: DISTRICTS[PAIR_DISTRICT],
+                name: ctx.districtName(DISTRICTS[PAIR_DISTRICT]),
+            }),
+            productMap('ORS'),
+        ]
         const chiefdom = state.chiefdoms.find(({ id }) => id === cluster)
         return {
             maps: maps.map((m) => ({ map: m, teams: ['supply'] })),
@@ -338,7 +357,7 @@ const post = {
                         pair.overstock.name
                     } this week. Facilities in ${
                         chiefdom.name
-                    } are all low: their district store missed the last three deliveries, raised with the central warehouse. (Synthetic data)`,
+                    } are all low: their district store missed the last three deliveries, raised with the central warehouse.`,
                     comments: [
                         {
                             author: 'facility_incharge',

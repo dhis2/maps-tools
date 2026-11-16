@@ -20,11 +20,10 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { PALETTE } = require('../shared/palette.js')
 const {
     populationId,
     populationMetadata,
-    populationValueSet,
+    populationValueSets,
 } = require('../shared/population.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { lastMonths } = require('../periods.js')
@@ -152,15 +151,12 @@ const legendSets = {
     access: legendSet({
         key: 'EMONC_ACCESS',
         name: 'Showcase: population within two hours of EmONC (EPMM 60%)',
+        // ColorBrewer PuOr: orange where access falls short
         legends: [
-            { name: 'Below 50%', start: 0, end: 50, color: PALETTE.act },
-            { name: '50 to 59%', start: 50, end: 60, color: PALETTE.watch },
-            {
-                name: '60% and above',
-                start: 60,
-                end: 100,
-                color: PALETTE.target,
-            },
+            { name: 'Below 50%', start: 0, end: 50, color: '#e66101' },
+            { name: '50 to 59%', start: 50, end: 60, color: '#fdb863' },
+            { name: '60 to 79%', start: 60, end: 80, color: '#b2abd2' },
+            { name: '80% and above', start: 80, end: 100, color: '#5e3c99' },
         ],
     }),
 }
@@ -236,7 +232,7 @@ const post = {
                     code: code('OU_GROUP_EMONC_COMPREHENSIVE'),
                     name: 'EmONC comprehensive',
                     shortName: 'EmONC comprehensive',
-                    color: PALETTE.act,
+                    color: '#e31a1c',
                     symbol: '05.png',
                     organisationUnits: members('comprehensive'),
                     sharing: PUBLIC_READ,
@@ -246,7 +242,7 @@ const post = {
                     code: code('OU_GROUP_EMONC_BASIC'),
                     name: 'EmONC basic',
                     shortName: 'EmONC basic',
-                    color: PALETTE.watch,
+                    color: '#fd8d3c',
                     symbol: '03.png',
                     organisationUnits: members('basic'),
                     sharing: PUBLIC_READ,
@@ -361,7 +357,7 @@ const post = {
                     ),
                 },
                 { dataSet: dataSetId(ACCESS_DATA_SET), dataValues: access },
-                populationValueSet(),
+                ...populationValueSets(),
             ],
         }
     },
@@ -373,7 +369,8 @@ const post = {
             post: 5,
             title: 'Two hours to emergency obstetric care',
             description:
-                'WorldPop Global2 population, the share of each district within two hours of EmONC, and EmONC facilities with their two-hour catchments (synthetic).',
+                'Where people live (WorldPop Global2) and the two-hour catchments of EmONC facilities. The catchments are invented for the demo.',
+            basemap: 'osmDark',
             layers: [
                 earthEngineLayer({
                     name: 'Population WorldPop Global2',
@@ -382,18 +379,28 @@ const post = {
                     style: {
                         min: 0,
                         max: 25,
+                        // ColorBrewer YlOrRd, bright where people live
                         palette: [
-                            '#fee5d9',
-                            '#fcbba1',
-                            '#fc9272',
-                            '#fb6a4a',
-                            '#de2d26',
-                            '#a50f15',
+                            '#ffffb2',
+                            '#fecc5c',
+                            '#fd8d3c',
+                            '#f03b20',
+                            '#bd0026',
                         ],
                     },
                     level: 2,
-                    opacity: 0.7,
+                    opacity: 0.85,
                 }),
+                facilityCatchmentLayer(),
+            ],
+        })
+        const shareMap = map({
+            key: 'post05_share',
+            post: 5,
+            title: 'Share of people within two hours of emergency obstetric care',
+            description:
+                "Share of each district's WorldPop Global2 population inside a two-hour EmONC catchment, against the EPMM target of 60%.",
+            layers: [
                 thematicLayer({
                     name: 'Population within two hours of EmONC',
                     dataItem: {
@@ -403,10 +410,8 @@ const post = {
                     periods: ['LAST_YEAR'],
                     level: 2,
                     legendSet: legendSets.access.id,
-                    opacity: 0.45,
                     labels: '{name}\n{value}',
                 }),
-                facilityCatchmentLayer(),
             ],
         })
 
@@ -418,13 +423,16 @@ const post = {
         const name = state.districtName
 
         return {
-            maps: [{ map: accessMap, teams: ['maternal'] }],
+            maps: [accessMap, shareMap].map((m) => ({
+                map: m,
+                teams: ['maternal'],
+            })),
             dashboards: [
                 dashboard({
                     key: 'post05',
                     post: 5,
                     title: 'Maternal access',
-                    maps: [accessMap],
+                    maps: [accessMap, shareMap],
                 }),
             ],
             interpretations: [
@@ -435,7 +443,7 @@ const post = {
                         lowest.share
                     }% of its population within two hours of EmONC, against the EPMM target of 60%, and no basic EmONC facility outside its hospital. Shortlist for this year's plan: upgrade two health centres in ${name(
                         lowest.district
-                    )} to basic EmONC and open a maternity waiting home next to the hospital. @show_facility_incharge please confirm staffing for the signal functions. (Synthetic data)`,
+                    )} to basic EmONC and open a maternity waiting home next to the hospital. @show_facility_incharge please confirm staffing for the signal functions.`,
                     comments: [
                         {
                             author: 'facility_incharge',

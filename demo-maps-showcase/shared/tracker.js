@@ -1,6 +1,6 @@
 // Builders for the event and tracker programs the posts create, and their
 // data. Programs share their data with everyone, so the demo users can map it.
-const { PUBLIC_READ, code, uid } = require('./ids.js')
+const { PUBLIC_READ, code, demoName, uid } = require('./ids.js')
 const { DEFAULT_CATEGORY_COMBO } = require('./metadata.js')
 
 const DATA_SHARING = { public: 'rwrw----', external: false }
@@ -15,7 +15,7 @@ const optionSet = ({ key, name, options }) => ({
     optionSet: {
         id: id('optionSet', key),
         code: code(`OS_${key}`),
-        name,
+        name: demoName(name),
         valueType: 'TEXT',
         options: options.map((o) => ({ id: id('option', `${key}:${o.code}`) })),
         sharing: PUBLIC_READ,
@@ -30,6 +30,33 @@ const optionSet = ({ key, name, options }) => ({
     })),
 })
 
+// An event layer styled by a data element with an option set: maps-app
+// keeps the option colours in the saved layer and fails to load without them
+const styleByOptions = (dataElementKey, { optionSet: set, options }) => ({
+    id: id('dataElement', dataElementKey),
+    valueType: 'TEXT',
+    optionSet: {
+        id: set.id,
+        options: options.map(({ id: optionId, style }) => ({
+            id: optionId,
+            style,
+        })),
+    },
+})
+
+// A number data element: the layer's legendSet colours the events
+const styleByNumber = (dataElementKey, valueType) => ({
+    id: id('dataElement', dataElementKey),
+    valueType,
+})
+
+// A yes/no data element, with one colour per answer
+const styleByBoolean = (dataElementKey, { yes, no }) => ({
+    id: id('dataElement', dataElementKey),
+    valueType: 'BOOLEAN',
+    values: { true: yes, false: no },
+})
+
 const trackerDataElement = ({
     key,
     name,
@@ -38,7 +65,7 @@ const trackerDataElement = ({
 }) => ({
     id: id('dataElement', key),
     code: code(key),
-    name,
+    name: demoName(name),
     shortName: name.slice(0, 50),
     domainType: 'TRACKER',
     valueType,
@@ -91,7 +118,7 @@ const program = ({
             {
                 id: programId,
                 code: code(`PROGRAM_${key}`),
-                name,
+                name: demoName(name),
                 shortName: name.slice(0, 50),
                 programType: registration
                     ? 'WITH_REGISTRATION'
@@ -141,7 +168,7 @@ const programIndicator = ({
 }) => ({
     id: id('programIndicator', key),
     code: code(key),
-    name,
+    name: demoName(name),
     shortName: name.slice(0, 50),
     program: { id: id('program', programKey) },
     analyticsType,
@@ -161,9 +188,9 @@ const programIndicator = ({
 const relationshipType = ({ key, name, fromProgramKey, toProgramKey }) => ({
     id: id('relationshipType', key),
     code: code(`REL_${key}`),
-    name,
-    fromToName: name,
-    toFromName: name,
+    name: demoName(name),
+    fromToName: demoName(name),
+    toFromName: demoName(name),
     bidirectional: true,
     fromConstraint: {
         relationshipEntity: 'TRACKED_ENTITY_INSTANCE',
@@ -203,6 +230,9 @@ module.exports = {
     program,
     programIndicator,
     relationshipType,
+    styleByBoolean,
+    styleByNumber,
+    styleByOptions,
     trackedEntityAttribute,
     trackerDataElement,
 }

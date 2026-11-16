@@ -4,6 +4,7 @@
 const { readClimate } = require('../shared/climate.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
     earthEngineLayer,
     eeMonth,
@@ -18,7 +19,6 @@ const {
     indicator,
     indicatorId,
 } = require('../shared/metadata.js')
-const { CLASS_SCALES, PALETTE } = require('../shared/palette.js')
 const { districtPopulation } = require('../shared/population.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { randomFor } = require('../random.js')
@@ -169,15 +169,16 @@ const legendSets = {
     rainVsNormal: legendSet({
         key: 'RAIN_PCT_NORMAL',
         name: 'Showcase: rainfall since season start, % of 1991-2020 normal',
+        // ColorBrewer BrBG: brown when dry, teal when wet
         legends: [
-            { name: 'Below 75%', start: 0, end: 75, color: PALETTE.act },
-            { name: '75 to 89%', start: 75, end: 90, color: PALETTE.watch },
-            { name: '90 to 110%', start: 90, end: 110, color: PALETTE.target },
+            { name: 'Below 75%', start: 0, end: 75, color: '#a6611a' },
+            { name: '75 to 89%', start: 75, end: 90, color: '#dfc27d' },
+            { name: '90 to 110%', start: 90, end: 110, color: '#80cdc1' },
             {
-                name: 'Above 110%: flood watch',
+                name: 'Above 110% (flood watch)',
                 start: 110,
                 end: 1000,
-                color: PALETTE.check,
+                color: '#018571',
             },
         ],
     }),
@@ -304,11 +305,31 @@ const post = {
     content: (ctx, state) => {
         const { rain } = generate(ctx, state)
         const referenceYear = rain.year - 2
+        const insecureBubbles = thematicLayer({
+            name: 'Households assessed as food insecure',
+            dataItem: {
+                id: dataElementId(DE.insecure),
+                dimensionItemType: 'DATA_ELEMENT',
+            },
+            periods: ['LAST_BIWEEK'],
+            level: 2,
+            // Apart from the greens and browns below
+            color: '#7a0177',
+            bubble: true,
+            radiusLow: 6,
+            radiusHigh: 24,
+            opacity: 1,
+            // Drawn below each bubble; boundary labels at the same spot hide
+            // under it
+            labels: '{name}',
+            labelColor: '#000000',
+        })
         const foodMap = map({
             key: 'post12_food_security',
             post: 12,
             title: `Green fields, empty granaries? Season ${rain.year}`,
-            description: `Rainfall since April ${rain.year} as a share of the 1991-2020 normal, MODIS vegetation in August of ${rain.year} and ${referenceYear}, landcover, and households assessed as food insecure in the last two weeks, by district.`,
+            description: `MODIS vegetation in August ${rain.year} (a reference year, ${referenceYear}, and landcover can be switched on), and households assessed as food insecure in the last two weeks, by district.`,
+            basemap: 'sentinel2eox',
             layers: [
                 ndviLayer(
                     `Vegetation index, August ${referenceYear} (reference)`,
@@ -318,7 +339,7 @@ const post = {
                 ndviLayer(
                     `Vegetation index, August ${rain.year}`,
                     rain.year,
-                    true
+                    false
                 ),
                 earthEngineLayer({
                     name: 'Landcover',
@@ -338,6 +359,20 @@ const post = {
                     opacity: 0.5,
                     hidden: true,
                 }),
+                boundaryLayer({
+                    name: 'Districts',
+                    level: 2,
+                    color: '#ffffff',
+                }),
+                insecureBubbles,
+            ],
+        })
+        const rainMap = map({
+            key: 'post12_rain',
+            post: 12,
+            title: `Rainfall against normal, season ${rain.year}`,
+            description: `CHIRPS rainfall since April ${rain.year} as a share of the 1991-2020 normal, and households assessed as food insecure in the last two weeks, by district.`,
+            layers: [
                 thematicLayer({
                     name: 'Rainfall since season start, % of normal',
                     dataItem: {
@@ -347,31 +382,22 @@ const post = {
                     periods: [String(rain.year)],
                     level: 2,
                     legendSet: legendSets.rainVsNormal.id,
-                    opacity: 0.7,
-                    labels: '{name}\n{value}',
                 }),
-                thematicLayer({
-                    name: 'Households assessed as food insecure',
-                    dataItem: {
-                        id: dataElementId(DE.insecure),
-                        dimensionItemType: 'DATA_ELEMENT',
-                    },
-                    periods: ['LAST_BIWEEK'],
-                    level: 2,
-                    colorScale: CLASS_SCALES.reds3,
-                    bubble: true,
-                }),
+                insecureBubbles,
             ],
         })
         const name = state.districtName
         return {
-            maps: [{ map: foodMap, teams: ['agriculture'] }],
+            maps: [foodMap, rainMap].map((m) => ({
+                map: m,
+                teams: ['agriculture'],
+            })),
             dashboards: [
                 dashboard({
                     key: 'post12',
                     post: 12,
                     title: 'Food security bulletin',
-                    maps: [foodMap],
+                    maps: [foodMap, rainMap],
                 }),
             ],
             interpretations: [
@@ -382,7 +408,7 @@ const post = {
                         rain.driest.ratio * 100
                     )}% of its normal rain since April, and food insecure households have risen over the last months: early action there, with targeted support and market monitoring. ${name(
                         rain.green.districtId
-                    )} had normal rain but still many food insecure households: prices or post-harvest losses, not climate. @show_nutrition_coordinator please add both to the MUAC screening plan. (Synthetic data)`,
+                    )} had normal rain but still many food insecure households: prices or post-harvest losses, not climate. @show_nutrition_coordinator please add both to the MUAC screening plan.`,
                     comments: [
                         {
                             author: 'nutrition_coordinator',

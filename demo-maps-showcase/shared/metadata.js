@@ -1,4 +1,4 @@
-const { PUBLIC_READ, code, dataSetSharing, uid } = require('./ids.js')
+const { PUBLIC_READ, code, dataSetSharing, demoName, uid } = require('./ids.js')
 
 // Sierra Leone demo database
 const DEFAULT_CATEGORY_COMBO = 'bjDvmb4bfuf'
@@ -41,10 +41,12 @@ const dataElement = ({
     name,
     aggregationType = 'SUM',
     zeroIsSignificant = false,
+    // Values from Earth Engine datasets keep their plain name
+    real = false,
 }) => ({
     id: dataElementId(key),
     code: code(key),
-    name,
+    name: real ? name : demoName(name),
     shortName: name.slice(0, 50),
     domainType: 'AGGREGATE',
     valueType: 'NUMBER',
@@ -62,10 +64,11 @@ const indicator = ({
     denominator,
     description,
     decimals,
+    real = false,
 }) => ({
     id: indicatorId(key),
     code: code(key),
-    name,
+    name: real ? name : demoName(name),
     shortName: name.slice(0, 50),
     description,
     indicatorType: { id: INDICATOR_TYPES[type] },

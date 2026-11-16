@@ -5,12 +5,7 @@ const path = require('node:path')
 const { loadFacilityPoints } = require('../shared/geometry.js')
 const { PUBLIC_READ, code, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
-const {
-    boundaryLayer,
-    dashboard,
-    map,
-    thematicLayer,
-} = require('../shared/maps.js')
+const { dashboard, map, thematicLayer } = require('../shared/maps.js')
 const {
     dataElement,
     dataElementId,
@@ -20,7 +15,6 @@ const {
     indicatorId,
 } = require('../shared/metadata.js')
 const { SCHOOL_CODE_PREFIX } = require('../shared/orgUnits.js')
-const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { randomFor } = require('../random.js')
 
@@ -250,48 +244,51 @@ const legendSets = {
     ptr: legendSet({
         key: 'PUPIL_TEACHER_RATIO',
         name: `Showcase: pupil-teacher ratio (norm ${PTR_NORM})`,
+        // ColorBrewer Oranges; bubbles are sized over this range, so it ends
+        // near the most crowded school
         legends: [
             {
                 name: `${PTR_NORM} or fewer`,
                 start: 0,
                 end: PTR_NORM + 0.01,
-                color: PALETTE.target,
+                color: '#fdd0a2',
             },
             {
                 name: `Up to ${PTR_NORM * 1.5}`,
                 start: PTR_NORM + 0.01,
                 end: PTR_NORM * 1.5,
-                color: PALETTE.watch,
+                color: '#fd8d3c',
             },
             {
                 name: `Above ${PTR_NORM * 1.5}`,
                 start: PTR_NORM * 1.5,
-                end: 1000,
-                color: PALETTE.act,
+                end: 100,
+                color: '#a63603',
             },
         ],
     }),
     gpia: legendSet({
         key: 'GPIA',
         name: 'Showcase: adjusted gender parity index (UNESCO 0.97-1.03)',
+        // ColorBrewer PiYG, diverging around parity
         legends: [
             {
-                name: 'Below 0.97: girls disadvantaged',
+                name: 'Below 0.97 (girls behind)',
                 start: 0,
                 end: 0.97,
-                color: PALETTE.act,
+                color: '#de77ae',
             },
             {
-                name: '0.97 to 1.03: parity',
+                name: '0.97 to 1.03 (parity)',
                 start: 0.97,
                 end: 1.03,
-                color: PALETTE.target,
+                color: '#f7f7f7',
             },
             {
-                name: 'Above 1.03: boys disadvantaged',
+                name: 'Above 1.03 (boys behind)',
                 start: 1.03,
                 end: 2,
-                color: PALETTE.check,
+                color: '#7fbc41',
             },
         ],
     }),
@@ -309,7 +306,6 @@ const schoolMap = (level, years) =>
         description: `Adjusted gender parity index of gross enrolment by district and pupil-teacher ratio by school, ${
             level === 'primary' ? 'primary' : 'junior secondary'
         } level.`,
-        view: { latitude: 7.95, longitude: -11.2, zoom: 9 },
         layers: [
             thematicLayer({
                 name: 'Adjusted gender parity index',
@@ -320,11 +316,15 @@ const schoolMap = (level, years) =>
                 periods: [String(years.at(-1))],
                 orgUnits: educationDistricts,
                 legendSet: legendSets.gpia.id,
-                opacity: 0.5,
+                opacity: 0.8,
                 labels: '{name}\n{value}',
+                labelColor: '#000000',
             }),
             thematicLayer({
-                name: 'Pupil-teacher ratio',
+                // The legend names the schools shown, as each map shows one level
+                name: `Pupil-teacher ratio, ${
+                    level === 'primary' ? 'primary' : 'junior secondary'
+                } schools`,
                 dataItem: {
                     id: indicatorId(IND.ptr),
                     dimensionItemType: 'INDICATOR',
@@ -332,9 +332,8 @@ const schoolMap = (level, years) =>
                 periods: [String(years.at(-1))],
                 orgUnits: [...educationDistricts, `OU_GROUP-${GROUPS[level]}`],
                 legendSet: legendSets.ptr.id,
-                bubble: true,
-                radiusLow: 4,
-                radiusHigh: 10,
+                radiusLow: 6,
+                opacity: 1,
             }),
         ],
     })
@@ -547,13 +546,7 @@ const post = {
                 title: `Pupil-teacher ratio, ${years.join(' and ')} censuses`,
                 description:
                     'Pupil-teacher ratio by school, one panel per census year.',
-                view: { latitude: 7.95, longitude: -11.2, zoom: 9 },
                 layers: [
-                    boundaryLayer({
-                        name: 'Districts',
-                        level: 2,
-                        labels: '{name}',
-                    }),
                     thematicLayer({
                         name: 'Pupil-teacher ratio',
                         dataItem: {
@@ -569,7 +562,7 @@ const post = {
                         renderingStrategy: 'SPLIT_BY_PERIOD',
                         bubble: true,
                         radiusLow: 4,
-                        radiusHigh: 10,
+                        radiusHigh: 12,
                     }),
                 ],
             }),
@@ -590,7 +583,7 @@ const post = {
                         DISTRICTS.kailahun
                     )} and boys in ${name(
                         DISTRICTS.bo
-                    )}, while primary is at parity everywhere. (Synthetic data)`,
+                    )}, while primary is at parity everywhere.`,
                     comments: [],
                 },
             ],
