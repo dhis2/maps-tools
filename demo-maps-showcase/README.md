@@ -18,6 +18,7 @@ Plain Node (18 or newer), no dependencies, no install step.
 | 4    | Who hasn't been seen today?             | Contacts seen at daily visits by chiefdom, contacts under follow-up and completed, cases with lines to their contacts, new cases                                                       | 20 Ebola cases and 300 contacts in two tracker programs linked by a relationship type, with daily follow-up visits                                               |
 | 5    | Two hours to a C-section                | WorldPop Global2 population, share of each district within two hours of EmONC, EmONC facilities with their two-hour catchments                                                         | 12 months of basic signal functions and caesarean sections for hospitals and health centres; WorldPop population inside the catchments per district              |
 | 6    | Is 100% coverage too good to be true?   | Deworming coverage split by round; WorldPop school-age children under the official denominator over WorldPop                                                                           | 3 yearly rounds by chiefdom: children treated, official school-age estimate, WorldPop estimate                                                                   |
+| 7    | Every school on the map                 | Adjusted gender parity index by district with pupil-teacher ratio by school, one map each for primary and junior secondary; pupil-teacher ratio split by census year                   | Two annual school censuses (enrolment by sex, teachers, classrooms, latrines) for about 190 schools, and school-age population by sex                            |
 | 8    | Seeing stockouts before patients do     | Months of stock by facility, one map each for artemether-lumefantrine and ORS                                                                                                          | 15 months of stock on hand, consumption and average monthly consumption for every facility                                                                       |
 | 9    | One bite, two sectors                   | Dog vaccination coverage by district, dog bites by risk of the biting animal, animal rabies investigations by result                                                                   | A year of dog bites and animal investigations in two event programs, and last year's dog vaccination campaign                                                    |
 | 10   | Map the data before you map the disease | Reporting rate split by month; reports on time by facility                                                                                                                             | 12 months of reports of the "Monthly HMIS report" data set                                                                                                       |
@@ -34,6 +35,7 @@ The patterns each post's data shows, and that `verify.js` checks:
 | 4    | One health area below 90% of contacts seen, the others above 95%; contacts under follow-up and completed; three new cases that were known contacts and two in Kono that were not            |
 | 5    | Koinadugu, with no basic EmONC facility, far below 50%; most districts above the EPMM 60% target; every EmONC facility performs all 7 basic signal functions                                |
 | 6    | One chiefdom above 100% every round with a low official denominator; one red chiefdom with a high one; one partial round                                                                    |
+| 7    | One Bo primary school above 60 pupils per teacher among schools within the norm of 40; parity in primary; girls behind in Kailahun's and boys in Bo's junior secondary schools              |
 | 8    | In Kenema, a stocked-out facility a few km from an overstocked one; a Kailahun chiefdom low after missed deliveries; a few facilities not reporting last month                              |
 | 9    | Suspect bites with no animal investigated in a Bombali chiefdom; positive dogs with no bite reported in a Tonkolili chiefdom; both in Port Loko, the one district below 70% dog vaccination |
 | 10   | Tonkolili complete but late; Koinadugu red across the district; one red facility in Bo, which is green                                                                                      |
@@ -192,6 +194,19 @@ To check a map right away, open it in a private window, or reload it with
     out of analytics even for data elements where zero is significant, and
     stocked-out facilities show as "no data". Analytics tables grow with every
     zero value of the instance.
+-   Post 7 adds about 190 schools as org units at the facility level, in Bo,
+    Kenema and Kailahun, with a `SHOW_SCHOOL_` code. Maps that select level 4
+    show them too; the tool's facility layers select through its "Health
+    facilities" group instead, which holds every open facility but no school.
+-   Posts 5 and 7 add their data items and group sets to the org unit profile
+    (the facts maps-app shows when you click an org unit). The profile is one
+    per instance; the items already in it are kept. Setting it needs the
+    authority F_ORG_UNIT_PROFILE_ADD; without it (as for admin on play) the
+    tool prints a warning and goes on.
+-   Post 10 schedules a dashboard email push job, "Showcase: data quality
+    review by email", on the 5th of each month at 7:00. It sends the "Data
+    quality review" dashboard to the HMIS team, as each of them sees it, and
+    needs the instance's email (SMTP) settings to send anything.
 -   Everything else is new: users, user groups, legend sets, indicators, data
     sets, maps and dashboards, all with a `SHOW_` code.
 

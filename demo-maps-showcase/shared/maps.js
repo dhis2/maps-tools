@@ -62,11 +62,20 @@ const thematicLayer = ({
     // Points are sized by value on choropleths too, so these keep one size
     radiusLow = 5,
     radiusHigh = bubble ? 20 : radiusLow,
+    // Instead of a level: org unit ids, LEVEL- or OU_GROUP- items
+    orgUnits,
 }) => ({
     layer: 'thematic',
     name,
     columns: [dimension('dx', [dataItem])],
-    rows: orgUnitRows(level),
+    rows: orgUnits
+        ? [
+              dimension(
+                  'ou',
+                  orgUnits.map((id) => ({ id }))
+              ),
+          ]
+        : orgUnitRows(level),
     filters: [
         dimension(
             'pe',
@@ -160,10 +169,28 @@ const earthEngineLayer = ({
     hidden,
 })
 
+// Every open facility, without Post 7's schools at the same level. The
+// demo's Facility Type groups miss a few facilities with coordinates.
+const HEALTH_FACILITIES_GROUP = uid('orgUnitGroup:HEALTH_FACILITIES')
+
+const healthFacilitiesGroup = (facilities) => ({
+    id: HEALTH_FACILITIES_GROUP,
+    code: code('OU_GROUP_HEALTH_FACILITIES'),
+    name: 'Health facilities',
+    shortName: 'Health facilities',
+    organisationUnits: facilities.map(({ id }) => ({ id })),
+    sharing: { public: 'r-------', external: false },
+})
+
 const facilityLayer = ({ name, groupSet, hidden = false }) => ({
     layer: 'facility',
     name,
-    rows: orgUnitRows(4),
+    rows: [
+        dimension('ou', [
+            ...Object.values(DISTRICTS).map((id) => ({ id })),
+            { id: `OU_GROUP-${HEALTH_FACILITIES_GROUP}` },
+        ]),
+    ],
     ...(groupSet ? { organisationUnitGroupSet: { id: groupSet } } : {}),
     opacity: 1,
     hidden,
@@ -309,6 +336,7 @@ module.exports = {
     eeMonth,
     eventLayer,
     facilityLayer,
+    healthFacilitiesGroup,
     map,
     thematicLayer,
     trackedEntityLayer,

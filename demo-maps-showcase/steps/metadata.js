@@ -1,3 +1,4 @@
+const { healthFacilitiesGroup } = require('../shared/maps.js')
 const { usersMetadata } = require('../shared/users.js')
 
 // Joins the metadata of the shared setup and every post into one payload,
@@ -19,8 +20,39 @@ const mergeMetadata = (parts) => {
 const buildMetadata = ({ ctx, posts, states }, passwords) =>
     mergeMetadata([
         usersMetadata(passwords),
+        {
+            organisationUnitGroups: [
+                healthFacilitiesGroup(ctx.orgUnits.facilities),
+            ],
+        },
         ...posts.map((post) => post.metadata(ctx, states.get(post))),
     ])
+
+// The org unit profile maps-app opens on a click is one per instance: the
+// posts' items are added to the ones already set
+const PROFILE_KEYS = ['attributes', 'groupSets', 'dataItems']
+
+const buildOrgUnitProfile = ({ posts }) => {
+    const profile = Object.fromEntries(PROFILE_KEYS.map((key) => [key, []]))
+    posts.forEach(({ orgUnitProfile = {} }) =>
+        PROFILE_KEYS.forEach((key) =>
+            profile[key].push(...(orgUnitProfile[key] ?? []))
+        )
+    )
+    return profile
+}
+
+const applyOrgUnitProfile = async (client, items) => {
+    const current = await client.get('/api/organisationUnitProfile')
+    const merged = Object.fromEntries(
+        PROFILE_KEYS.map((key) => [
+            key,
+            [...new Set([...(current[key] ?? []), ...items[key]])],
+        ])
+    )
+    await client.post('/api/organisationUnitProfile', merged)
+    return merged
+}
 
 const errorMessages = (report) =>
     (report.typeReports || []).flatMap(({ objectReports = [] }) =>
@@ -96,9 +128,11 @@ const applyOrgUnitAttributeValues = async (client, values) => {
 
 module.exports = {
     applyOrgUnitAttributeValues,
+    applyOrgUnitProfile,
     applySystemSettings,
     buildMetadata,
     buildOrgUnitAttributeValues,
+    buildOrgUnitProfile,
     buildSystemSettings,
     importMetadata,
 }

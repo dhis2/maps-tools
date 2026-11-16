@@ -10,6 +10,7 @@ const POSTS = [
     require('./posts/04-contact-tracing.js'),
     require('./posts/05-maternal.js'),
     require('./posts/06-ntd.js'),
+    require('./posts/07-education.js'),
     require('./posts/08-supply-chain.js'),
     require('./posts/09-one-health.js'),
     require('./posts/10-data-quality.js'),

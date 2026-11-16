@@ -5,11 +5,15 @@ const isOpen = ({ openingDate, closedDate }, date) =>
     (!openingDate || new Date(openingDate) <= date) &&
     (!closedDate || new Date(closedDate) > date)
 
+// Post 7 adds schools at the facility level; they are not facilities
+const SCHOOL_CODE_PREFIX = 'SHOW_SCHOOL_'
+const isSchool = ({ code }) => Boolean(code?.startsWith(SCHOOL_CODE_PREFIX))
+
 // Districts, chiefdoms and open facilities of Sierra Leone, sorted by id so
 // the data generated from them doesn't depend on the order the server returns
 const loadOrgUnits = async (client, runDate) => {
     const fields =
-        'fields=id,name,path,level,openingDate,closedDate&paging=false'
+        'fields=id,code,name,path,level,openingDate,closedDate&paging=false'
     const { organisationUnits } = await client.get(
         `/api/organisationUnits?filter=path:like:${ROOT}&filter=level:in:[2,3,4]&${fields}`
     )
@@ -32,7 +36,7 @@ const loadOrgUnits = async (client, runDate) => {
         .sort(byId)
 
     const facilities = organisationUnits
-        .filter((ou) => ou.level === 4 && isOpen(ou, runDate))
+        .filter((ou) => ou.level === 4 && isOpen(ou, runDate) && !isSchool(ou))
         .map(({ id, name, path }) => ({
             id,
             name,
@@ -51,4 +55,9 @@ const facilitiesIn = (orgUnits, districtId) =>
 const districtName = (orgUnits, districtId) =>
     orgUnits.districts.find(({ id }) => id === districtId)?.name
 
-module.exports = { districtName, facilitiesIn, loadOrgUnits }
+module.exports = {
+    SCHOOL_CODE_PREFIX,
+    districtName,
+    facilitiesIn,
+    loadOrgUnits,
+}

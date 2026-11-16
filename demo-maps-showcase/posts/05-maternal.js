@@ -190,6 +190,11 @@ const post = {
     number: 5,
     title: 'Two hours to a C-section',
 
+    orgUnitProfile: {
+        groupSets: [GROUP_SET],
+        dataItems: [DE.signalFunctions, DE.caesareans].map(dataElementId),
+    },
+
     prepare: async ({ client, orgUnits }) => {
         const inputs = await loadEmoncInputs(client, orgUnits)
         const coverage = readCoverage()

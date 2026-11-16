@@ -10,9 +10,11 @@ const { buildContent, saveContent } = require('./steps/content.js')
 const { buildData, importData } = require('./steps/data.js')
 const {
     applyOrgUnitAttributeValues,
+    applyOrgUnitProfile,
     applySystemSettings,
     buildMetadata,
     buildOrgUnitAttributeValues,
+    buildOrgUnitProfile,
     buildSystemSettings,
     importMetadata,
 } = require('./steps/metadata.js')
@@ -34,6 +36,7 @@ const main = async () => {
     const orgUnitAttributeValues = has('metadata')
         ? buildOrgUnitAttributeValues(loaded)
         : null
+    const orgUnitProfile = has('metadata') ? buildOrgUnitProfile(loaded) : null
     const data = has('data') ? buildData(loaded) : null
     const content = has('content') ? buildContent(loaded) : null
 
@@ -45,6 +48,7 @@ const main = async () => {
         writeOutput('payload.json', {
             systemSettings,
             orgUnitAttributeValues,
+            orgUnitProfile,
             metadata: withoutPasswords,
             data,
             content,
@@ -80,6 +84,19 @@ const main = async () => {
             client,
             orgUnitAttributeValues
         )
+    }
+    if (orgUnitProfile) {
+        // Needs F_ORG_UNIT_PROFILE_ADD, which play's admin doesn't have
+        summary.orgUnitProfile = await applyOrgUnitProfile(
+            client,
+            orgUnitProfile
+        ).catch((err) => {
+            if (err.status !== 403) {
+                throw err
+            }
+            console.warn(`Org unit profile not set: ${err.body?.message}`)
+            return { skipped: err.body?.message }
+        })
     }
     if (data) {
         summary.data = await importData(client, data)
