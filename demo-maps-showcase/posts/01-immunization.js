@@ -1,5 +1,6 @@
 // Post 1 · Where are the unvaccinated? Penta1 coverage (access) and
 // Penta1-Penta3 dropout (utilization) by district, in RED/REC categories.
+const { loadFacilityPoints } = require('../shared/geometry.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
     boundaryLayer,
@@ -86,6 +87,17 @@ const legendSets = {
             { name: '4: access and use', start: 4, end: 5, color: '#d73027' },
         ],
     }),
+    dropout: legendSet({
+        key: 'PENTA_DROPOUT_FACILITY',
+        name: 'Showcase: Penta1 to Penta3 dropout by facility',
+        // ColorBrewer RdYlBu, red where defaulters are most
+        legends: [
+            { name: 'Below 10%', start: -100, end: 10, color: '#4575b4' },
+            { name: '10 to 14.9%', start: 10, end: 15, color: '#fee090' },
+            { name: '15 to 19.9%', start: 15, end: 20, color: '#fc8d59' },
+            { name: '20% and above', start: 20, end: 100, color: '#d73027' },
+        ],
+    }),
 }
 
 // Child Health uses the Implementing Partner attribute combo, but the demo's
@@ -151,6 +163,7 @@ const prepare = async ({ client, orgUnits }) => {
     return {
         facilities: orgUnits.facilities.filter(({ id }) => assigned.has(id)),
         population,
+        points: await loadFacilityPoints(client),
     }
 }
 
@@ -291,8 +304,14 @@ const summarize = (generated, population, facilities) => {
     )
 }
 
-// The facilities with the highest dropout in a district, last 12 months
-const highestDropout = (generated, districtId, facilities, count) => {
+// The facilities with the highest dropout in a district, last 12 months,
+// among those with a point, so the map shows them
+const highestDropout = (
+    generated,
+    districtId,
+    { facilities, points },
+    count
+) => {
     const last12 = new Set(generated.months.slice(-12).map(({ id }) => id))
     const totals = {}
     generated.doses
@@ -303,7 +322,7 @@ const highestDropout = (generated, districtId, facilities, count) => {
             totals[orgUnit].penta3 += penta3
         })
     return Object.entries(totals)
-        .filter(([, t]) => t.penta1 >= 20)
+        .filter(([id, t]) => t.penta1 >= 20 && points[id])
         .map(([id, t]) => ({ id, dropout: (t.penta1 - t.penta3) / t.penta1 }))
         .sort((a, b) => b.dropout - a.dropout)
         .slice(0, count)
@@ -364,12 +383,7 @@ const post = {
         const generated = generate(ctx, state)
         const summary = summarize(generated, state.population, state.facilities)
         const koinadugu = summary.koinadugu
-        const worst = highestDropout(
-            generated,
-            DISTRICTS.koinadugu,
-            state.facilities,
-            3
-        )
+        const worst = highestDropout(generated, DISTRICTS.koinadugu, state, 3)
         const koinaduguName = ctx.districtName(DISTRICTS.koinadugu)
 
         const redRec = map({
@@ -418,14 +432,43 @@ const post = {
             ],
         })
 
+        const dropoutMap = map({
+            key: 'post01_koinadugu',
+            post: 1,
+            title: `Dropout by facility in ${koinaduguName}`,
+            description: `Penta1 to Penta3 dropout of each facility in ${koinaduguName}, last 12 months: where defaulter tracing starts.`,
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [DISTRICTS.koinadugu, 'LEVEL-3'],
+                    color: '#525252',
+                    labels: '{name}',
+                }),
+                thematicLayer({
+                    name: 'Penta1 to Penta3 dropout',
+                    dataItem: {
+                        id: PENTA_DROPOUT,
+                        dimensionItemType: 'INDICATOR',
+                    },
+                    periods: ['LAST_12_MONTHS'],
+                    orgUnits: [DISTRICTS.koinadugu, 'LEVEL-4'],
+                    legendSet: legendSets.dropout.id,
+                    radiusLow: 6,
+                    opacity: 1,
+                }),
+            ],
+        })
+        // The country, then the chiefdoms, then the district to act on
+        const maps = [redRec, coverage, dropoutMap]
+
         return {
-            maps: [redRec, coverage].map((m) => ({ map: m, teams: ['epi'] })),
+            maps: maps.map((m) => ({ map: m, teams: ['epi'] })),
             dashboards: [
                 dashboard({
                     key: 'post01',
                     post: 1,
                     title: 'Immunization',
-                    maps: [redRec, coverage],
+                    maps,
                 }),
             ],
             interpretations: [

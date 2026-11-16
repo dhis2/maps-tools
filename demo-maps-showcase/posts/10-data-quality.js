@@ -1,8 +1,10 @@
 // Post 10 · Map the data before you map the disease: reporting completeness
 // and timeliness of a monthly report, by district and by facility.
+const { loadFacilityPoints } = require('../shared/geometry.js')
 const { uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
     facilityLayer,
     map,
@@ -64,8 +66,11 @@ const RED_FACILITY_HABIT = { reported: 0.25, late: 0.5 }
 const districtKey = (districtId) =>
     Object.keys(DISTRICTS).find((key) => DISTRICTS[key] === districtId)
 
-const redFacility = (facilities) =>
-    facilities.find((f) => f.districtId === DISTRICTS[RED_FACILITY_DISTRICT])
+// With a point, so the maps show it
+const redFacility = ({ facilities, points }) =>
+    facilities.find(
+        (f) => f.districtId === DISTRICTS[RED_FACILITY_DISTRICT] && points[f.id]
+    )
 
 const habitOf = (facility) => {
     const mix = MIXES[districtKey(facility.districtId)] ?? DEFAULT_MIX
@@ -80,9 +85,10 @@ const habitOf = (facility) => {
     return HABITS[habit]
 }
 
-const generate = ({ runDate }, { facilities }) => {
+const generate = ({ runDate }, state) => {
+    const { facilities } = state
     const months = lastMonths(runDate, MONTHS)
-    const red = redFacility(facilities)
+    const red = redFacility(state)
     const registrations = []
     facilities.forEach((facility) => {
         const profile =
@@ -125,6 +131,16 @@ const legendSets = {
             { name: '90% and above', start: 90, end: 100, color: '#f2f0f7' },
         ],
     }),
+    // Facility points have no labels, so the late ones can be dark
+    facilities: legendSet({
+        key: 'REPORTING_RATE_FACILITY',
+        name: 'Showcase: reporting rate by facility (75% and 90%)',
+        legends: [
+            { name: 'Below 75%', start: 0, end: 75, color: '#54278f' },
+            { name: '75 to 89%', start: 75, end: 90, color: '#9e9ac8' },
+            { name: '90% and above', start: 90, end: 100, color: '#f2f0f7' },
+        ],
+    }),
 }
 
 const reportingRate = (metric) => ({
@@ -136,7 +152,10 @@ const post = {
     number: 10,
     title: 'Map the data before you map the disease',
 
-    prepare: async ({ orgUnits }) => ({ facilities: orgUnits.facilities }),
+    prepare: async ({ client, orgUnits }) => ({
+        facilities: orgUnits.facilities,
+        points: await loadFacilityPoints(client),
+    }),
 
     metadata: ({ importerId }, { facilities }) => ({
         legendSets: Object.values(legendSets),
@@ -172,7 +191,7 @@ const post = {
         }
     },
 
-    content: (ctx, { facilities }) => {
+    content: (ctx, state) => {
         const completeness = map({
             key: 'post10_completeness',
             post: 10,
@@ -205,26 +224,53 @@ const post = {
                     dataItem: reportingRate('REPORTING_RATE_ON_TIME'),
                     periods: ['LAST_6_MONTHS'],
                     level: 4,
-                    legendSet: legendSets.reporting.id,
+                    legendSet: legendSets.facilities.id,
                 }),
             ],
         })
 
-        const red = redFacility(facilities)
+        const red = redFacility(state)
         const tonkolili = ctx.districtName(DISTRICTS.tonkolili)
         const koinadugu = ctx.districtName(DISTRICTS.koinadugu)
+        const redDistrict = DISTRICTS[RED_FACILITY_DISTRICT]
+        const districtMap = map({
+            key: 'post10_bo',
+            post: 10,
+            title: `Reports on time by facility in ${ctx.districtName(
+                redDistrict
+            )}, last 6 months`,
+            description: `Share of months each facility of ${ctx.districtName(
+                redDistrict
+            )} reported by the deadline: one facility behind in a district on time.`,
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [redDistrict, 'LEVEL-3'],
+                    color: '#525252',
+                    labels: '{name}',
+                }),
+                thematicLayer({
+                    name: 'Reporting rate on time',
+                    dataItem: reportingRate('REPORTING_RATE_ON_TIME'),
+                    periods: ['LAST_6_MONTHS'],
+                    orgUnits: [redDistrict, 'LEVEL-4'],
+                    legendSet: legendSets.facilities.id,
+                    radiusLow: 7,
+                    opacity: 1,
+                }),
+            ],
+        })
+        // The districts, every facility, then the district to act on
+        const maps = [completeness, timeliness, districtMap]
 
         return {
-            maps: [
-                { map: completeness, teams: ['hmis'] },
-                { map: timeliness, teams: ['hmis'] },
-            ],
+            maps: maps.map((m) => ({ map: m, teams: ['hmis'] })),
             dashboards: [
                 dashboard({
                     key: 'post10',
                     post: 10,
                     title: 'Data quality review',
-                    maps: [completeness, timeliness],
+                    maps,
                 }),
             ],
             interpretations: [
@@ -247,9 +293,9 @@ const post = {
         }
     },
 
-    checks: (ctx, { facilities }) => {
+    checks: (ctx, state) => {
         const districts = Object.values(DISTRICTS).join(';')
-        const red = redFacility(facilities)
+        const red = redFacility(state)
         const rates = (rows) => {
             const values = {}
             rows.forEach(([dx, ou, value]) => {

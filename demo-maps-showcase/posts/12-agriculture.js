@@ -184,7 +184,7 @@ const legendSets = {
     }),
 }
 
-const ndviLayer = (name, year, hidden) =>
+const ndviLayer = (name, year, hidden, orgUnits) =>
     earthEngineLayer({
         name,
         datasetId: 'MODIS/061/MOD13Q1/VI/MONTHLY',
@@ -192,6 +192,7 @@ const ndviLayer = (name, year, hidden) =>
         period: eeMonth(year, CRITICAL_MONTH),
         aggregations: ['mean'],
         level: 2,
+        orgUnits,
         hidden,
     })
 
@@ -387,8 +388,45 @@ const post = {
             ],
         })
         const name = state.districtName
+        const driest = [rain.driest.districtId]
+        const driestMap = map({
+            key: 'post12_driest',
+            post: 12,
+            title: `Vegetation in ${name(rain.driest.districtId)}, August ${
+                rain.year
+            }`,
+            description: `MODIS vegetation index in ${name(
+                rain.driest.districtId
+            )}, the driest district of the season, by chiefdom: August ${
+                rain.year
+            }, and the reference year ${referenceYear} to switch on.`,
+            basemap: 'sentinel2eox',
+            layers: [
+                ndviLayer(
+                    `Vegetation index, August ${referenceYear} (reference)`,
+                    referenceYear,
+                    true,
+                    driest
+                ),
+                ndviLayer(
+                    `Vegetation index, August ${rain.year}`,
+                    rain.year,
+                    false,
+                    driest
+                ),
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [rain.driest.districtId, 'LEVEL-3'],
+                    color: '#ffffff',
+                    labels: '{name}',
+                    labelColor: '#000000',
+                }),
+            ],
+        })
+        // The country, rainfall by district, then the driest district
+        const maps = [foodMap, rainMap, driestMap]
         return {
-            maps: [foodMap, rainMap].map((m) => ({
+            maps: maps.map((m) => ({
                 map: m,
                 teams: ['agriculture'],
             })),
@@ -397,7 +435,7 @@ const post = {
                     key: 'post12',
                     post: 12,
                     title: 'Food security bulletin',
-                    maps: [foodMap, rainMap],
+                    maps,
                 }),
             ],
             interpretations: [

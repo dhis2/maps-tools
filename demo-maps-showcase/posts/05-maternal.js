@@ -7,6 +7,7 @@ const { loadFacilityPoints } = require('../shared/geometry.js')
 const { PUBLIC_READ, code, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
     earthEngineLayer,
     map,
@@ -161,14 +162,21 @@ const legendSets = {
     }),
 }
 
-const facilityCatchmentLayer = () => ({
+// People per hectare in ColorBrewer YlOrRd, bright where people live
+const POPULATION_STYLE = {
+    min: 0,
+    max: 25,
+    palette: ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'],
+}
+
+const facilityCatchmentLayer = (districts = Object.values(DISTRICTS)) => ({
     layer: 'facility',
     name: 'EmONC facilities',
     rows: [
         {
             dimension: 'ou',
             items: [
-                ...Object.values(DISTRICTS).map((id) => ({ id })),
+                ...districts.map((id) => ({ id })),
                 ...Object.values(GROUPS).map((id) => ({
                     id: `OU_GROUP-${id}`,
                 })),
@@ -376,18 +384,7 @@ const post = {
                     name: 'Population WorldPop Global2',
                     datasetId: WORLDPOP_TOTAL,
                     year,
-                    style: {
-                        min: 0,
-                        max: 25,
-                        // ColorBrewer YlOrRd, bright where people live
-                        palette: [
-                            '#ffffb2',
-                            '#fecc5c',
-                            '#fd8d3c',
-                            '#f03b20',
-                            '#bd0026',
-                        ],
-                    },
+                    style: POPULATION_STYLE,
                     level: 2,
                     opacity: 0.85,
                 }),
@@ -421,9 +418,38 @@ const post = {
             share: Math.round((100 * koinadugu.within2h) / koinadugu.total),
         }
         const name = state.districtName
+        const gapMap = map({
+            key: 'post05_koinadugu',
+            post: 5,
+            title: `Beyond two hours in ${name(DISTRICTS.koinadugu)}`,
+            description: `Where people live in ${name(
+                DISTRICTS.koinadugu
+            )} (WorldPop Global2), its chiefdoms and the two-hour catchments of its EmONC facilities. The catchments are invented for the demo.`,
+            basemap: 'osmDark',
+            layers: [
+                earthEngineLayer({
+                    name: 'Population WorldPop Global2',
+                    datasetId: WORLDPOP_TOTAL,
+                    year,
+                    style: POPULATION_STYLE,
+                    orgUnits: [DISTRICTS.koinadugu],
+                    opacity: 0.85,
+                }),
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [DISTRICTS.koinadugu, 'LEVEL-3'],
+                    color: '#bdbdbd',
+                    labels: '{name}',
+                    labelColor: '#ffffff',
+                }),
+                facilityCatchmentLayer([DISTRICTS.koinadugu]),
+            ],
+        })
+        // The country, the districts, then the district furthest from care
+        const maps = [accessMap, shareMap, gapMap]
 
         return {
-            maps: [accessMap, shareMap].map((m) => ({
+            maps: maps.map((m) => ({
                 map: m,
                 teams: ['maternal'],
             })),
@@ -432,7 +458,7 @@ const post = {
                     key: 'post05',
                     post: 5,
                     title: 'Maternal access',
-                    maps: [accessMap, shareMap],
+                    maps,
                 }),
             ],
             interpretations: [

@@ -6,6 +6,12 @@ const post = require('./10-data-quality.js')
 
 const facilities = fakeFacilities()
 const runDate = new Date('2026-11-13')
+// The first Bo facility has no coordinates
+const [noPoint] = facilities.filter((f) => f.districtId === DISTRICTS.bo)
+const points = Object.fromEntries(
+    facilities.filter((f) => f !== noPoint).map((f) => [f.id, [-11.7, 8.0]])
+)
+const state = { facilities, points }
 
 const rates = (registrations, districtId, months) => {
     const inDistrict = facilities.filter((f) => f.districtId === districtId)
@@ -27,7 +33,7 @@ const rates = (registrations, districtId, months) => {
 }
 
 test('Tonkolili reports complete but late, Koinadugu is red', () => {
-    const { months, registrations } = post.generate({ runDate }, { facilities })
+    const { months, registrations } = post.generate({ runDate }, state)
     // The last month is left out: most of its reports are not due yet
     const window = months.slice(-7, -1)
     const tonkolili = rates(registrations, DISTRICTS.tonkolili, window)
@@ -39,8 +45,8 @@ test('Tonkolili reports complete but late, Koinadugu is red', () => {
     assert.ok(kenema.onTime >= 80, JSON.stringify(kenema))
 })
 
-test('in Bo, the red facility stands out among facilities on time', () => {
-    const { months, registrations } = post.generate({ runDate }, { facilities })
+test('in Bo, the red facility, one with coordinates, stands out among facilities on time', () => {
+    const { months, registrations } = post.generate({ runDate }, state)
     const window = months.slice(-7, -1)
     const onTime = (facilityId) =>
         registrations.filter(
@@ -53,7 +59,7 @@ test('in Bo, the red facility stands out among facilities on time', () => {
                 )
         ).length / window.length
     const [red, ...others] = facilities.filter(
-        (f) => f.districtId === DISTRICTS.bo
+        (f) => f.districtId === DISTRICTS.bo && f !== noPoint
     )
     const blue = others.filter(({ id }) => onTime(id) >= 0.9)
     assert.ok(onTime(red.id) < 0.75)
@@ -64,6 +70,6 @@ test('in Bo, the red facility stands out among facilities on time', () => {
 })
 
 test('no report is dated after the run date', () => {
-    const { registrations } = post.generate({ runDate }, { facilities })
+    const { registrations } = post.generate({ runDate }, state)
     assert.ok(registrations.every(({ date }) => new Date(date) <= runDate))
 })
