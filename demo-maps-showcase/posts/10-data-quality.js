@@ -1,5 +1,6 @@
 // Post 10 · Map the data before you map the disease: reporting completeness
 // and timeliness of a monthly report, by district and by facility.
+const { uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
     dashboard,
@@ -10,6 +11,7 @@ const {
 const { dataSet, dataSetId } = require('../shared/metadata.js')
 const { PALETTE } = require('../shared/palette.js')
 const { DEFAULT_COC, DISTRICTS, ROOT } = require('../shared/sierraLeone.js')
+const { teamId } = require('../shared/users.js')
 const { addDays, isoDate, lastMonths } = require('../periods.js')
 const { randomFor } = require('../random.js')
 
@@ -143,6 +145,22 @@ const post = {
     metadata: ({ importerId }, { facilities }) => ({
         legendSets: Object.values(legendSets),
         dataSets: [reportDataSet(facilities, importerId)],
+        // Dashboard email push: sends the dashboard to the HMIS team on the
+        // 5th of each month, as each receiver sees it. Needs SMTP to send.
+        jobConfigurations: [
+            {
+                id: uid('jobConfiguration:POST10_PUSH'),
+                name: 'Showcase: data quality review by email',
+                jobType: 'HTML_PUSH_ANALYTICS',
+                cronExpression: '0 0 7 5 * ?',
+                enabled: true,
+                jobParameters: {
+                    dashboard: uid('dashboard:post10'),
+                    receivers: teamId('hmis'),
+                    mode: 'RECEIVER',
+                },
+            },
+        ],
     }),
 
     data: (ctx, state) => {
