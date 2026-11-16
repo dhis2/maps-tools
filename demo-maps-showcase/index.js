@@ -103,7 +103,11 @@ const main = async () => {
     }
     if (has('analytics')) {
         summary.analyticsSeconds = await runAnalytics(client, {
+            full: config.fullAnalytics,
             withEvents: loaded.posts.some((post) => post.eventAnalytics),
+            withTrackedEntities: loaded.posts.some(
+                (post) => post.trackedEntityAnalytics
+            ),
         })
         console.log(`Analytics done in ${summary.analyticsSeconds} s`)
     }

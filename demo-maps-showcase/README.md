@@ -76,6 +76,13 @@ Options, for both scripts:
 -   `--posts=1,10` builds or checks only these posts (default: all).
 -   `--steps=data,analytics` runs only these steps (`index.js` only).
 -   `--runDate=2026-11-01` generates data as if run on that date.
+-   `--fullAnalytics` rebuilds every analytics table instead of the last 4
+    years (`index.js` only). Needed once after a data element is added to an
+    existing program: a last-years run keeps the columns of existing tables.
+
+Don't import while an analytics run is going on: event tables of programs
+whose events changed during the run can come out empty. Run analytics again
+once the import is done.
 
 Every object has a fixed id and a `SHOW_` code, so re-running updates in
 place.

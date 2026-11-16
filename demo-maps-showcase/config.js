@@ -51,6 +51,7 @@ const getConfig = (argv = process.argv.slice(2), availablePosts = []) => {
         // Periods are relative to this date; set it to reproduce an earlier run
         runDate: args.runDate ? new Date(args.runDate) : new Date(),
         dryRun: !!args.dryRun,
+        fullAnalytics: !!args.fullAnalytics,
     }
 }
 
