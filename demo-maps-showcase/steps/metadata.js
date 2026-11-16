@@ -1,12 +1,16 @@
 const { usersMetadata } = require('../shared/users.js')
 
 // Joins the metadata of the shared setup and every post into one payload,
-// type by type
+// type by type. Objects shared by several posts are sent once.
 const mergeMetadata = (parts) => {
     const merged = {}
     parts.forEach((part) =>
         Object.entries(part).forEach(([type, objects]) => {
-            merged[type] = [...(merged[type] || []), ...objects]
+            const known = new Set((merged[type] || []).map(({ id }) => id))
+            merged[type] = [
+                ...(merged[type] || []),
+                ...objects.filter(({ id }) => !known.has(id)),
+            ]
         })
     )
     return merged

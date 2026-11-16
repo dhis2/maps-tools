@@ -21,6 +21,11 @@ const {
     indicatorId,
 } = require('../shared/metadata.js')
 const { PALETTE } = require('../shared/palette.js')
+const {
+    populationId,
+    populationMetadata,
+    populationValueSet,
+} = require('../shared/population.js')
 const { DEFAULT_COC, DISTRICTS } = require('../shared/sierraLeone.js')
 const { lastMonths } = require('../periods.js')
 const { randomFor } = require('../random.js')
@@ -56,7 +61,6 @@ const GROUPS = {
 const DE = {
     signalFunctions: 'EMONC_BASIC_SIGNAL_FUNCTIONS',
     caesareans: 'EMONC_CAESAREAN_SECTIONS',
-    population: 'EMONC_POP_WORLDPOP',
     populationWithin2h: 'EMONC_POP_WITHIN_2H',
 }
 const IND = { access: 'EMONC_POP_WITHIN_2H_SHARE' }
@@ -203,6 +207,7 @@ const post = {
     },
 
     metadata: ({ importerId }, { inputs, emonc }) => {
+        const population = populationMetadata({ importerId })
         const members = (level) =>
             emonc.filter((f) => f.level === level).map(({ id }) => ({ id }))
         const reporting = inputs.facilities.filter(
@@ -268,11 +273,7 @@ const post = {
                     name: 'Caesarean sections performed',
                     zeroIsSignificant: true,
                 }),
-                dataElement({
-                    key: DE.population,
-                    name: 'Population (WorldPop Global2)',
-                    aggregationType: 'AVERAGE_SUM_ORG_UNIT',
-                }),
+                ...population.dataElements,
                 dataElement({
                     key: DE.populationWithin2h,
                     name: 'Population within two hours of EmONC (WorldPop Global2)',
@@ -295,11 +296,10 @@ const post = {
                     name: 'EmONC access (WorldPop)',
                     periodType: 'Yearly',
                     orgUnits: Object.values(DISTRICTS).map((id) => ({ id })),
-                    dataElements: [DE.population, DE.populationWithin2h].map(
-                        dataElementId
-                    ),
+                    dataElements: [dataElementId(DE.populationWithin2h)],
                     importerId,
                 }),
+                ...population.dataSets,
             ],
             indicators: [
                 indicator({
@@ -307,7 +307,7 @@ const post = {
                     name: 'Population within two hours of EmONC',
                     type: 'percent',
                     numerator: `#{${dataElementId(DE.populationWithin2h)}}`,
-                    denominator: `#{${dataElementId(DE.population)}}`,
+                    denominator: `#{${populationId}}`,
                     description:
                         'Share of the WorldPop Global2 population living inside the two-hour catchment of an EmONC facility (synthetic catchments).',
                     decimals: 0,
@@ -335,11 +335,8 @@ const post = {
         })
         const access = Object.entries(state.coverage.values).flatMap(
             ([year, byDistrict]) =>
-                Object.entries(byDistrict).flatMap(
-                    ([district, { total, within2h }]) => [
-                        value(DE.population, district, year, total),
-                        value(DE.populationWithin2h, district, year, within2h),
-                    ]
+                Object.entries(byDistrict).map(([district, { within2h }]) =>
+                    value(DE.populationWithin2h, district, year, within2h)
                 )
         )
         return {
@@ -359,6 +356,7 @@ const post = {
                     ),
                 },
                 { dataSet: dataSetId(ACCESS_DATA_SET), dataValues: access },
+                populationValueSet(),
             ],
         }
     },
