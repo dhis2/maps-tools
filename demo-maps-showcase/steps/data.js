@@ -11,14 +11,18 @@ const buildData = ({ ctx, posts, states }) =>
         ...post.data(ctx, states.get(post)),
     }))
 
-const sumCounts = (total, { imported = 0, updated = 0, ignored = 0 }) => ({
-    imported: total.imported + imported,
-    updated: total.updated + updated,
-    ignored: total.ignored + ignored,
-})
+const NO_COUNTS = { imported: 0, updated: 0, deleted: 0, ignored: 0 }
+
+const sumCounts = (total, counts) =>
+    Object.fromEntries(
+        Object.keys(NO_COUNTS).map((key) => [
+            key,
+            total[key] + (counts[key] ?? 0),
+        ])
+    )
 
 const importChunks = async (client, path, key, items, header = {}) => {
-    let total = { imported: 0, updated: 0, ignored: 0 }
+    let total = NO_COUNTS
     for (const chunk of chunks(items, CHUNK)) {
         const result = await client.post(path, { ...header, [key]: chunk })
         const summary = result.response || result
@@ -227,16 +231,19 @@ const importData = async (client, data) => {
         }
         // One import per data set: the importer looks for a single data set
         // for the whole payload
+        // A set with importStrategy DELETE removes values an earlier run left
         for (const set of dataValueSets.filter((s) => s.dataValues.length)) {
             const counts = await importChunks(
                 client,
-                '/api/dataValueSets?importStrategy=CREATE_AND_UPDATE',
+                `/api/dataValueSets?importStrategy=${
+                    set.importStrategy ?? 'CREATE_AND_UPDATE'
+                }`,
                 'dataValues',
                 set.dataValues,
                 set.dataSet ? { dataSet: set.dataSet } : {}
             )
             result.dataValues = sumCounts(
-                result.dataValues || { imported: 0, updated: 0, ignored: 0 },
+                result.dataValues || NO_COUNTS,
                 counts
             )
         }

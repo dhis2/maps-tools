@@ -1,5 +1,5 @@
-// WorldPop Global2 total population per district and year, from the Earth
-// Engine snapshot, for the posts that divide by it
+// WorldPop Global2 total population per chiefdom and district and year,
+// from the Earth Engine snapshots, for the posts that divide by it
 const fs = require('node:fs')
 const path = require('node:path')
 const {
@@ -10,21 +10,22 @@ const {
 } = require('./metadata.js')
 const { DEFAULT_COC, DISTRICTS } = require('./sierraLeone.js')
 
-const POPULATION_FILE = path.join(
-    __dirname,
-    '..',
-    'input',
-    'sierra-leone',
-    'emonc-coverage.json'
-)
+const INPUT_DIR = path.join(__dirname, '..', 'input', 'sierra-leone')
+const readInput = (file) =>
+    JSON.parse(fs.readFileSync(path.join(INPUT_DIR, file), 'utf8')).values
+
 const POPULATION = 'EMONC_POP_WORLDPOP'
 const DATA_SET = 'WORLDPOP_POPULATION_YEARLY'
+const DEFAULT_YEAR = '2025'
 
 const populationId = dataElementId(POPULATION)
 
+// { [year]: { [chiefdomId]: people } }
+const chiefdomPopulation = () => readInput('worldpop-totals.json')
+
 // { [year]: { [districtId]: people } }
 const districtPopulation = () => {
-    const { values } = JSON.parse(fs.readFileSync(POPULATION_FILE, 'utf8'))
+    const values = readInput('emonc-coverage.json')
     return Object.fromEntries(
         Object.entries(values).map(([year, byDistrict]) => [
             year,
@@ -44,6 +45,7 @@ const populationMetadata = ({ importerId }) => ({
             key: POPULATION,
             name: 'Population (WorldPop Global2)',
             aggregationType: 'AVERAGE_SUM_ORG_UNIT',
+            real: true,
         }),
     ],
     dataSets: [
@@ -51,31 +53,49 @@ const populationMetadata = ({ importerId }) => ({
             key: DATA_SET,
             name: 'Population (WorldPop Global2, synthetic demo)',
             periodType: 'Yearly',
-            orgUnits: Object.values(DISTRICTS).map((id) => ({ id })),
+            orgUnits: [
+                ...Object.values(DISTRICTS),
+                ...Object.keys(chiefdomPopulation()[DEFAULT_YEAR]),
+            ].map((id) => ({ id })),
             dataElements: [populationId],
             importerId,
         }),
     ],
 })
 
-const populationValueSet = () => ({
-    dataSet: dataSetId(DATA_SET),
-    dataValues: Object.entries(districtPopulation()).flatMap(
-        ([year, byDistrict]) =>
-            Object.entries(byDistrict).map(([orgUnit, people]) => ({
-                dataElement: populationId,
-                orgUnit,
-                period: year,
-                categoryOptionCombo: DEFAULT_COC,
-                attributeOptionCombo: DEFAULT_COC,
-                value: String(people),
-            }))
-    ),
+const value = (orgUnit, period, people) => ({
+    dataElement: populationId,
+    orgUnit,
+    period,
+    categoryOptionCombo: DEFAULT_COC,
+    attributeOptionCombo: DEFAULT_COC,
+    ...(people === undefined ? {} : { value: String(people) }),
 })
+
+// Stored per chiefdom only, so districts get their sum and rates can be
+// mapped by chiefdom; district values of earlier runs are deleted
+const populationValueSets = () => [
+    {
+        dataSet: dataSetId(DATA_SET),
+        dataValues: Object.entries(chiefdomPopulation()).flatMap(
+            ([year, byChiefdom]) =>
+                Object.entries(byChiefdom).map(([orgUnit, people]) =>
+                    value(orgUnit, year, people)
+                )
+        ),
+    },
+    {
+        dataSet: dataSetId(DATA_SET),
+        importStrategy: 'DELETE',
+        dataValues: Object.keys(chiefdomPopulation()).flatMap((year) =>
+            Object.values(DISTRICTS).map((orgUnit) => value(orgUnit, year))
+        ),
+    },
+]
 
 module.exports = {
     districtPopulation,
     populationId,
     populationMetadata,
-    populationValueSet,
+    populationValueSets,
 }

@@ -198,8 +198,31 @@ const climateDistricts = async (client) => {
     }
 }
 
+// WorldPop Global2 total population per chiefdom and year, so rates can be
+// mapped by chiefdom
+const worldPopTotals = async (client) => {
+    const features = await loadChiefdomGeometries(client)
+    const values = {}
+    for (const year of WORLDPOP_YEARS) {
+        const token = await ee.getToken(client)
+        const image = ee.yearImage(WORLDPOP_TOTAL, String(year), ['population'])
+        const sums = await ee.sumInFeatures({
+            token,
+            image,
+            features,
+            scale: 100,
+        })
+        values[year] = Object.fromEntries(
+            Object.entries(sums).map(([id, sum]) => [id, Math.round(sum)])
+        )
+        console.log(`WorldPop totals ${year}: ${features.length} chiefdoms`)
+    }
+    return { source: WORLDPOP_TOTAL, reducer: 'sum at 100 m', values }
+}
+
 const SNAPSHOTS = {
     'worldpop-school-age': worldPopSchoolAge,
+    'worldpop-totals': worldPopTotals,
     'emonc-coverage': emoncCoverage,
     'climate-districts': climateDistricts,
 }
