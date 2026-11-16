@@ -89,11 +89,11 @@ const postTracker = async (client, path, payload) => {
     return result.stats
 }
 
-const listIds = async (client, path, key) => {
+// The ids in a tracker API list, for example the trackedEntity field of the
+// trackedEntities list
+const listIds = async (client, path, listKey, idKey) => {
     const body = await client.get(path)
-    return (body[key] ?? body.instances ?? []).map(
-        (item) => item[key.slice(0, -1)]
-    )
+    return (body[listKey] ?? body.instances ?? []).map((item) => item[idKey])
 }
 
 // Tracked entities and events in the tool's programs that this run no
@@ -109,7 +109,8 @@ const deleteStaleTracker = async (client, tracker) => {
         const entities = await listIds(
             client,
             `/api/tracker/trackedEntities?program=${programId}&ouMode=ACCESSIBLE&fields=trackedEntity&paging=false`,
-            'trackedEntities'
+            'trackedEntities',
+            'trackedEntity'
         )
         const stale = entities.filter((t) => !keepEntities.has(t))
         for (const chunk of chunks(stale, TRACKER_CHUNK)) {
@@ -123,7 +124,8 @@ const deleteStaleTracker = async (client, tracker) => {
         const events = await listIds(
             client,
             `/api/tracker/events?program=${programId}&ouMode=ACCESSIBLE&fields=event&paging=false`,
-            'events'
+            'events',
+            'event'
         )
         const stale = events.filter((e) => !keepEvents.has(e))
         for (const chunk of chunks(stale, TRACKER_CHUNK)) {
