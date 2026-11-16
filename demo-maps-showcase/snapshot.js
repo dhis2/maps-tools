@@ -113,9 +113,95 @@ const emoncCoverage = async (client) => {
     }
 }
 
+const CLIMATE_FROM_YEAR = 2022
+const NORMAL_YEARS = [1991, 2020]
+
+const roundAll = (values, digits) =>
+    Object.fromEntries(
+        Object.entries(values).map(([id, v]) => [id, Number(v.toFixed(digits))])
+    )
+
+// Monthly CHIRPS rainfall and ERA5-Land temperature per district from
+// January 2022 to last month, and the CHIRPS 1991-2020 normal of each
+// calendar month: district means of the pixel values
+const climateDistricts = async (client) => {
+    const districts = await loadDistrictGeometries(client)
+    const now = new Date()
+    const months = []
+    for (
+        let d = new Date(Date.UTC(CLIMATE_FROM_YEAR, 0, 1));
+        d < new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+        d.setUTCMonth(d.getUTCMonth() + 1)
+    ) {
+        months.push([d.getUTCFullYear(), d.getUTCMonth() + 1])
+    }
+    const rain = {}
+    const temperature = {}
+    for (const [year, month] of months) {
+        const token = await ee.getToken(client)
+        const id = `${year}${String(month).padStart(2, '0')}`
+        const result = await Promise.all([
+            ee.meanInFeatures({
+                token,
+                image: ee.chirpsMonth(year, month),
+                features: districts,
+                scale: 5000,
+            }),
+            ee.meanInFeatures({
+                token,
+                image: ee.era5Temperature(year, month),
+                features: districts,
+                scale: 10000,
+            }),
+        ]).catch((err) => {
+            // The latest months are published with a delay
+            if (/no bands/.test(err.message)) {
+                return null
+            }
+            throw err
+        })
+        if (!result) {
+            console.log(`Climate ${id}: not published yet, stopping`)
+            break
+        }
+        const [r, t] = result
+        rain[id] = roundAll(r, 1)
+        temperature[id] = roundAll(t, 1)
+        console.log(`Climate ${id}: ${districts.length} districts`)
+    }
+    const normal = {}
+    for (let month = 1; month <= 12; month++) {
+        const token = await ee.getToken(client)
+        normal[month] = roundAll(
+            await ee.meanInFeatures({
+                token,
+                image: ee.chirpsNormal(month, ...NORMAL_YEARS),
+                features: districts,
+                scale: 5000,
+            }),
+            1
+        )
+        console.log(`Rainfall normal, month ${month}`)
+    }
+    return {
+        sources: {
+            rain: 'UCSB-CHG/CHIRPS/DAILY, monthly sum, district mean, mm',
+            temperature:
+                'ECMWF/ERA5_LAND/MONTHLY_AGGR temperature_2m_mean, district mean, °C',
+            normal: `UCSB-CHG/CHIRPS/PENTAD, mean monthly sum ${NORMAL_YEARS.join(
+                '-'
+            )}, district mean, mm`,
+        },
+        rain,
+        temperature,
+        normal,
+    }
+}
+
 const SNAPSHOTS = {
     'worldpop-school-age': worldPopSchoolAge,
     'emonc-coverage': emoncCoverage,
+    'climate-districts': climateDistricts,
 }
 
 const main = async () => {

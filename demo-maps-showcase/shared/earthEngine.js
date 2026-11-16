@@ -61,8 +61,97 @@ const getToken = async (client) => {
     return token
 }
 
+const dateRange = (start, end) =>
+    fn('DateRange', { start: constant(start), end: constant(end) })
+
+const filterDates = (collection, start, end) =>
+    fn('Collection.filter', {
+        collection,
+        filter: fn('Filter.dateRangeContains', {
+            leftValue: dateRange(start, end),
+            rightField: constant('system:time_start'),
+        }),
+    })
+
+const reduceCollection = (collection, reducer) =>
+    fn('ImageCollection.reduce', {
+        collection,
+        reducer: fn(`Reducer.${reducer}`, {}),
+    })
+
+const pad = (n) => String(n).padStart(2, '0')
+const monthStart = (year, month) => `${year}-${pad(month)}-01`
+const nextMonthStart = (year, month) =>
+    month === 12 ? monthStart(year + 1, 1) : monthStart(year, month + 1)
+
+// CHIRPS rainfall summed over one month, in mm
+const chirpsMonth = (year, month) =>
+    reduceCollection(
+        filterDates(
+            fn('ImageCollection.load', {
+                id: constant('UCSB-CHG/CHIRPS/DAILY'),
+            }),
+            monthStart(year, month),
+            nextMonthStart(year, month)
+        ),
+        'sum'
+    )
+
+// CHIRPS rainfall of one calendar month, averaged over the years, in mm
+// From 5-day sums (pentads): 30 years of daily images exceed Earth Engine's
+// memory for one request
+const chirpsNormal = (month, fromYear, toYear) =>
+    fn('Image.divide', {
+        image1: reduceCollection(
+            fn('Collection.filter', {
+                collection: filterDates(
+                    fn('ImageCollection.load', {
+                        id: constant('UCSB-CHG/CHIRPS/PENTAD'),
+                    }),
+                    `${fromYear}-01-01`,
+                    `${toYear + 1}-01-01`
+                ),
+                filter: fn('Filter.calendarRange', {
+                    start: constant(month),
+                    end: constant(month),
+                    field: constant('month'),
+                }),
+            }),
+            'sum'
+        ),
+        image2: fn('Image.constant', {
+            value: constant(toYear - fromYear + 1),
+        }),
+    })
+
+// ERA5-Land mean 2 m air temperature of one month, in °C
+const era5Temperature = (year, month) =>
+    fn('Image.subtract', {
+        image1: fn('Image.select', {
+            input: reduceCollection(
+                filterDates(
+                    fn('ImageCollection.load', {
+                        id: constant('ECMWF/ERA5_LAND/MONTHLY_AGGR'),
+                    }),
+                    monthStart(year, month),
+                    nextMonthStart(year, month)
+                ),
+                'mean'
+            ),
+            bandSelectors: constant(['temperature_2m_mean']),
+        }),
+        image2: fn('Image.constant', { value: constant(273.15) }),
+    })
+
 // features: [{ id, geometry }]. Returns { [id]: value of the "sum" band }.
-const sumInFeatures = async ({ token, image, features, scale }) => {
+const sumInFeatures = (options) =>
+    reduceInFeatures({ ...options, reducer: 'sum' })
+
+// The mean of a one-band image over each feature
+const meanInFeatures = (options) =>
+    reduceInFeatures({ ...options, reducer: 'mean' })
+
+const reduceInFeatures = async ({ token, image, features, scale, reducer }) => {
     const collection = fn('Collection', {
         features: {
             arrayValue: {
@@ -81,7 +170,7 @@ const sumInFeatures = async ({ token, image, features, scale }) => {
             0: fn('Image.reduceRegions', {
                 image,
                 collection,
-                reducer: fn('Reducer.sum', {}),
+                reducer: fn(`Reducer.${reducer}`, {}),
                 scale: constant(scale),
             }),
         },
@@ -105,14 +194,18 @@ const sumInFeatures = async ({ token, image, features, scale }) => {
     return Object.fromEntries(
         body.result.features.map(({ properties }) => [
             properties.id,
-            properties.sum,
+            properties[reducer],
         ])
     )
 }
 
 module.exports = {
+    chirpsMonth,
+    chirpsNormal,
     clipToFeatures,
+    era5Temperature,
     getToken,
+    meanInFeatures,
     sumBands,
     sumInFeatures,
     yearImage,

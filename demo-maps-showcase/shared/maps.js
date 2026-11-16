@@ -84,18 +84,49 @@ const thematicLayer = ({
     ...labelProps(labels),
 })
 
-// A yearly Earth Engine layer, aggregated to the org units of a level. The
-// dataset, bands and style follow maps-app's src/constants/earthEngineLayers.
+const MONTH_NAMES = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+]
+
+// The period of a monthly Earth Engine layer, as maps-app saves it
+const eeMonth = (year, month) => {
+    const end = new Date(Date.UTC(year, month, 0)).getUTCDate()
+    const mm = String(month).padStart(2, '0')
+    return {
+        id: `${year}${mm}`,
+        startDate: `${year}-${mm}-01T00:00:00.000Z`,
+        endDate: `${year}-${mm}-${end}T23:59:59.000Z`,
+        year,
+        name: `${MONTH_NAMES[month - 1]} ${year}`,
+    }
+}
+
+// An Earth Engine layer, aggregated to the org units of a level. The dataset,
+// bands and style follow maps-app's src/constants/earthEngineLayers; without
+// a style, maps-app uses the dataset's own.
 const earthEngineLayer = ({
     name,
     datasetId,
     bands,
     year,
+    period,
     style,
     aggregations = ['sum'],
     level,
     orgUnits,
     opacity = 0.9,
+    hidden = false,
 }) => ({
     layer: 'earthEngine',
     name,
@@ -123,9 +154,10 @@ const earthEngineLayer = ({
                   },
               }
             : {}),
+        ...(period ? { period } : {}),
     }),
     opacity,
-    hidden: false,
+    hidden,
 })
 
 const facilityLayer = ({ name, groupSet, hidden = false }) => ({
@@ -274,6 +306,7 @@ module.exports = {
     boundaryLayer,
     dashboard,
     earthEngineLayer,
+    eeMonth,
     eventLayer,
     facilityLayer,
     map,
