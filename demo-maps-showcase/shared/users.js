@@ -8,6 +8,23 @@ const { ROOT } = require('./sierraLeone.js')
 const ROLE_M_AND_E_OFFICER = 'jRWSNIHdKww'
 const ROLE_GUEST = 'XS0dNzuZmfH'
 
+// Neither demo role may read event analytics, which event and tracked
+// entity layers need; every demo user gets this role too
+const READER_ROLE = {
+    id: uid('userRole:MAP_READER'),
+    code: code('ROLE_MAP_READER'),
+    name: 'Showcase map reader',
+    description:
+        'Opens the showcase maps and dashboards, event layers included.',
+    authorities: [
+        'F_VIEW_EVENT_ANALYTICS',
+        'M_dhis-web-maps',
+        'M_dhis-web-dashboard',
+        'M_dhis-web-interpretation',
+    ],
+    sharing: PUBLIC_READ,
+}
+
 const TEAMS = {
     all: 'Showcase: all demo users',
     epi: 'Showcase: EPI team',
@@ -110,6 +127,7 @@ const savePasswords = (outputDir, baseUrl, passwords) => {
 }
 
 const usersMetadata = (passwords) => ({
+    userRoles: [READER_ROLE],
     users: PERSONAS.map((persona) => ({
         id: userId(persona.key),
         code: code(`USER_${persona.key.toUpperCase()}`),
@@ -117,7 +135,10 @@ const usersMetadata = (passwords) => ({
         password: passwords[username(persona.key)],
         firstName: persona.title,
         surname: '(demo)',
-        userRoles: [{ id: persona.guest ? ROLE_GUEST : ROLE_M_AND_E_OFFICER }],
+        userRoles: [
+            { id: persona.guest ? ROLE_GUEST : ROLE_M_AND_E_OFFICER },
+            { id: READER_ROLE.id },
+        ],
         organisationUnits: [{ id: ROOT }],
         dataViewOrganisationUnits: [{ id: ROOT }],
         teiSearchOrganisationUnits: [{ id: ROOT }],
