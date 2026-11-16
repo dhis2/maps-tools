@@ -5,6 +5,7 @@ const OUTPUT_DIR = path.join(__dirname, 'output')
 
 const POSTS = [
     require('./posts/01-immunization.js'),
+    require('./posts/02-malaria-climate.js'),
     require('./posts/03-cholera.js'),
     require('./posts/04-contact-tracing.js'),
     require('./posts/05-maternal.js'),
@@ -13,6 +14,7 @@ const POSTS = [
     require('./posts/09-one-health.js'),
     require('./posts/10-data-quality.js'),
     require('./posts/11-nutrition.js'),
+    require('./posts/12-agriculture.js'),
 ]
 
 const POST_NUMBERS = POSTS.map(({ number }) => number)
