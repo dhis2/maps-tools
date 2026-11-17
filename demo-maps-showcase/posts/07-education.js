@@ -5,7 +5,12 @@ const path = require('node:path')
 const { loadFacilityPoints } = require('../shared/geometry.js')
 const { PUBLIC_READ, code, uid } = require('../shared/ids.js')
 const { legendSet } = require('../shared/legendSets.js')
-const { dashboard, map, thematicLayer } = require('../shared/maps.js')
+const {
+    boundaryLayer,
+    dashboard,
+    map,
+    thematicLayer,
+} = require('../shared/maps.js')
 const {
     dataElement,
     dataElementId,
@@ -36,7 +41,6 @@ const GIRLS_SHARE = 0.49
 // Share of children aged 5 to 14 of primary (6-11) and JSS (12-14) age
 const PRIMARY_AGE_SHARE = 0.6
 const SECONDARY_AGE_SHARE = 0.3
-const GROSS_ENROLMENT = { primary: 1.05, secondary: 0.6 }
 
 // Girls' gross enrolment over boys', by level and district: parity in
 // primary, girls behind in Kailahun's and boys behind in Bo's JSS
@@ -45,8 +49,12 @@ const GIRLS_TO_BOYS = {
     secondary: { bo: 1.12, kenema: 1.0, kailahun: 0.84 },
 }
 // A school far above the norm while its neighbours are fine: a teacher
-// redeployment, not a recruitment
+// redeployment, not a recruitment. Another, in Kenema, had one after the
+// first census.
 const OVERCROWDED_DISTRICT = 'bo'
+const REDEPLOYED_DISTRICT = 'kenema'
+// The chiefdom of Bo town, for the close-up of schools by level
+const BO_TOWN_CHIEFDOM = 'Kakua'
 
 const LEVELS = ['primary', 'secondary']
 const DE = {
@@ -155,12 +163,37 @@ const censusYears = (runDate) => [
     runDate.getUTCFullYear() - 1,
 ]
 
+// Pupils per school, by level
+const SCHOOL_SIZE = { primary: [250, 600], secondary: [150, 450] }
+
+// Most schools keep their staffing from one census to the next: within the
+// norm, a few up to 1.25 times it
+const usualPtr = (school) => {
+    const r = randomFor('post7-ptr', school.id)
+    return r.chance(0.12) ? r.between(41, 50) : r.between(24, 38)
+}
+
+// Pupils per teacher in the two census years: a school getting worse, and
+// one that teachers moved to after the first census
+const PLANTED_PTR = { overcrowded: [64, 82], redeployed: [78, 38] }
+
+const plantedSchools = (schools) => {
+    const firstPrimary = (key) =>
+        schools.find((s) => s.districtKey === key && s.level === 'primary')
+    return {
+        overcrowded: firstPrimary(OVERCROWDED_DISTRICT),
+        redeployed: firstPrimary(REDEPLOYED_DISTRICT),
+    }
+}
+
 const generate = ({ runDate }, { schools, chiefdoms }) => {
     const population = schoolAgePopulation(chiefdoms)
     const years = censusYears(runDate)
-    const overcrowded = schools.find(
-        (s) => s.districtKey === OVERCROWDED_DISTRICT && s.level === 'primary'
-    )
+    const { overcrowded, redeployed } = plantedSchools(schools)
+    const plantedKey = (school) =>
+        ({ [overcrowded?.id]: 'overcrowded', [redeployed?.id]: 'redeployed' })[
+            school.id
+        ]
     const census = []
     const populationRows = []
     years.forEach((year) => {
@@ -188,50 +221,49 @@ const generate = ({ runDate }, { schools, chiefdoms }) => {
                         value: boysPop,
                     }
                 )
-                const boysEnrolled = boysPop * GROSS_ENROLMENT[level]
-                const girlsEnrolled =
-                    girlsPop *
-                    GROSS_ENROLMENT[level] *
-                    GIRLS_TO_BOYS[level][key]
-                const atLevel = schools.filter(
-                    (s) => s.districtKey === key && s.level === level
-                )
-                const weights = atLevel.map((s) =>
-                    randomFor('post7-size', s.id).between(0.5, 1.5)
-                )
-                const total = weights.reduce((a, b) => a + b, 0)
-                atLevel.forEach((school, i) => {
-                    const r = randomFor('post7', school.id, year)
-                    const boys = Math.round(
-                        (boysEnrolled * weights[i] * r.between(0.95, 1.05)) /
-                            total
-                    )
-                    const girls = Math.round(
-                        (girlsEnrolled * weights[i] * r.between(0.95, 1.05)) /
-                            total
-                    )
-                    const ptr =
-                        school === overcrowded
-                            ? r.between(80, 90)
-                            : r.between(30, 48)
-                    census.push({
-                        orgUnit: school.id,
-                        year,
-                        level,
-                        boys,
-                        girls,
-                        teachers: Math.max(1, Math.round((boys + girls) / ptr)),
-                        classrooms: Math.max(
-                            1,
-                            Math.round((boys + girls) / 45)
-                        ),
-                        latrines: Math.max(1, Math.round((boys + girls) / 60)),
+                // Girls per boy enrolled: the district's parity ratio applied
+                // to its school-age girls and boys
+                const girlsPerBoy =
+                    (GIRLS_TO_BOYS[level][key] * girlsPop) / boysPop
+                schools
+                    .filter((s) => s.districtKey === key && s.level === level)
+                    .forEach((school) => {
+                        const r = randomFor('post7', school.id, year)
+                        const pupils = Math.round(
+                            randomFor('post7-size', school.id).between(
+                                ...SCHOOL_SIZE[level]
+                            ) * r.between(0.97, 1.03)
+                        )
+                        const boys = Math.round(pupils / (1 + girlsPerBoy))
+                        const girls = pupils - boys
+                        const ptr =
+                            PLANTED_PTR[plantedKey(school)]?.[
+                                years.indexOf(year)
+                            ] ?? usualPtr(school) + r.between(-2, 2)
+                        census.push({
+                            orgUnit: school.id,
+                            year,
+                            level,
+                            boys,
+                            girls,
+                            teachers: Math.max(
+                                1,
+                                Math.round((boys + girls) / ptr)
+                            ),
+                            classrooms: Math.max(
+                                1,
+                                Math.round((boys + girls) / 45)
+                            ),
+                            latrines: Math.max(
+                                1,
+                                Math.round((boys + girls) / 60)
+                            ),
+                        })
                     })
-                })
             })
         })
     })
-    return { years, census, populationRows, overcrowded }
+    return { years, census, populationRows, overcrowded, redeployed }
 }
 
 // Adjusted gender parity index: symmetrical around 1 (UIS and GEM Report)
@@ -575,7 +607,39 @@ const post = {
     },
 
     content: (ctx, state) => {
-        const { years, overcrowded } = generate(ctx, state)
+        const { years, census, overcrowded, redeployed } = generate(ctx, state)
+        const censusOf = (school, year) =>
+            census.find((c) => c.orgUnit === school.id && c.year === year)
+        const ptrOf = (school, year) => {
+            const c = censusOf(school, year)
+            return Math.round((c.boys + c.girls) / c.teachers)
+        }
+        const latest = censusOf(overcrowded, years.at(-1))
+        const teachersNeeded =
+            Math.ceil((latest.boys + latest.girls) / PTR_NORM) - latest.teachers
+        // The schools of Bo town, coloured by the "School level" group set
+        const boTown = state.chiefdoms.find((c) => c.name === BO_TOWN_CHIEFDOM)
+        const schoolsMap = map({
+            key: 'post07_bo_town',
+            post: 7,
+            title: `Schools of ${BO_TOWN_CHIEFDOM} (Bo town) by level`,
+            description: `Primary and junior secondary schools of ${BO_TOWN_CHIEFDOM}, coloured by the "School level" group set; click a school for its profile.`,
+            basemap: 'openStreetMap',
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdom',
+                    orgUnits: [boTown.id],
+                    color: '#252525',
+                }),
+                boundaryLayer({
+                    name: 'Schools',
+                    orgUnits: [boTown.id, `OU_GROUP-${GROUPS.schools}`],
+                    groupSet: GROUP_SET,
+                    labels: '{name}',
+                    labelColor: '#000000',
+                }),
+            ],
+        })
         const maps = [
             schoolMap('primary', years),
             schoolMap('secondary', years),
@@ -599,12 +663,12 @@ const post = {
                         ],
                         legendSet: legendSets.ptr.id,
                         renderingStrategy: 'SPLIT_BY_PERIOD',
-                        bubble: true,
-                        radiusLow: 4,
-                        radiusHigh: 12,
+                        radiusLow: 6,
+                        opacity: 1,
                     }),
                 ],
             }),
+            schoolsMap,
         ]
         const name = state.districtName
         return {
@@ -616,9 +680,18 @@ const post = {
                 {
                     map: maps[0].id,
                     author: 'education_director',
-                    text: `${
-                        overcrowded.name
-                    } has more than 80 pupils per teacher, while the schools around it are within the norm of ${PTR_NORM}: two teachers can move there before the next term, no new posts needed. In junior secondary, girls are behind in ${name(
+                    text: `${overcrowded.name} has ${ptrOf(
+                        overcrowded,
+                        years.at(-1)
+                    )} pupils per teacher, while the schools around it are within the norm of ${PTR_NORM}: ${teachersNeeded} teachers can move there before the next term, no new posts needed. The moves to ${
+                        redeployed.name
+                    } after the ${years[0]} census worked: from ${ptrOf(
+                        redeployed,
+                        years[0]
+                    )} to ${ptrOf(
+                        redeployed,
+                        years.at(-1)
+                    )} pupils per teacher. In junior secondary, girls are behind in ${name(
                         DISTRICTS.kailahun
                     )} and boys in ${name(
                         DISTRICTS.bo
@@ -630,7 +703,7 @@ const post = {
     },
 
     checks: (ctx, state) => {
-        const { years, overcrowded } = generate(ctx, state)
+        const { years, overcrowded, redeployed } = generate(ctx, state)
         const year = years.at(-1)
         return [
             {
@@ -687,6 +760,24 @@ const post = {
                         detail: `${above.length} of ${
                             rows.length
                         } primary schools above ${PTR_NORM * 1.5}`,
+                    }
+                },
+            },
+            {
+                name: 'The redeployed school went from above 60 to within the norm',
+                path: `/api/analytics?dimension=dx:${indicatorId(
+                    IND.ptr
+                )}&dimension=pe:${years.join(';')}&filter=ou:${
+                    redeployed.id
+                }&skipMeta=true`,
+                evaluate: (rows) => {
+                    const v = Object.fromEntries(
+                        rows.map(([, pe, value]) => [pe, Number(value)])
+                    )
+                    const [before, after] = years.map((y) => v[String(y)])
+                    return {
+                        ok: before > PTR_NORM * 1.5 && after <= PTR_NORM,
+                        detail: `${redeployed.name}: ${before} in ${years[0]}, ${after} in ${years[1]}`,
                     }
                 },
             },

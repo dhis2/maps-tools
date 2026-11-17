@@ -215,6 +215,7 @@ const facilityLayer = ({
     hidden,
 })
 
+// groupSet: colours each org unit by its group in the set
 const boundaryLayer = ({
     name,
     level,
@@ -222,10 +223,12 @@ const boundaryLayer = ({
     color = '#333333',
     labels,
     labelColor = color,
+    groupSet,
 }) => ({
     layer: 'orgUnit',
     name,
     rows: orgUnitDimension(orgUnits, level),
+    ...(groupSet ? { organisationUnitGroupSet: { id: groupSet } } : {}),
     organisationUnitColor: color,
     opacity: 1,
     hidden: false,
