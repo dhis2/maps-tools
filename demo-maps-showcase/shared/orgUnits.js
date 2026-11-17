@@ -46,7 +46,13 @@ const loadOrgUnits = async (client, runDate) => {
         .filter(inSierraLeone)
         .sort(byId)
 
-    return { districts, chiefdoms, facilities }
+    // Schools of earlier runs, so Post 7 can clear the ones it no longer plans
+    const schools = organisationUnits
+        .filter((ou) => ou.level === 4 && isSchool(ou))
+        .map(({ id, code }) => ({ id, code }))
+        .sort(byId)
+
+    return { districts, chiefdoms, facilities, schools }
 }
 
 const facilitiesIn = (orgUnits, districtId) =>

@@ -14,16 +14,63 @@ const distanceKm = ([lon1, lat1], [lon2, lat2]) => {
     return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(a))
 }
 
-// Facility coordinates, for facilities that have a point
+// Ray casting: a point on the edge counts as either side
+const inRing = ([x, y], ring) => {
+    let inside = false
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const [xi, yi] = ring[i]
+        const [xj, yj] = ring[j]
+        if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+            inside = !inside
+        }
+    }
+    return inside
+}
+
+const inPolygon = (point, [outer, ...holes]) =>
+    inRing(point, outer) && !holes.some((hole) => inRing(point, hole))
+
+// For a GeoJSON Polygon or MultiPolygon
+const inGeometry = (point, { type, coordinates }) => {
+    if (type === 'Polygon') {
+        return inPolygon(point, coordinates)
+    }
+    if (type === 'MultiPolygon') {
+        return coordinates.some((polygon) => inPolygon(point, polygon))
+    }
+    return false
+}
+
+// Coordinates of the facilities whose point lies in their own district.
+// Some demo facilities have a point in another district (Modia MCHP, Kambia,
+// sits at Lungi, Port Loko); chiefdom boundaries are too coarse for the test.
 const loadFacilityPoints = async (client) => {
-    const { organisationUnits } = await client.get(
-        '/api/organisationUnits?filter=level:eq:4&filter=geometry:!null&fields=id,geometry&paging=false'
+    const [
+        { organisationUnits: facilities },
+        { organisationUnits: districts },
+    ] = await Promise.all([
+        client.get(
+            '/api/organisationUnits?filter=level:eq:4&filter=geometry:!null&fields=id,geometry,parent[parent[id]]&paging=false'
+        ),
+        client.get(
+            '/api/organisationUnits?filter=level:eq:2&filter=geometry:!null&fields=id,geometry&paging=false'
+        ),
+    ])
+    const districtGeometry = Object.fromEntries(
+        districts.map(({ id, geometry }) => [id, geometry])
     )
     return Object.fromEntries(
-        organisationUnits
-            .filter(({ geometry }) => geometry.type === 'Point')
+        facilities
+            .filter(({ geometry, parent }) => {
+                const district = districtGeometry[parent?.parent?.id]
+                return (
+                    geometry.type === 'Point' &&
+                    district &&
+                    inGeometry(geometry.coordinates, district)
+                )
+            })
             .map(({ id, geometry }) => [id, geometry.coordinates])
     )
 }
 
-module.exports = { distanceKm, loadFacilityPoints }
+module.exports = { distanceKm, inGeometry, loadFacilityPoints }

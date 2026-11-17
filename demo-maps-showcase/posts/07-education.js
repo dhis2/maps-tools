@@ -27,8 +27,9 @@ const SCHOOL_AGE_FILE = path.join(
 )
 
 const EDUCATION_DISTRICTS = ['bo', 'kenema', 'kailahun']
-// One junior secondary school for every third primary school
-const SECONDARY_EVERY = 3
+// About one junior secondary school for every third primary school, drawn
+// per facility so the choice holds when the facility list changes
+const SECONDARY_SHARE = 1 / 3
 // National norm: pupils per teacher
 const PTR_NORM = 40
 const GIRLS_SHARE = 0.49
@@ -98,8 +99,12 @@ const planSchools = (facilities, points) => {
     EDUCATION_DISTRICTS.forEach((key) => {
         facilities
             .filter((f) => f.districtId === DISTRICTS[key] && points[f.id])
-            .forEach((facility, i) => {
-                const levels = i % SECONDARY_EVERY === 0 ? LEVELS : [LEVELS[0]]
+            .forEach((facility) => {
+                const levels = randomFor('post7-secondary', facility.id).chance(
+                    SECONDARY_SHARE
+                )
+                    ? LEVELS
+                    : [LEVELS[0]]
                 levels.forEach((level) => {
                     const r = randomFor('post7-school', facility.id, level)
                     let name = `${townOf(facility.name)} ${LEVEL_NAMES[level]}`
@@ -357,16 +362,22 @@ const post = {
         ],
     },
 
-    prepare: async ({ client, orgUnits }) => ({
-        schools: planSchools(
+    prepare: async ({ client, orgUnits }) => {
+        const schools = planSchools(
             orgUnits.facilities,
             await loadFacilityPoints(client)
-        ),
-        chiefdoms: orgUnits.chiefdoms,
-        districtName: (id) => orgUnits.districts.find((d) => d.id === id)?.name,
-    }),
+        )
+        const planned = new Set(schools.map(({ id }) => id))
+        return {
+            schools,
+            staleSchools: orgUnits.schools.filter(({ id }) => !planned.has(id)),
+            chiefdoms: orgUnits.chiefdoms,
+            districtName: (id) =>
+                orgUnits.districts.find((d) => d.id === id)?.name,
+        }
+    },
 
-    metadata: ({ importerId }, { schools }) => {
+    metadata: ({ importerId }, { schools, staleSchools }) => {
         const members = (level) =>
             schools
                 .filter((s) => !level || s.level === level)
@@ -447,7 +458,9 @@ const post = {
                     key: CENSUS_DATA_SET,
                     name: 'Annual school census',
                     periodType: 'Yearly',
-                    orgUnits: schools,
+                    // Schools no longer planned stay, so the data step can
+                    // delete their values
+                    orgUnits: [...schools, ...staleSchools],
                     dataElements: [
                         ...enrolmentKeys,
                         DE.teachers,
@@ -494,7 +507,7 @@ const post = {
     },
 
     data: (ctx, state) => {
-        const { census, populationRows } = generate(ctx, state)
+        const { census, populationRows, years } = generate(ctx, state)
         const value = (key, orgUnit, year, v) => ({
             dataElement: dataElementId(key),
             orgUnit,
@@ -529,6 +542,32 @@ const post = {
                     dataSet: dataSetId(POPULATION_DATA_SET),
                     dataValues: populationRows.map((p) =>
                         value(p.key, p.orgUnit, p.year, p.value)
+                    ),
+                },
+                // Schools no longer planned keep no values, so district
+                // figures count only the schools on the map
+                {
+                    dataSet: dataSetId(CENSUS_DATA_SET),
+                    importStrategy: 'DELETE',
+                    dataValues: state.staleSchools.flatMap(({ id }) =>
+                        years.flatMap((year) =>
+                            [
+                                ...LEVELS.flatMap((level) =>
+                                    ['GIRLS', 'BOYS'].map((sex) =>
+                                        DE.enrolment(level, sex)
+                                    )
+                                ),
+                                DE.teachers,
+                                DE.classrooms,
+                                DE.latrines,
+                            ].map((key) => ({
+                                dataElement: dataElementId(key),
+                                orgUnit: id,
+                                period: String(year),
+                                categoryOptionCombo: DEFAULT_COC,
+                                attributeOptionCombo: DEFAULT_COC,
+                            }))
+                        )
                     ),
                 },
             ],
