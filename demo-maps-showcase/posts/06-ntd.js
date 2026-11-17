@@ -5,6 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
     earthEngineLayer,
     map,
@@ -78,7 +79,9 @@ const generate = ({ runDate }, { chiefdoms, worldPop }) => {
     chiefdoms.forEach((chiefdom) => {
         const story = storyOf(chiefdom.id)
         const random = randomFor('post6', chiefdom.id)
-        const ratio = story ? PLANTED[story].ratio : random.between(0.9, 1.1)
+        // Coverage stays below 100% outside the planted chiefdoms, so the one
+        // above 100% every round stands out
+        const ratio = story ? PLANTED[story].ratio : random.between(0.95, 1.1)
         years.forEach((year, i) => {
             const people = worldPop[year]?.[chiefdom.id]
             if (!people) {
@@ -87,7 +90,7 @@ const generate = ({ runDate }, { chiefdoms, worldPop }) => {
             const yearRandom = randomFor('post6', chiefdom.id, year)
             let trueCoverage = yearRandom.chance(0.08)
                 ? yearRandom.between(0.55, 0.72)
-                : yearRandom.between(0.8, 0.95)
+                : yearRandom.between(0.78, 0.92)
             if (story === 'lowDenominator' || story === 'highDenominator') {
                 trueCoverage = yearRandom.between(0.84, 0.9)
             }
@@ -110,9 +113,11 @@ const legendSets = {
     coverage: legendSet({
         key: 'MDA_COVERAGE_75',
         name: 'Showcase: MDA coverage, 75% threshold',
-        // ColorBrewer YlGn, purple for figures to check
+        // ColorBrewer YlGn, orange for a round that stopped early, purple for
+        // figures to check
         legends: [
-            { name: 'Below 65%', start: 0, end: 65, color: '#ffffcc' },
+            { name: 'Below 50%', start: 0, end: 50, color: '#fe9929' },
+            { name: '50 to 64%', start: 50, end: 65, color: '#ffffcc' },
             { name: '65 to 74%', start: 65, end: 75, color: '#c2e699' },
             { name: '75 to 100%', start: 75, end: 100, color: '#31a354' },
             {
@@ -146,7 +151,12 @@ const post = {
 
     prepare: async ({ orgUnits }) => {
         const { values } = JSON.parse(fs.readFileSync(WORLDPOP_FILE, 'utf8'))
-        return { chiefdoms: orgUnits.chiefdoms, worldPop: values }
+        return {
+            chiefdoms: orgUnits.chiefdoms,
+            worldPop: values,
+            districtName: (id) =>
+                orgUnits.districts.find((d) => d.id === id)?.name,
+        }
     },
 
     metadata: ({ importerId }, { chiefdoms }) => ({
@@ -247,7 +257,29 @@ const post = {
             post: 6,
             title: 'School-age denominator against WorldPop',
             description:
-                'WorldPop Global2 children aged 5 to 14, and the official school-age estimate over WorldPop by chiefdom.',
+                'The official school-age estimate over WorldPop Global2 children aged 5 to 14, by chiefdom.',
+            layers: [
+                thematicLayer({
+                    name: 'School-age denominator over WorldPop',
+                    dataItem: dataItem(IND.ratio),
+                    periods: ['LAST_YEAR'],
+                    level: 3,
+                    legendSet: legendSets.ratio.id,
+                }),
+            ],
+        })
+        // Where the school-age children of the low-denominator district live
+        const low = planted.lowDenominator
+        const lowDistrict = DISTRICTS[PLANTED.lowDenominator.district]
+        const childrenMap = map({
+            key: 'post06_children',
+            post: 6,
+            title: `School-age children around ${low.name}, WorldPop ${lastYear}`,
+            description: `WorldPop Global2 children aged 5 to 14 per hectare in ${state.districtName(
+                lowDistrict
+            )}, by chiefdom: ${
+                low.name
+            }'s official estimate counts far fewer children than live there.`,
             layers: [
                 earthEngineLayer({
                     name: 'Population age groups WorldPop Global2',
@@ -256,7 +288,8 @@ const post = {
                     year: lastYear,
                     style: {
                         min: 0,
-                        max: 6,
+                        // Rural areas hold under 2 children per hectare
+                        max: 2,
                         // ColorBrewer Purples
                         palette: [
                             '#f2f0f7',
@@ -266,16 +299,14 @@ const post = {
                             '#54278f',
                         ],
                     },
-                    level: 3,
+                    orgUnits: [lowDistrict, 'LEVEL-3'],
                 }),
-                // Light enough to see where children live through it
-                thematicLayer({
-                    name: 'School-age denominator over WorldPop',
-                    dataItem: dataItem(IND.ratio),
-                    periods: ['LAST_YEAR'],
-                    level: 3,
-                    legendSet: legendSets.ratio.id,
-                    opacity: 0.55,
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [lowDistrict, 'LEVEL-3'],
+                    color: '#525252',
+                    labels: '{name}',
+                    labelColor: '#000000',
                 }),
             ],
         })
@@ -286,20 +317,18 @@ const post = {
             )
             return (row.official / row.worldPop).toFixed(2)
         }
-        const low = planted.lowDenominator
         const high = planted.highDenominator
+        // Coverage, the denominator behind it, then where the children live
+        const maps = [coverageMap, denominatorMap, childrenMap]
 
         return {
-            maps: [
-                { map: coverageMap, teams: ['ntd'] },
-                { map: denominatorMap, teams: ['ntd'] },
-            ],
+            maps: maps.map((m) => ({ map: m, teams: ['ntd'] })),
             dashboards: [
                 dashboard({
                     key: 'post06',
                     post: 6,
                     title: 'NTD denominators',
-                    maps: [coverageMap, denominatorMap],
+                    maps,
                 }),
             ],
             interpretations: [
@@ -373,6 +402,27 @@ const post = {
                                         .join('/')}, ratio ${rat(story)}`
                             )
                             .join('; '),
+                    }
+                },
+            },
+            {
+                name: 'Only the low-denominator chiefdom reports above 100%',
+                path: `/api/analytics?dimension=dx:${coverage}&dimension=ou:${Object.values(
+                    DISTRICTS
+                ).join(';')};LEVEL-3&dimension=pe:${years.join(
+                    ';'
+                )}&skipMeta=true`,
+                evaluate: (rows) => {
+                    const above = new Set(
+                        rows
+                            .filter(([, , , value]) => Number(value) > 100)
+                            .map(([, ou]) => ou)
+                    )
+                    return {
+                        ok:
+                            above.size === 1 &&
+                            above.has(planted.lowDenominator.id),
+                        detail: `${above.size} chiefdoms above 100% in a round`,
                     }
                 },
             },
