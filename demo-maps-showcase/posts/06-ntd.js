@@ -48,7 +48,7 @@ const DATA_SET = 'NTD_MDA_YEARLY'
 const PLANTED = {
     // Official denominator far below WorldPop: above 100% every round
     lowDenominator: { district: 'portLoko', ratio: 0.68 },
-    // Official denominator far above WorldPop: looks red, isn't
+    // Official denominator far above WorldPop: looks low, isn't
     highDenominator: { district: 'kenema', ratio: 1.42 },
     // A partial round in the middle year
     partialRound: { district: 'bombali', ratio: 1 },
@@ -312,7 +312,7 @@ const post = {
                         low.id
                     )} of WorldPop's. ${
                         high.name
-                    } looks red, but its estimate is ${ratioOf(
+                    } looks below 65% coverage, but its estimate is ${ratioOf(
                         high.id
                     )} of WorldPop's. @show_hmis_officer can we check both against the school enrolment lists before the Joint Application Package?`,
                     comments: [

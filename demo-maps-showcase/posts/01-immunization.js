@@ -50,7 +50,7 @@ const PROFILES = {
 }
 
 // Recording errors: more Penta3 than Penta1 doses
-const NEGATIVE_DROPOUT_DISTRICTS = ['bo', 'kenema']
+const NEGATIVE_DROPOUT_DISTRICTS = ['bo', 'kenema', 'koinadugu']
 
 const category = ({ coverage, dropout }) => {
     if (coverage >= 90) {
@@ -63,24 +63,31 @@ const legendSets = {
     coverage: legendSet({
         key: 'PENTA1_COVERAGE',
         name: 'Showcase: Penta1 coverage (RED cut-offs)',
-        // ColorBrewer RdBu, with purple for figures to check
+        // ColorBrewer RdBu, with purple for figures to check; light enough for
+        // black district labels
         legends: [
-            { name: 'Below 80%', start: 0, end: 80, color: '#b2182b' },
-            { name: '80 to 89%', start: 80, end: 90, color: '#ef8a62' },
-            { name: '90 to 100%', start: 90, end: 100, color: '#67a9cf' },
+            { name: 'Below 80%', start: 0, end: 80, color: '#d6604d' },
+            { name: '80 to 89%', start: 80, end: 90, color: '#f4a582' },
+            { name: '90 to 100%', start: 90, end: 100, color: '#92c5de' },
             {
                 name: 'Above 100% (check)',
                 start: 100,
                 end: 1000,
-                color: '#762a83',
+                color: '#9970ab',
             },
         ],
     }),
     category: legendSet({
         key: 'RED_REC_CATEGORY',
         name: 'Showcase: RED/REC category',
-        // ColorBrewer RdYlBu
+        // ColorBrewer RdYlBu, with purple for figures to check
         legends: [
+            {
+                name: '0: over 100%, check',
+                start: 0,
+                end: 1,
+                color: '#9970ab',
+            },
             { name: '1: no problem', start: 1, end: 2, color: '#91bfdb' },
             { name: '2: utilization', start: 2, end: 3, color: '#fee090' },
             { name: '3: access', start: 3, end: 4, color: '#fc8d59' },
@@ -92,7 +99,13 @@ const legendSets = {
         name: 'Showcase: Penta1 to Penta3 dropout by facility',
         // ColorBrewer RdYlBu, red where defaulters are most
         legends: [
-            { name: 'Below 10%', start: -100, end: 10, color: '#4575b4' },
+            {
+                name: 'Below 0% (check)',
+                start: -100,
+                end: 0,
+                color: '#9970ab',
+            },
+            { name: '0 to 9.9%', start: 0, end: 10, color: '#4575b4' },
             { name: '10 to 14.9%', start: 10, end: 15, color: '#fee090' },
             { name: '15 to 19.9%', start: 15, end: 20, color: '#fc8d59' },
             { name: '20% and above', start: 20, end: 100, color: '#d73027' },
@@ -131,15 +144,18 @@ const PENTA1_UNDER_1 = `(#{${PENTA1}.${FIXED_UNDER_1}}+#{${PENTA1}.${OUTREACH_UN
 const PENTA3_UNDER_1 = `(#{${PENTA3}.${FIXED_UNDER_1}}+#{${PENTA3}.${OUTREACH_UNDER_1}})`
 const LOW_DROPOUT = `(${PENTA1_UNDER_1}-${PENTA3_UNDER_1})/${PENTA1_UNDER_1} < 0.1`
 
-// The category follows the same 90% and 10% cut-offs as category() below
+const PENTA1_COVERAGE_RATIO = `${PENTA1_UNDER_1}/#{${POPULATION_UNDER_1}}`
+
+// The category follows the same 90% and 10% cut-offs as category() below;
+// 0 flags coverage above 100%, a denominator to check
 const categoryIndicator = indicator({
     key: 'EPI_RED_REC_CATEGORY',
     name: 'RED/REC category (Penta)',
     type: 'number',
-    numerator: `if(${PENTA1_UNDER_1}/#{${POPULATION_UNDER_1}} >= 0.9, if(${LOW_DROPOUT}, 1, 2), if(${LOW_DROPOUT}, 3, 4))`,
+    numerator: `if(${PENTA1_COVERAGE_RATIO} > 1, 0, if(${PENTA1_COVERAGE_RATIO} >= 0.9, if(${LOW_DROPOUT}, 1, 2), if(${LOW_DROPOUT}, 3, 4)))`,
     denominator: '1',
     description:
-        '1: coverage 90% or more and dropout below 10%. 2: dropout 10% or more. 3: coverage below 90%. 4: both.',
+        '0: coverage above 100%, check the denominator. 1: coverage 90% or more and dropout below 10%. 2: dropout 10% or more. 3: coverage below 90%. 4: both.',
     decimals: 0,
 })
 
@@ -182,11 +198,17 @@ const populationOf = (population, orgUnitId, year) => {
     return y === undefined ? undefined : byYear[y]
 }
 
+// Each facility keeps its own dropout level, so a district's facilities
+// rank on the map; monthly noise comes on top
+const FACILITY_SPREAD = 8
+const MONTHLY_NOISE = 3
+
 const generateDistrict = ({
     key,
     districtId,
     facilities,
     population,
+    points,
     months,
 }) => {
     const profile = PROFILES[key]
@@ -198,9 +220,17 @@ const generateDistrict = ({
         (f) => populationOf(population, f.id, latestYear) ?? 0
     )
     const totalWeight = weights.reduce((sum, w) => sum + w, 0)
+    // With a point, so the facility maps show it
     const negativeFacility = NEGATIVE_DROPOUT_DISTRICTS.includes(key)
-        ? inDistrict.find((f) => population[f.id])?.id
+        ? inDistrict.find((f) => population[f.id] && (!points || points[f.id]))
+              ?.id
         : undefined
+    const offsets = inDistrict.map((f) =>
+        randomFor('post1-dropout', f.id).between(
+            -FACILITY_SPREAD,
+            FACILITY_SPREAD
+        )
+    )
 
     const doses = []
     months.forEach((month) => {
@@ -224,10 +254,10 @@ const generateDistrict = ({
                     ? -random.between(0.05, 0.1)
                     : Math.max(
                           0.005,
-                          random.between(
-                              profile.dropout - 4,
-                              profile.dropout + 4
-                          ) / 100
+                          (profile.dropout +
+                              offsets[i] +
+                              random.between(-MONTHLY_NOISE, MONTHLY_NOISE)) /
+                              100
                       )
             doses.push({
                 orgUnit: facility.id,
@@ -242,10 +272,17 @@ const generateDistrict = ({
     return { doses, negativeFacility }
 }
 
-const generate = ({ runDate }, { facilities, population }) => {
+const generate = ({ runDate }, { facilities, population, points }) => {
     const months = lastMonths(runDate, MONTHS)
     const results = Object.entries(DISTRICTS).map(([key, districtId]) =>
-        generateDistrict({ key, districtId, facilities, population, months })
+        generateDistrict({
+            key,
+            districtId,
+            facilities,
+            population,
+            points,
+            months,
+        })
     )
     return {
         months,
@@ -403,6 +440,7 @@ const post = {
                     level: 2,
                     legendSet: legendSets.category.id,
                     labels: '{name}',
+                    labelColor: '#000000',
                 }),
             ],
         })
@@ -428,6 +466,7 @@ const post = {
                     level: 2,
                     color: '#252525',
                     labels: '{name}',
+                    labelColor: '#000000',
                 }),
             ],
         })

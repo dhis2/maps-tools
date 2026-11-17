@@ -21,9 +21,9 @@ test('each district lands in its planned RED/REC category over the last 12 month
     assert.ok(summary.westernArea.coverage > 100)
 })
 
-test('two facilities record more Penta3 than Penta1 doses', () => {
+test('one facility in each of Bo, Kenema and Koinadugu records more Penta3 than Penta1 doses', () => {
     const generated = post.generate(ctx, { facilities, population })
-    assert.equal(generated.negativeFacilities.length, 2)
+    assert.equal(generated.negativeFacilities.length, 3)
     generated.negativeFacilities.forEach((id) => {
         const rows = generated.doses.filter(({ orgUnit }) => orgUnit === id)
         const penta1 = rows.reduce((sum, d) => sum + d.penta1, 0)

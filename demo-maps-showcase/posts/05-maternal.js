@@ -152,12 +152,13 @@ const legendSets = {
     access: legendSet({
         key: 'EMONC_ACCESS',
         name: 'Showcase: population within two hours of EmONC (EPMM 60%)',
-        // ColorBrewer PuOr: orange where access falls short
+        // ColorBrewer PuOr: orange where access falls short; light enough for
+        // black labels
         legends: [
             { name: 'Below 50%', start: 0, end: 50, color: '#e66101' },
             { name: '50 to 59%', start: 50, end: 60, color: '#fdb863' },
             { name: '60 to 79%', start: 60, end: 80, color: '#b2abd2' },
-            { name: '80% and above', start: 80, end: 100, color: '#5e3c99' },
+            { name: '80% and above', start: 80, end: 100, color: '#8073ac' },
         ],
     }),
 }
@@ -210,6 +211,12 @@ const post = {
             coverage,
             facilityName: (id) =>
                 orgUnits.facilities.find((f) => f.id === id)?.name,
+            emoncIn: (districtId) =>
+                emonc.filter(({ id }) =>
+                    orgUnits.facilities.some(
+                        (f) => f.id === id && f.districtId === districtId
+                    )
+                ),
             districtName: (id) =>
                 orgUnits.districts.find((d) => d.id === id)?.name,
         }
@@ -408,6 +415,7 @@ const post = {
                     level: 2,
                     legendSet: legendSets.access.id,
                     labels: '{name}\n{value}',
+                    labelColor: '#000000',
                 }),
             ],
         })
@@ -467,9 +475,15 @@ const post = {
                     author: 'rh_planner',
                     text: `${name(lowest.district)} has ${
                         lowest.share
-                    }% of its population within two hours of EmONC, against the EPMM target of 60%, and no basic EmONC facility outside its hospital. Shortlist for this year's plan: upgrade two health centres in ${name(
+                    }% of its population within two hours of EmONC, against the EPMM target of 60%, and ${new Intl.ListFormat(
+                        'en'
+                    ).format(
+                        state
+                            .emoncIn(lowest.district)
+                            .map(({ id }) => state.facilityName(id))
+                    )} as its only EmONC facility. Shortlist for this year's plan: upgrade two health centres in ${name(
                         lowest.district
-                    )} to basic EmONC and open a maternity waiting home next to the hospital. @show_facility_incharge please confirm staffing for the signal functions.`,
+                    )} to basic EmONC and open a maternity waiting home next to it. @show_facility_incharge please confirm staffing for the signal functions.`,
                     comments: [
                         {
                             author: 'facility_incharge',
