@@ -94,6 +94,7 @@ const populationValueSets = () => [
 ]
 
 module.exports = {
+    chiefdomPopulation,
     districtPopulation,
     populationId,
     populationMetadata,

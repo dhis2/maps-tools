@@ -19,6 +19,7 @@ const {
     indicatorId,
 } = require('../shared/metadata.js')
 const {
+    chiefdomPopulation,
     districtPopulation,
     populationId,
     populationMetadata,
@@ -78,19 +79,41 @@ const incidence = (climate, key, districtId, id) => {
     )
 }
 
-const generate = ({ runDate }, { facilities, climate, population }) => {
+// A district's cases go to its chiefdoms by population, so chiefdom rates
+// follow the district's rain; facilities of a chiefdom share its cases
+const facilityWeights = (inDistrict, chiefdomPeople) => {
+    const facilitiesIn = {}
+    inDistrict.forEach((f) => {
+        facilitiesIn[f.chiefdomId] = (facilitiesIn[f.chiefdomId] || 0) + 1
+    })
+    return inDistrict.map(
+        (f) =>
+            ((chiefdomPeople?.[f.chiefdomId] ?? 0) /
+                facilitiesIn[f.chiefdomId]) *
+            randomFor('post2-weight', f.id).between(0.85, 1.15)
+    )
+}
+
+const generate = (
+    { runDate },
+    { facilities, climate, population, chiefdomPopulation: chiefdomPeople }
+) => {
     const months = lastMonths(runDate, MONTHS)
     const latestYear = (year) =>
         population[year] ??
         population[Math.max(...Object.keys(population).map(Number))]
+    const lastYear = String(months.at(-1).year)
     const rows = []
     const climateRows = []
     Object.entries(DISTRICTS).forEach(([key, districtId]) => {
         const inDistrict = facilities.filter((f) => f.districtId === districtId)
-        const weights = inDistrict.map((f) =>
-            randomFor('post2-weight', f.id).between(0.3, 1.7)
-        )
+        const weights = facilityWeights(inDistrict, chiefdomPeople[lastYear])
         const total = weights.reduce((a, b) => a + b, 0)
+        if (inDistrict.length && !total) {
+            throw new Error(
+                `No chiefdom population for the facilities of ${key}`
+            )
+        }
         months.forEach(({ id, year }) => {
             const cases =
                 (incidence(climate, key, districtId, id) *
@@ -124,13 +147,14 @@ const legendSets = {
     incidence: legendSet({
         key: 'MALARIA_INCIDENCE_MONTHLY',
         name: 'Showcase: confirmed malaria cases per 1,000 per month',
-        // ColorBrewer YlOrRd
+        // ColorBrewer YlOrRd, up to the peak of the rainy season so the
+        // months after the rain keep darkening
         legends: [
-            { name: 'Below 3', start: 0, end: 3, color: '#ffffb2' },
-            { name: '3 to 5.9', start: 3, end: 6, color: '#fecc5c' },
-            { name: '6 to 9.9', start: 6, end: 10, color: '#fd8d3c' },
-            { name: '10 to 14.9', start: 10, end: 15, color: '#f03b20' },
-            { name: '15 and above', start: 15, end: 1000, color: '#bd0026' },
+            { name: 'Below 5', start: 0, end: 5, color: '#ffffb2' },
+            { name: '5 to 9.9', start: 5, end: 10, color: '#fecc5c' },
+            { name: '10 to 19.9', start: 10, end: 20, color: '#fd8d3c' },
+            { name: '20 to 29.9', start: 20, end: 30, color: '#f03b20' },
+            { name: '30 and above', start: 30, end: 1000, color: '#bd0026' },
         ],
     }),
 }
@@ -144,6 +168,7 @@ const post = {
         districtName: (id) => orgUnits.districts.find((d) => d.id === id)?.name,
         climate: readClimate(),
         population: districtPopulation(),
+        chiefdomPopulation: chiefdomPopulation(),
     }),
 
     metadata: ({ importerId }, { facilities }) => {
@@ -321,6 +346,25 @@ const post = {
             ],
         })
         const irrigated = state.districtName(DISTRICTS[IRRIGATED_DISTRICT])
+        // The irrigated district's peak month of the season year, outside
+        // the maps' July to September
+        const peakMonth = Array.from({ length: 12 }, (_, i) =>
+            monthId(year, i + 1)
+        )
+            .filter((id) => id <= lastMonths(ctx.runDate, 1)[0].id)
+            .map((id) => ({
+                id,
+                value: incidence(
+                    state.climate,
+                    IRRIGATED_DISTRICT,
+                    DISTRICTS[IRRIGATED_DISTRICT],
+                    id
+                ),
+            }))
+            .reduce((a, b) => (b.value > a.value ? b : a)).id
+        const peakName = new Date(
+            Date.UTC(year, Number(peakMonth.slice(4)) - 1, 1)
+        ).toLocaleString('en', { month: 'long', timeZone: 'UTC' })
         return {
             maps: [rainMap, casesMap, bothMap].map((m) => ({
                 map: m,
@@ -338,7 +382,7 @@ const post = {
                 {
                     map: bothMap.id,
                     author: 'surveillance_lead',
-                    text: `Cases follow the rain by one to two months almost everywhere: the wettest districts in July are the darkest in August and September. ${irrigated} is the exception: cases are high in the dry months too. Irrigation around the sugar estate? @show_hmis_officer can we check testing and net distribution there before we change the chemoprevention calendar?`,
+                    text: `Cases follow each district's own rain by one to two months almost everywhere: the districts get darker from July to September as the rains go on. ${irrigated} is the exception: it stays pale in these months, and its cases peaked in ${peakName}, in the dry season. Irrigation around the sugar estate? @show_hmis_officer can we check testing and net distribution there before we change the chemoprevention calendar?`,
                     comments: [
                         {
                             author: 'hmis_officer',
