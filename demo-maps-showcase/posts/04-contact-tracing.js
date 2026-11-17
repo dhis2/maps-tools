@@ -1,9 +1,10 @@
 // Post 4 · Who hasn't been seen today? Ebola cases and their contacts in two
 // tracker programs, linked by a relationship type, with daily follow-up.
-const { loadFacilityPoints } = require('../shared/geometry.js')
+const { distanceKm, loadFacilityPoints } = require('../shared/geometry.js')
 const { indicator } = require('../shared/metadata.js')
 const { legendSet } = require('../shared/legendSets.js')
 const {
+    boundaryLayer,
     dashboard,
     eventLayer,
     map,
@@ -20,7 +21,7 @@ const {
     program,
     programIndicator,
     relationshipType,
-    styleByOptions,
+    styleByBoolean,
     trackerDataElement,
 } = require('../shared/tracker.js')
 const { addDays, isoDate } = require('../periods.js')
@@ -32,6 +33,7 @@ const INVESTIGATION = 'EBOLA_CASE_INVESTIGATION'
 const FOLLOW_UP = 'EBOLA_FOLLOW_UP_VISIT'
 const DE = {
     classification: 'EBOLA_CLASSIFICATION',
+    knownContact: 'EBOLA_KNOWN_CONTACT',
     seen: 'EBOLA_CONTACT_SEEN',
 }
 const PI = { seen: 'EBOLA_VISITS_SEEN', visits: 'EBOLA_VISITS' }
@@ -51,6 +53,9 @@ const SEEN = 0.975
 const SEEN_LOW = 0.8
 // Contacts living away from their index case
 const AWAY_SHARE = 0.1
+// Household and neighbourhood contacts, far enough apart for the lines to
+// their case to show on the close-up
+const CONTACT_SPREAD_KM = 1.5
 // Recent cases: some were known contacts, two came from outside known chains
 const KNOWN_CONTACT_CASES = 3
 
@@ -82,8 +87,14 @@ const near = (random, [lon, lat], km) => {
     ]
 }
 
-// Facilities with a point in the outbreak districts, and the health area
-// (chiefdom) where follow-up falls short: the busiest one
+// Half of the index cases live in the health area where follow-up falls
+// short, the others within this distance of it: an outbreak with a centre
+const LOW_AREA_SHARE = 0.5
+const NEAR_KM = 30
+
+// Facilities with a point in the outbreak districts, the health area
+// (chiefdom) where follow-up falls short (the busiest one), its facilities
+// and those near it
 const outbreakArea = (facilities, points) => {
     const inArea = facilities.filter(
         (f) =>
@@ -97,18 +108,32 @@ const outbreakArea = (facilities, points) => {
     const [lowChiefdom] = Object.entries(counts).sort(
         ([a, x], [b, y]) => y - x || a.localeCompare(b)
     )[0]
-    return { inArea, lowChiefdom }
+    const inLow = inArea.filter((f) => f.chiefdomId === lowChiefdom)
+    const centre = [0, 1].map(
+        (i) => inLow.reduce((sum, f) => sum + points[f.id][i], 0) / inLow.length
+    )
+    const nearLow = inArea.filter(
+        (f) =>
+            f.chiefdomId === lowChiefdom ||
+            distanceKm(points[f.id], centre) <= NEAR_KM
+    )
+    return { inArea, lowChiefdom, inLow, nearLow }
 }
 
+// Ids include the org unit. An import doesn't move a tracked entity's program
+// owner, which maps filter by, and a deleted id can't be created again: a
+// record that moves gets a new id, and the old one goes as stale.
+const recordId = (type, key, orgUnit) => id(type, `post4:${key}@${orgUnit}`)
+
 const tei = (key, orgUnit, location) => ({
-    trackedEntity: id('trackedEntity', `post4:${key}`),
+    trackedEntity: recordId('trackedEntity', key, orgUnit),
     trackedEntityType: PERSON,
     orgUnit,
     geometry: point(location),
 })
 
 const enrollment = (key, teiId, programKey, orgUnit, date, status) => ({
-    enrollment: id('enrollment', `post4:${key}`),
+    enrollment: recordId('enrollment', key, orgUnit),
     trackedEntity: teiId,
     program: id('program', programKey),
     orgUnit,
@@ -124,9 +149,10 @@ const caseEvent = (
     orgUnit,
     date,
     classification,
-    location
+    location,
+    knownContact
 ) => ({
-    event: id('event', `post4:${key}`),
+    event: recordId('event', key, orgUnit),
     enrollment: enrollmentId,
     program: id('program', CASES),
     programStage: id('programStage', INVESTIGATION),
@@ -139,11 +165,16 @@ const caseEvent = (
             dataElement: id('dataElement', DE.classification),
             value: classification,
         },
+        {
+            dataElement: id('dataElement', DE.knownContact),
+            value: String(knownContact),
+        },
     ],
 })
 
 const generate = ({ runDate }, { facilities, points }) => {
-    const { inArea, lowChiefdom } = outbreakArea(facilities, points)
+    const { lowChiefdom, inLow, nearLow } = outbreakArea(facilities, points)
+    const pick = (random, list) => list[random.int(0, list.length - 1)]
     const out = {
         trackedEntities: [],
         enrollments: [],
@@ -155,7 +186,7 @@ const generate = ({ runDate }, { facilities, points }) => {
     // Index cases, one every day or two, each with its contacts
     for (let c = 0; c < CASE_COUNT; c++) {
         const r = randomFor('post4-case', c)
-        const facility = inArea[r.int(0, inArea.length - 1)]
+        const facility = pick(r, r.chance(LOW_AREA_SHARE) ? inLow : nearLow)
         const daysAgo = Math.round(
             OUTBREAK_DAYS - (c * (OUTBREAK_DAYS - 8)) / CASE_COUNT
         )
@@ -179,7 +210,8 @@ const generate = ({ runDate }, { facilities, points }) => {
                 facility.id,
                 date,
                 r.chance(0.8) ? 'CONFIRMED' : 'PROBABLE',
-                home
+                home,
+                false
             )
         )
 
@@ -187,12 +219,10 @@ const generate = ({ runDate }, { facilities, points }) => {
             const key = `contact:${c}:${k}`
             const rc = randomFor('post4', key)
             const away = rc.chance(AWAY_SHARE)
-            const contactFacility = away
-                ? inArea[rc.int(0, inArea.length - 1)]
-                : facility
+            const contactFacility = away ? pick(rc, nearLow) : facility
             const location = away
                 ? near(rc, points[contactFacility.id], 2)
-                : near(rc, home, 0.5)
+                : near(rc, home, CONTACT_SPREAD_KM)
             const exposure = addDays(date, -rc.int(0, 2))
             const followUpEnd = addDays(exposure, FOLLOW_UP_DAYS)
             const completed = followUpEnd < runDate
@@ -208,7 +238,7 @@ const generate = ({ runDate }, { facilities, points }) => {
             out.trackedEntities.push(contactTei)
             out.enrollments.push(contactEnrollment)
             out.relationships.push({
-                relationship: id('relationship', `post4:${key}`),
+                relationship: recordId('relationship', key, contactFacility.id),
                 relationshipType: id('relationshipType', RELATIONSHIP),
                 from: {
                     trackedEntity: { trackedEntity: caseTei.trackedEntity },
@@ -234,7 +264,11 @@ const generate = ({ runDate }, { facilities, points }) => {
                 }
                 const rv = randomFor('post4-visit', key, day)
                 out.events.push({
-                    event: id('event', `post4:${key}:${day}`),
+                    event: recordId(
+                        'event',
+                        `${key}:${day}`,
+                        contactFacility.id
+                    ),
                     enrollment: contactEnrollment.enrollment,
                     program: id('program', CONTACTS),
                     programStage: id('programStage', FOLLOW_UP),
@@ -258,8 +292,11 @@ const generate = ({ runDate }, { facilities, points }) => {
     for (let n = 0; n < KNOWN_CONTACT_CASES; n++) {
         const contact = contacts[n * 37 + 5]
         const date = addDays(runDate, -(n + 1))
+        // The contact's own id in the key: a new contact record means a new
+        // case enrollment
+        const knownKey = `known:${n}:${contact.tei.trackedEntity}`
         const caseEnrollment = enrollment(
-            `known:${n}`,
+            knownKey,
             contact.tei.trackedEntity,
             CASES,
             contact.facility.id,
@@ -269,12 +306,13 @@ const generate = ({ runDate }, { facilities, points }) => {
         out.enrollments.push(caseEnrollment)
         out.events.push(
             caseEvent(
-                `known:${n}`,
+                knownKey,
                 caseEnrollment.enrollment,
                 contact.facility.id,
                 date,
                 'CONFIRMED',
-                contact.location
+                contact.location,
+                true
             )
         )
         recent.push({ known: true, facility: contact.facility })
@@ -305,7 +343,8 @@ const generate = ({ runDate }, { facilities, points }) => {
                 facility.id,
                 date,
                 'CONFIRMED',
-                home
+                home,
+                false
             )
         )
         recent.push({ known: false, facility })
@@ -321,7 +360,8 @@ const legendSets = {
         legends: [
             { name: 'Below 90%', start: 0, end: 90, color: '#ae017e' },
             { name: '90 to 95%', start: 90, end: 95, color: '#f768a1' },
-            { name: 'Above 95%', start: 95, end: 100, color: '#fde0dd' },
+            // Visible against the basemap, unlike areas without contacts
+            { name: 'Above 95%', start: 95, end: 100, color: '#fcc5c0' },
         ],
     }),
 }
@@ -367,6 +407,11 @@ const post = {
                         optionSetKey: 'EBOLA_CLASSIFICATION',
                     }),
                     trackerDataElement({
+                        key: DE.knownContact,
+                        name: 'Known contact before onset',
+                        valueType: 'BOOLEAN',
+                    }),
+                    trackerDataElement({
                         key: DE.seen,
                         name: 'Contact seen at visit',
                         optionSetKey: 'EBOLA_CONTACT_SEEN',
@@ -383,7 +428,7 @@ const post = {
                     {
                         key: INVESTIGATION,
                         name: 'Case investigation',
-                        dataElements: [DE.classification],
+                        dataElements: [DE.classification, DE.knownContact],
                     },
                 ],
             }),
@@ -456,7 +501,7 @@ const post = {
             post: 4,
             title: "Who hasn't been seen today?",
             description:
-                'Contacts seen at daily visits in the last 7 days by chiefdom, contacts under follow-up and completed, cases with their contacts, and new cases.',
+                'Contacts seen at daily visits in the last 7 days by chiefdom, cases, and new cases of the last 7 days by whether they were known contacts.',
             layers: [
                 thematicLayer({
                     name: 'Contacts seen at daily visits, last 7 days',
@@ -467,60 +512,96 @@ const post = {
                     periods: ['LAST_7_DAYS'],
                     orgUnits: [...AREA, 'LEVEL-3'],
                     legendSet: legendSets.followUp.id,
-                    opacity: 0.7,
+                    opacity: 0.85,
+                }),
+                boundaryLayer({
+                    name: 'Districts',
+                    orgUnits: AREA,
+                    color: '#252525',
+                    labels: '{name}',
+                    labelColor: '#000000',
+                }),
+                trackedEntityLayer({
+                    name: 'Cases',
+                    programId: id('program', CASES),
+                    orgUnits: AREA,
+                    color: '#000000',
+                    radius: 5,
+                }),
+                eventLayer({
+                    name: 'New cases, last 7 days',
+                    programId: id('program', CASES),
+                    stageId: id('programStage', INVESTIGATION),
+                    periods: ['LAST_7_DAYS'],
+                    orgUnits: AREA,
+                    radius: 9,
+                    styleDataItem: styleByBoolean(DE.knownContact, {
+                        yes: '#2171b5',
+                        no: '#e31a1c',
+                    }),
+                }),
+            ],
+        })
+        // The health area where follow-up falls short: contacts by status,
+        // and on top each case with lines to small dots inside its contacts
+        const lowArea = [lowChiefdom]
+        const closeUp = map({
+            key: 'post04_low_area',
+            post: 4,
+            title: `Contacts to visit in ${chiefdomName(lowChiefdom)}`,
+            description: `Cases in ${chiefdomName(
+                lowChiefdom
+            )} with lines to their contacts, and contacts under follow-up or done with it.`,
+            basemap: 'openStreetMap',
+            layers: [
+                boundaryLayer({
+                    name: 'Chiefdom',
+                    orgUnits: lowArea,
+                    color: '#252525',
+                    labels: '{name}',
                 }),
                 trackedEntityLayer({
                     name: 'Contacts, follow-up completed',
                     programId: id('program', CONTACTS),
                     programStatus: 'COMPLETED',
-                    orgUnits: AREA,
-                    color: '#969696',
-                    radius: 3,
+                    orgUnits: lowArea,
+                    color: '#bdbdbd',
+                    radius: 6,
                 }),
                 trackedEntityLayer({
                     name: 'Contacts under follow-up',
                     programId: id('program', CONTACTS),
                     programStatus: 'ACTIVE',
-                    orgUnits: AREA,
+                    orgUnits: lowArea,
                     color: '#2171b5',
-                    radius: 4,
+                    radius: 6,
                 }),
                 trackedEntityLayer({
                     name: 'Cases and their contacts',
                     programId: id('program', CASES),
-                    orgUnits: AREA,
+                    orgUnits: lowArea,
                     color: '#000000',
-                    radius: 6,
+                    radius: 7,
                     relationship: {
                         typeId: id('relationshipType', RELATIONSHIP),
-                        pointColor: '#2171b5',
-                        pointRadius: 3,
-                        lineColor: '#252525',
+                        pointColor: '#252525',
+                        pointRadius: 2,
+                        lineColor: '#525252',
                     },
-                }),
-                eventLayer({
-                    name: 'New cases',
-                    programId: id('program', CASES),
-                    stageId: id('programStage', INVESTIGATION),
-                    periods: ['LAST_30_DAYS'],
-                    orgUnits: AREA,
-                    radius: 8,
-                    styleDataItem: styleByOptions(
-                        DE.classification,
-                        options.classification
-                    ),
                 }),
             ],
         })
         const unknown = recent.filter(({ known }) => !known)
+        // The outbreak area, then the health area to act on
+        const maps = [tracing, closeUp]
         return {
-            maps: [{ map: tracing, teams: ['surveillance'] }],
+            maps: maps.map((m) => ({ map: m, teams: ['surveillance'] })),
             dashboards: [
                 dashboard({
                     key: 'post04',
                     post: 4,
                     title: 'Outbreak contact follow-up',
-                    maps: [tracing],
+                    maps,
                 }),
             ],
             interpretations: [

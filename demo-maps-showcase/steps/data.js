@@ -73,6 +73,9 @@ const TRACKER_IMPORT =
     '/api/tracker?async=false&importStrategy=CREATE_AND_UPDATE&atomicMode=OBJECT'
 const TRACKER_DELETE = '/api/tracker?async=false&importStrategy=DELETE'
 const TRACKER_CHUNK = 2000
+// Deleting a tracked entity deletes its enrollments and events too: 2,000 at
+// once ran past play's gateway timeout
+const TRACKED_ENTITY_DELETE_CHUNK = 100
 
 const postTracker = async (client, path, payload) => {
     const result = await client.post(path, payload).catch((err) => {
@@ -117,7 +120,7 @@ const deleteStaleTracker = async (client, tracker) => {
             'trackedEntity'
         )
         const stale = entities.filter((t) => !keepEntities.has(t))
-        for (const chunk of chunks(stale, TRACKER_CHUNK)) {
+        for (const chunk of chunks(stale, TRACKED_ENTITY_DELETE_CHUNK)) {
             await postTracker(client, TRACKER_DELETE, {
                 trackedEntities: chunk.map((t) => ({ trackedEntity: t })),
             })
