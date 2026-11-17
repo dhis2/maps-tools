@@ -81,6 +81,7 @@ const seasonRain = (climate) => {
     })
     const driest = [...sums].sort((a, b) => a.ratio - b.ratio)[0]
     if (driest.ratio >= 0.75) {
+        driest.realRatio = driest.ratio
         driest.rain = driest.normal * DRY_SHARE
         driest.ratio = DRY_SHARE
         driest.planted = true
@@ -306,6 +307,16 @@ const post = {
     content: (ctx, state) => {
         const { rain } = generate(ctx, state)
         const referenceYear = rain.year - 2
+        // The rain value set for the demo next to real satellite images
+        const plantedNote = rain.driest.planted
+            ? ` ${state.districtName(
+                  rain.driest.districtId
+              )}'s rain is set to ${Math.round(
+                  DRY_SHARE * 100
+              )}% of normal for the demo; CHIRPS measured ${Math.round(
+                  rain.driest.realRatio * 100
+              )}%.`
+            : ''
         const insecureBubbles = thematicLayer({
             name: 'Households assessed as food insecure',
             dataItem: {
@@ -372,7 +383,7 @@ const post = {
             key: 'post12_rain',
             post: 12,
             title: `Rainfall against normal, season ${rain.year}`,
-            description: `CHIRPS rainfall since April ${rain.year} as a share of the 1991-2020 normal, and households assessed as food insecure in the last two weeks, by district.`,
+            description: `CHIRPS rainfall since April ${rain.year} as a share of the 1991-2020 normal, and households assessed as food insecure in the last two weeks, by district.${plantedNote}`,
             layers: [
                 thematicLayer({
                     name: 'Rainfall since season start, % of normal',
@@ -397,9 +408,9 @@ const post = {
             }`,
             description: `MODIS vegetation index in ${name(
                 rain.driest.districtId
-            )}, the driest district of the season, by chiefdom: August ${
+            )} by chiefdom: August ${
                 rain.year
-            }, and the reference year ${referenceYear} to switch on.`,
+            }, and the reference year ${referenceYear} to switch on. The vegetation is the real satellite image.${plantedNote}`,
             basemap: 'sentinel2eox',
             layers: [
                 ndviLayer(
