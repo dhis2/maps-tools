@@ -519,56 +519,67 @@ const post = {
             ],
         })
         const hotspot = [stories.hotspot.chiefdomId]
-        const pep = map({
-            key: 'post09_pep',
-            post: 9,
-            title: `Bitten, but no vaccine? ${chiefdomName(
-                stories.hotspot.chiefdomId
-            )}`,
-            description: `Dog bites in ${chiefdomName(
-                stories.hotspot.chiefdomId
-            )} by whether post-exposure prophylaxis started, and 5 km zones around rabid dogs, last 3 months.`,
-            basemap: 'openStreetMap',
-            layers: [
-                boundaryLayer({
-                    name: 'Chiefdom',
-                    orgUnits: hotspot,
-                    color: '#252525',
-                    labels: '{name}',
-                }),
-                eventLayer({
-                    name: 'Rabid dogs, 5 km zone',
-                    programId: id('program', ANIMALS),
-                    stageId: id('programStage', ANIMAL_STAGE),
-                    periods: ['LAST_3_MONTHS'],
-                    orgUnits: hotspot,
-                    filters: [
-                        {
-                            dataElement: id('dataElement', DE.result),
-                            filter: 'IN:POSITIVE',
-                        },
-                    ],
-                    color: '#6a3d9a',
-                    radius: 3,
-                    areaRadius: 5000,
-                }),
-                eventLayer({
-                    name: 'Dog bites by PEP started',
-                    programId: id('program', BITES),
-                    stageId: id('programStage', BITE_STAGE),
-                    periods: ['LAST_3_MONTHS'],
-                    orgUnits: hotspot,
-                    styleDataItem: styleByBoolean(DE.pep, {
-                        yes: '#1a9641',
-                        no: '#d7191c',
+        // The post shows the intuitive green and red; a second map has a pair
+        // colour-blind readers can tell apart
+        const pepMap = ({ key, suffix = '', yes, no }) =>
+            map({
+                key,
+                post: 9,
+                title: `Bitten, but no vaccine? ${chiefdomName(
+                    stories.hotspot.chiefdomId
+                )}${suffix}`,
+                description: `Dog bites in ${chiefdomName(
+                    stories.hotspot.chiefdomId
+                )} by whether post-exposure prophylaxis started, and 5 km zones around rabid dogs, last 3 months.`,
+                basemap: 'openStreetMap',
+                layers: [
+                    boundaryLayer({
+                        name: 'Chiefdom',
+                        orgUnits: hotspot,
+                        color: '#252525',
+                        labels: '{name}',
                     }),
-                    radius: 7,
-                }),
-            ],
+                    eventLayer({
+                        name: 'Rabid dogs, 5 km zone',
+                        programId: id('program', ANIMALS),
+                        stageId: id('programStage', ANIMAL_STAGE),
+                        periods: ['LAST_3_MONTHS'],
+                        orgUnits: hotspot,
+                        filters: [
+                            {
+                                dataElement: id('dataElement', DE.result),
+                                filter: 'IN:POSITIVE',
+                            },
+                        ],
+                        color: '#6a3d9a',
+                        radius: 3,
+                        areaRadius: 5000,
+                    }),
+                    eventLayer({
+                        name: 'Dog bites by PEP started',
+                        programId: id('program', BITES),
+                        stageId: id('programStage', BITE_STAGE),
+                        periods: ['LAST_3_MONTHS'],
+                        orgUnits: hotspot,
+                        styleDataItem: styleByBoolean(DE.pep, { yes, no }),
+                        radius: 7,
+                    }),
+                ],
+            })
+        const pep = pepMap({ key: 'post09_pep', yes: '#1a9641', no: '#d7191c' })
+        // ColorBrewer RdBu ends
+        const pepColourBlind = pepMap({
+            key: 'post09_pep_cvd',
+            suffix: ' (colour-blind friendly)',
+            yes: '#0571b0',
+            no: '#ca0020',
         })
         const maps = [rabies, pep]
         return {
-            maps: maps.map((m) => ({ map: m, teams: ['oneHealth'] })),
+            maps: [...maps, pepColourBlind].map((m) => ({
+                map: m,
+                teams: ['oneHealth'],
+            })),
             dashboards: [
                 dashboard({
                     key: 'post09',
@@ -591,9 +602,11 @@ const post = {
                     comments: [
                         {
                             author: 'surveillance_lead',
-                            text: `Agreed. PEP stock moves to ${chiefdomName(
+                            text: `Agreed. In ${chiefdomName(
+                                stories.hotspot.chiefdomId
+                            )}, most people bitten have not started post-exposure prophylaxis: PEP stock moves there this week. In ${chiefdomName(
                                 stories.unreported.chiefdomId
-                            )} this week and community health workers will ask about bites at home visits.`,
+                            )}, community health workers will ask about bites at home visits.`,
                         },
                     ],
                 },

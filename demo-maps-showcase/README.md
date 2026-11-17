@@ -25,11 +25,21 @@ Plain Node (18 or newer), no dependencies, no install step.
 | 11   | Watching the lean season                | SAM admission rate by chiefdom as a timeline; OTP cure rate by district with exits per OTP site; MUAC screening in Kambia                                                              | 24 months of SAM admissions and OTP exits for the sites in the "OTP site" group, children 6-59 months for every facility, and 30 days of MUAC screening in an event program |
 | 12   | Green fields, empty granaries?          | Rainfall since April as % of the 1991-2020 normal, MODIS vegetation for August of this season and a reference year, landcover, food insecure households; vegetation by chiefdom in the driest district | Season rainfall and its normal per district; 26 bi-weeks of household food assessments per district                                                              |
 
+Each post's colour scale fits its subject. Two maps colour yes and no, or
+good and bad, in green and red, the pair readers expect; each has a
+"(colour-blind friendly)" copy in blue and red, outside the dashboard: Post 9's
+bites by post-exposure prophylaxis and Post 11's MUAC screening.
+
+Facilities, cases, schools and screenings are placed from the facility
+coordinates of the demo database, using only facilities whose point lies in
+their own district: 25 of 792 points lie elsewhere (Modia MCHP, in Kambia, sits
+at Lungi, Port Loko).
+
 The patterns each post's data shows, and that `verify.js` checks:
 
 | Post | Pattern                                                                                                                                                                                     |
 | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Districts in all four RED/REC categories; Western Area above 100% coverage; two facilities with negative dropout                                                                            |
+| 1    | Districts in all four RED/REC categories; Western Area above 100% coverage, category "0: over 100%, check"; a facility with negative dropout in each of Bo, Kenema and Koinadugu        |
 | 2    | Cases peak one to two months after the rain in at least 10 districts; Tonkolili, irrigated, peaks in the dry season                                                                         |
 | 3    | Overlapping rings in a Western Area chiefdom; a new focus of two RDT-positive cases in Port Loko; a Kambia wave with no case in the last 7 days; about 30% of cases without coordinates; most cases within a day of symptom onset |
 | 4    | One health area below 90% of contacts seen, the others above 95%; contacts under follow-up and completed; three new cases that were known contacts and two in Kono that were not            |
@@ -227,6 +237,10 @@ To check a map right away, open it in a private window, or reload it with
 Only the public play instances (`https://play.im.dhis2.org/<name>`), for
 drafts, and `localhost`. `guard.js` refuses any other server before writing.
 Dry runs and `verify.js` only read.
+
+Play instances are reset every night, from about 23:20 to 00:00 UTC. A run
+that overlaps the reset leaves part of the demo on the fresh database: run
+`node index.js` again in full afterwards.
 
 ## Tests
 

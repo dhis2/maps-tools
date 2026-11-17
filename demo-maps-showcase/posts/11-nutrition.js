@@ -82,7 +82,7 @@ const SCREENING = 'NUT_MUAC_SCREENING'
 const SCREENING_STAGE = 'NUT_MUAC_SCREENING_VISIT'
 const MUAC = 'NUT_MUAC_MM'
 const SCREENING_DAYS = 30
-const SCREENINGS_PER_FACILITY = 6
+const SCREENINGS_PER_FACILITY = 12
 const MONTHLY_DATA_SET = 'NUT_OTP_MONTHLY'
 const POPULATION_DATA_SET = 'NUT_POPULATION_YEARLY'
 const OTP_GROUP = uid('orgUnitGroup:OTP_SITE')
@@ -201,92 +201,72 @@ const near = (random, [lon, lat], km) => {
     ]
 }
 
-// MUAC in mm: about 7% SAM and 18% MAM in the lean season, twice as many SAM
-// children around the busy OTP site
+// Share of children screened by MUAC class: lean-season levels, higher
+// around the busy OTP site where RUTF ran short
+const MUAC_SHARES = {
+    district: { sam: 0.02, mam: 0.06 },
+    busySite: { sam: 0.05, mam: 0.09 },
+}
+
 const muac = (random, nearBusySite) => {
+    const { sam, mam } = MUAC_SHARES[nearBusySite ? 'busySite' : 'district']
     const p = random.next()
-    const sam = nearBusySite ? 0.15 : 0.07
     if (p < sam) {
         return random.int(100, 114)
     }
-    return p < sam + 0.18 ? random.int(115, 124) : random.int(125, 160)
-}
-
-// Some facilities of the demo database have coordinates far from their
-// district: those more than 25 km from the district's median point
-const MAX_KM_FROM_MEDIAN = 25
-
-const median = (values) => {
-    const sorted = [...values].sort((a, b) => a - b)
-    return sorted[Math.floor(sorted.length / 2)]
-}
-
-const nearTheirDistrict = (facilities, points) => {
-    const lon = median(facilities.map((f) => points[f.id][0]))
-    const lat = median(facilities.map((f) => points[f.id][1]))
-    return facilities.filter(
-        (f) =>
-            Math.hypot(
-                (points[f.id][0] - lon) * 109,
-                (points[f.id][1] - lat) * 110.6
-            ) <= MAX_KM_FROM_MEDIAN
-    )
+    return p < sam + mam ? random.int(115, 124) : random.int(125, 160)
 }
 
 // Community screening around the facilities of the low-cure district, last
 // 30 days
 const generateScreening = ({ runDate }, { facilities, points }, planted) =>
-    nearTheirDistrict(
-        facilities.filter(
+    facilities
+        .filter(
             (f) => f.districtId === DISTRICTS[LOW_CURE_DISTRICT] && points[f.id]
-        ),
-        points
-    ).flatMap((facility) =>
-        Array.from({ length: SCREENINGS_PER_FACILITY }, (_, n) => {
-            const r = randomFor('post11-muac', facility.id, n)
-            const nearBusySite =
-                facility.chiefdomId === planted.busy?.chiefdomId
-            return {
-                event: id('event', `post11:${facility.id}:${n}`),
-                program: id('program', SCREENING),
-                programStage: id('programStage', SCREENING_STAGE),
-                orgUnit: facility.id,
-                status: 'COMPLETED',
-                occurredAt: isoDate(
-                    addDays(runDate, -r.int(1, SCREENING_DAYS))
-                ),
-                geometry: point(near(r, points[facility.id], 3)),
-                dataValues: [
-                    {
-                        dataElement: id('dataElement', MUAC),
-                        value: String(muac(r, nearBusySite)),
-                    },
-                ],
-            }
-        })
-    )
+        )
+        .flatMap((facility) =>
+            Array.from({ length: SCREENINGS_PER_FACILITY }, (_, n) => {
+                const r = randomFor('post11-muac', facility.id, n)
+                const nearBusySite =
+                    facility.chiefdomId === planted.busy?.chiefdomId
+                return {
+                    event: id('event', `post11:${facility.id}:${n}`),
+                    program: id('program', SCREENING),
+                    programStage: id('programStage', SCREENING_STAGE),
+                    orgUnit: facility.id,
+                    status: 'COMPLETED',
+                    occurredAt: isoDate(
+                        addDays(runDate, -r.int(1, SCREENING_DAYS))
+                    ),
+                    geometry: point(near(r, points[facility.id], 3)),
+                    dataValues: [
+                        {
+                            dataElement: id('dataElement', MUAC),
+                            value: String(muac(r, nearBusySite)),
+                        },
+                    ],
+                }
+            })
+        )
+
+const muacLegends = (normal) => [
+    { name: 'Below 115 mm: SAM', start: 0, end: 115, color: '#d7191c' },
+    { name: '115 to 124 mm: MAM', start: 115, end: 125, color: '#fdae61' },
+    { name: '125 mm and above', start: 125, end: 300, color: normal },
+]
 
 const legendSets = {
+    // Event layer legends show these names. ColorBrewer RdYlGn, as on MUAC
+    // tapes; the colour-blind friendly set ends in blue (RdYlBu).
     muac: legendSet({
         key: 'MUAC_MM',
-        // Event layer legends show this name
         name: 'MUAC, children 6-59 months (mm)',
-        // ColorBrewer RdYlGn, as on MUAC tapes
-        legends: [
-            { name: 'Below 115 mm: SAM', start: 0, end: 115, color: '#d7191c' },
-            {
-                name: '115 to 124 mm: MAM',
-                start: 115,
-                end: 125,
-                color: '#fdae61',
-            },
-            {
-                name: '125 mm and above',
-                start: 125,
-                end: 300,
-                color: '#1a9641',
-            },
-        ],
+        legends: muacLegends('#1a9641'),
+    }),
+    muacColourBlind: legendSet({
+        key: 'MUAC_MM_CVD',
+        name: 'MUAC, children 6-59 months (mm), colour-blind friendly',
+        legends: muacLegends('#2c7bb6'),
     }),
     admissions: legendSet({
         key: 'SAM_ADMISSION_RATE',
@@ -557,36 +537,53 @@ const post = {
         })
         const districtName = state.districtName
         const lowCure = DISTRICTS[LOW_CURE_DISTRICT]
-        const screening = map({
+        // The post shows the tape colours; a second map ends in blue for
+        // colour-blind readers
+        const screeningMap = ({ key, suffix = '', legendSet: muacLegendSet }) =>
+            map({
+                key,
+                post: 11,
+                title: `MUAC screening in ${districtName(
+                    lowCure
+                )}, last 30 days${suffix}`,
+                description: `Children 6-59 months screened in the community in ${districtName(
+                    lowCure
+                )}, by mid-upper arm circumference (MUAC): below 115 mm is severe acute malnutrition.`,
+                layers: [
+                    boundaryLayer({
+                        name: 'Chiefdoms',
+                        orgUnits: [lowCure, 'LEVEL-3'],
+                        color: '#252525',
+                        labels: '{name}',
+                    }),
+                    eventLayer({
+                        name: 'MUAC screening',
+                        programId: id('program', SCREENING),
+                        stageId: id('programStage', SCREENING_STAGE),
+                        periods: ['LAST_30_DAYS'],
+                        orgUnits: [lowCure],
+                        styleDataItem: styleByNumber(MUAC, 'INTEGER_POSITIVE'),
+                        legendSet: muacLegendSet,
+                        radius: 5,
+                    }),
+                ],
+            })
+        const screening = screeningMap({
             key: 'post11_screening',
-            post: 11,
-            title: `MUAC screening in ${districtName(lowCure)}, last 30 days`,
-            description: `Children 6-59 months screened in the community in ${districtName(
-                lowCure
-            )}, by mid-upper arm circumference (MUAC): below 115 mm is severe acute malnutrition.`,
-            layers: [
-                boundaryLayer({
-                    name: 'Chiefdoms',
-                    orgUnits: [lowCure, 'LEVEL-3'],
-                    color: '#252525',
-                    labels: '{name}',
-                }),
-                eventLayer({
-                    name: 'MUAC screening',
-                    programId: id('program', SCREENING),
-                    stageId: id('programStage', SCREENING_STAGE),
-                    periods: ['LAST_30_DAYS'],
-                    orgUnits: [lowCure],
-                    styleDataItem: styleByNumber(MUAC, 'INTEGER_POSITIVE'),
-                    legendSet: legendSets.muac.id,
-                    radius: 5,
-                }),
-            ],
+            legendSet: legendSets.muac.id,
+        })
+        const screeningColourBlind = screeningMap({
+            key: 'post11_screening_cvd',
+            suffix: ' (colour-blind friendly)',
+            legendSet: legendSets.muacColourBlind.id,
         })
         // The country wave, then treatment, then the screening close-up
         const maps = [timeline, treatment, screening]
         return {
-            maps: maps.map((m) => ({ map: m, teams: ['nutrition'] })),
+            maps: [...maps, screeningColourBlind].map((m) => ({
+                map: m,
+                teams: ['nutrition'],
+            })),
             dashboards: [
                 dashboard({
                     key: 'post11',
