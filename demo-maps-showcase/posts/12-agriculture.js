@@ -239,6 +239,8 @@ const post = {
                     orgUnits: districts,
                     dataElements: [DE.rain, DE.normal].map(dataElementId),
                     importerId,
+                    // The current season's rainfall
+                    openFuturePeriods: 1,
                 }),
                 dataSet({
                     key: FOOD_DATA_SET,

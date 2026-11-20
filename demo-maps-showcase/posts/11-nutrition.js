@@ -399,6 +399,8 @@ const post = {
                     orgUnits: state.facilities,
                     dataElements: [dataElementId(DE.population)],
                     importerId,
+                    // The current year's estimate
+                    openFuturePeriods: 1,
                 }),
             ],
             indicators: [

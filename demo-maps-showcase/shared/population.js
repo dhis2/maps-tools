@@ -59,6 +59,8 @@ const populationMetadata = ({ importerId }) => ({
             ].map((id) => ({ id })),
             dataElements: [populationId],
             importerId,
+            // WorldPop projections run to 2030
+            openFuturePeriods: 6,
         }),
     ],
 })

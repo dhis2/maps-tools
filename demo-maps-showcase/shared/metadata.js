@@ -21,6 +21,8 @@ const dataSet = ({
     dataElements = [],
     importerId,
     timelyDays,
+    // Projections for coming years need their periods open
+    openFuturePeriods = 0,
 }) => ({
     id: dataSetId(key),
     code: code(`DS_${key}`),
@@ -29,7 +31,7 @@ const dataSet = ({
     periodType,
     ...(timelyDays === undefined ? {} : { timelyDays }),
     expiryDays: 0,
-    openFuturePeriods: 0,
+    openFuturePeriods,
     categoryCombo: { id: DEFAULT_CATEGORY_COMBO },
     dataSetElements: dataElements.map((id) => ({ dataElement: { id } })),
     organisationUnits: orgUnits.map(({ id }) => ({ id })),

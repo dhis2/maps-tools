@@ -314,6 +314,8 @@ const post = {
                     orgUnits: Object.values(DISTRICTS).map((id) => ({ id })),
                     dataElements: [dataElementId(DE.populationWithin2h)],
                     importerId,
+                    // WorldPop projections run to 2030
+                    openFuturePeriods: 6,
                 }),
                 ...population.dataSets,
             ],
