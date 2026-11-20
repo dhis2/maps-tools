@@ -191,11 +191,16 @@ const legendSets = {
     suspected: legendSet({
         key: 'CHOLERA_SUSPECTED_7D',
         name: 'Showcase: suspected cholera cases in 7 days (GTFCC)',
-        // ColorBrewer YlOrRd
+        // ColorBrewer OrRd, dark enough for white chiefdom labels
         legends: [
-            { name: '1 case', start: 1, end: 2, color: '#fd8d3c' },
-            { name: '2 to 9: outbreak', start: 2, end: 10, color: '#e31a1c' },
-            { name: '10 or more', start: 10, end: 10000, color: '#800026' },
+            { name: '1 case', start: 1, end: 2, color: '#e34a33' },
+            {
+                name: '2 to 9: suspected outbreak',
+                start: 2,
+                end: 10,
+                color: '#b30000',
+            },
+            { name: '10 or more', start: 10, end: 10000, color: '#7f0000' },
         ],
     }),
     onset: legendSet({
@@ -356,6 +361,7 @@ const post = {
                     orgUnits: [...area, 'LEVEL-3'],
                     legendSet: legendSets.suspected.id,
                     labels: '{name}',
+                    labelColor: '#ffffff',
                 }),
                 boundaryLayer({
                     name: 'Districts',

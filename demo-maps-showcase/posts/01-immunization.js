@@ -476,13 +476,8 @@ const post = {
             post: 1,
             title: `Dropout by facility in ${koinaduguName}`,
             description: `Penta1 to Penta3 dropout of each facility in ${koinaduguName}, last 12 months: where defaulter tracing starts.`,
+            // Chiefdoms on top, so the points don't cover their names
             layers: [
-                boundaryLayer({
-                    name: 'Chiefdoms',
-                    orgUnits: [DISTRICTS.koinadugu, 'LEVEL-3'],
-                    color: '#525252',
-                    labels: '{name}',
-                }),
                 thematicLayer({
                     name: 'Penta1 to Penta3 dropout',
                     dataItem: {
@@ -494,6 +489,13 @@ const post = {
                     legendSet: legendSets.dropout.id,
                     radiusLow: 6,
                     opacity: 1,
+                }),
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [DISTRICTS.koinadugu, 'LEVEL-3'],
+                    color: '#525252',
+                    labels: '{name}',
+                    labelColor: '#000000',
                 }),
             ],
         })

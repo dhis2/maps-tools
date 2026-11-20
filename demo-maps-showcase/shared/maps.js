@@ -17,15 +17,17 @@ const orgUnitRows = (level) => [
     ]),
 ]
 
+// Bold and larger than maps-app's default: labels have no halo, and the
+// posts show the maps scaled down to a forum post's width
 const labelProps = (labels, color = '#333333') =>
     labels
         ? {
               labels: true,
               labelTemplate: labels,
-              labelFontSize: '11px',
+              labelFontSize: '13px',
               labelFontColor: color,
               labelFontStyle: 'normal',
-              labelFontWeight: 'normal',
+              labelFontWeight: 'bold',
           }
         : {}
 
@@ -224,11 +226,14 @@ const boundaryLayer = ({
     labels,
     labelColor = color,
     groupSet,
+    // Point org units, such as schools
+    radius,
 }) => ({
     layer: 'orgUnit',
     name,
     rows: orgUnitDimension(orgUnits, level),
     ...(groupSet ? { organisationUnitGroupSet: { id: groupSet } } : {}),
+    ...(radius ? { radiusLow: radius } : {}),
     organisationUnitColor: color,
     opacity: 1,
     hidden: false,

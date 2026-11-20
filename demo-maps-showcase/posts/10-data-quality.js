@@ -6,7 +6,6 @@ const { legendSet } = require('../shared/legendSets.js')
 const {
     boundaryLayer,
     dashboard,
-    facilityLayer,
     map,
     thematicLayer,
 } = require('../shared/maps.js')
@@ -218,13 +217,19 @@ const post = {
             description:
                 'Share of months each facility reported by the deadline, over all facilities.',
             layers: [
-                facilityLayer({ name: 'Facilities' }),
                 thematicLayer({
                     name: 'Reporting rate on time',
                     dataItem: reportingRate('REPORTING_RATE_ON_TIME'),
                     periods: ['LAST_6_MONTHS'],
                     level: 4,
                     legendSet: legendSets.facilities.id,
+                }),
+                boundaryLayer({
+                    name: 'Districts',
+                    level: 2,
+                    color: '#252525',
+                    labels: '{name}',
+                    labelColor: '#000000',
                 }),
             ],
         })
@@ -242,13 +247,8 @@ const post = {
             description: `Share of months each facility of ${ctx.districtName(
                 redDistrict
             )} reported by the deadline: one facility behind in a district on time.`,
+            // Chiefdoms on top, so the points don't cover their names
             layers: [
-                boundaryLayer({
-                    name: 'Chiefdoms',
-                    orgUnits: [redDistrict, 'LEVEL-3'],
-                    color: '#525252',
-                    labels: '{name}',
-                }),
                 thematicLayer({
                     name: 'Reporting rate on time',
                     dataItem: reportingRate('REPORTING_RATE_ON_TIME'),
@@ -257,6 +257,13 @@ const post = {
                     legendSet: legendSets.facilities.id,
                     radiusLow: 7,
                     opacity: 1,
+                }),
+                boundaryLayer({
+                    name: 'Chiefdoms',
+                    orgUnits: [redDistrict, 'LEVEL-3'],
+                    color: '#525252',
+                    labels: '{name}',
+                    labelColor: '#000000',
                 }),
             ],
         })

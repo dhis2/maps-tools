@@ -354,8 +354,6 @@ const schoolMap = (level, years) =>
                 orgUnits: educationDistricts,
                 legendSet: legendSets.gpia.id,
                 opacity: 0.8,
-                labels: '{name}\n{value}',
-                labelColor: '#000000',
             }),
             thematicLayer({
                 // The legend names the schools shown, as each map shows one level
@@ -371,6 +369,14 @@ const schoolMap = (level, years) =>
                 legendSet: legendSets.ptr.id,
                 radiusLow: 6,
                 opacity: 1,
+            }),
+            // District names on top, where the school points can't cover them
+            boundaryLayer({
+                name: 'Districts',
+                orgUnits: educationDistricts,
+                color: '#252525',
+                labels: '{name}',
+                labelColor: '#000000',
             }),
         ],
     })
@@ -635,6 +641,7 @@ const post = {
                     name: 'Schools',
                     orgUnits: [boTown.id, `OU_GROUP-${GROUPS.schools}`],
                     groupSet: GROUP_SET,
+                    radius: 9,
                     labels: '{name}',
                     labelColor: '#000000',
                 }),
